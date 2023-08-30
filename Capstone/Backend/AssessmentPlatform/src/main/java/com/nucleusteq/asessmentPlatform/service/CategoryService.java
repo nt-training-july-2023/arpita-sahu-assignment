@@ -3,16 +3,19 @@ package com.nucleusteq.asessmentPlatform.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-
-import com.nucleusteq.asessmentPlatform.entities.Category;
+import com.nucleusteq.asessmentPlatform.dto.CategoryDto;
 
 @Service
 public interface CategoryService {
-	
-	Category addCategory(Category category);
-	List<Category> getAllCategories();
-	Category getCategoryById(int id);
-	Category updateCategory(Category category, int id);
-	void deleteCategory(int id);
-	
+
+    CategoryDto addCategory(CategoryDto category);
+
+    List<CategoryDto> getAllCategories();
+
+    CategoryDto getCategoryById(int id);
+
+    CategoryDto updateCategory(CategoryDto category, int id);
+
+    String deleteCategory(int id);
+
 }

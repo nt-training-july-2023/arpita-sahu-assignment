@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import com.nucleusteq.asessmentPlatform.entities.User;
 
 @Repository
-public interface UserRepo extends JpaRepository<User, Integer>{
-	Optional<User> findByEmail(String email);
+public interface UserRepo extends JpaRepository<User, Integer> {
+    Optional<User> findByEmail(String email);
 }

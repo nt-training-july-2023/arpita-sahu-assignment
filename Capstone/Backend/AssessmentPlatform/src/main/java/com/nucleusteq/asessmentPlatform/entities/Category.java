@@ -6,55 +6,27 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Table(name="categories")
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "categories")
 public class Category {
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "category_id")
-    private int categoryId; 
+    @Column(name = "category_id", nullable = false)
+    private int categoryId;
 
-    @Column(name = "category_title")
+    @Column(name = "category_title", nullable = false)
     private String title;
 
-    @Column(name = "category_description")
+    @Column(name = "category_description", nullable = false)
     private String description;
-
-	public Category() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public Category(int categoryId, String title, String description) {
-		super();
-		this.categoryId = categoryId;
-		this.title = title;
-		this.description = description;
-	}
-
-	public int getCategoryId() {
-		return categoryId;
-	}
-
-	public void setCategoryId(int categoryId) {
-		this.categoryId = categoryId;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
 
 }
