@@ -60,17 +60,23 @@ function AddCategory() {
 
     try {
       if (!id) {
-        const response = await axios.post(
-          "http://localhost:8080/category/save",
-          {
+        try {
+          const response = await axios.post("http://localhost:8080/category/save", {
             title,
             description,
+          });
+        
+          if (response.status === 201) {
+            console.log("Category added successfully");
+          } else {
+            console.error("Failed to add category")
           }
-        );
-        if (response.status === 201) {
-          console.log("Category added successfully");
-        } else {
-          console.error("Failed to add category");
+        } catch (error) {
+          if (error.response && error.response.status === 409) {
+            console.error("Category with the same title already exists");
+          } else {
+            console.error("An error occurred:", error.message);
+          }
         }
       } else {
         const response = await axios.put(
@@ -79,7 +85,7 @@ function AddCategory() {
             title,
             description,
           }
-        );
+  );
 
         if (response.status === 200) {
           console.log("Category updated successfully");

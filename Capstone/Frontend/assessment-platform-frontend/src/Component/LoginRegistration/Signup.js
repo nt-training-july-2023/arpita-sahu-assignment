@@ -80,42 +80,64 @@ export default function Signup() {
 
   const validateForm = () => {
     let isValid = true;
+  
     if (!firstName) {
-      setFirstNameError("FirstName is required");
+      setFirstNameError("First Name is required");
       isValid = false;
     } else {
       setFirstNameError("");
     }
+  
     if (!lastName) {
-      setLastNameError("LastName is required");
+      setLastNameError("Last Name is required");
       isValid = false;
     } else {
       setLastNameError("");
     }
+  
     if (!email) {
       setEmailError("Email is required");
+      isValid = false;
+    } else if (!email.endsWith("@nucleusteq.com")) {
+      setEmailError("Email must be in the form of @nucleusteq.com domain");
       isValid = false;
     } else {
       setEmailError("");
     }
+  
     if (!password) {
-      setPasswordError("Password is required ");
+      setPasswordError("Password is required");
       isValid = false;
+    } else if (password.length < 6) {
+      setPasswordError("Password must be at least 6 characters");
+      isValid = false;
+    } else {
+      setPasswordError("");
     }
+  
     if (!confirmPassword) {
       setConfirmPasswordError("Confirm Password is required");
+      isValid = false;
+    } else if (password !== confirmPassword) {
+      setConfirmPasswordError("Passwords do not match");
       isValid = false;
     } else {
       setConfirmPasswordError("");
     }
+  
     if (!phoneNumber) {
       setPhoneNumberError("Phone Number is required");
+      isValid = false;
+    } else if (phoneNumber.length < 10) {
+      setPhoneNumberError("Phone number must be at least 10 digits");
       isValid = false;
     } else {
       setPhoneNumberError("");
     }
+  
     return isValid;
   };
+  
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();

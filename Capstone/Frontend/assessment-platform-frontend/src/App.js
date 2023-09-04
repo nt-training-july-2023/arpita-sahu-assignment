@@ -5,13 +5,16 @@ import Login from "./Component/LoginRegistration/Login";
 import UserDashboard from "./Component/User/UserDashboard";
 import AdminDashboard from "./Component/Admin/AdminDashboard";
 import AddCategory from "./Component/Category/AddCategory";
-import ListCategories from "./Component/Category/ListCategories"
+import ListCategories from "./Component/Category/ListCategories";
+import Navbar from "./Component/Navbar/Navbar";
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
+        <Route path="/navbar" element={<Navbar />} />
+        <Route path="/Signup" element={<Signup />} />
           <Route path="/Signup" element={<Signup />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/userDashboard" element={<UserDashboard />} />
