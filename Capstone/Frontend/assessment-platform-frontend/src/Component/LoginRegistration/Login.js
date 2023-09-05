@@ -60,7 +60,7 @@ export default function Login() {
       if (response.data.Role === "user") navigate("/userDashboard");
 
       localStorage.setItem("isLoggedIn", response.status);
-      localStorage.setItem("userRole", response.data.role);
+      localStorage.setItem("userRole", response.data.Role);
 
       console.log("Login successful!", response.data);
     } catch (error) {
@@ -69,6 +69,7 @@ export default function Login() {
   };
 
   return (
+    <div className="loginReg">
     <div className="wrapper">
       <h2>Login</h2>
       <form onSubmit={handleLogin}>
@@ -99,6 +100,7 @@ export default function Login() {
           </h3>
         </div>
       </form>
+    </div>
     </div>
   );
 }

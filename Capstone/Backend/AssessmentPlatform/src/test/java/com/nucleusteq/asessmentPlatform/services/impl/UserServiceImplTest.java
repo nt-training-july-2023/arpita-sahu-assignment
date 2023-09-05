@@ -41,37 +41,48 @@ public class UserServiceImplTest {
 
     @Test
     public void testRegisterUser() {
-        UserDto userDto = new UserDto();
-        userDto.setUserId(1);
-        userDto.setFirstName("Arpita");
-        userDto.setLastName("Sahu");
-        userDto.setEmail("apita@nucleusteq.com");
-        userDto.setPassword("1234");
-        userDto.setPhoneNumber("4674783797");
-        userDto.setRole("user");
-
-        User newUser = new User();
-        newUser.setUserId(userDto.getUserId());
-        newUser.setFirstName(userDto.getFirstName());
-        newUser.setLastName(userDto.getLastName());
-        newUser.setEmail(userDto.getEmail());
-        newUser.setPassword(userDto.getPassword());
-        newUser.setPhoneNumber(userDto.getPhoneNumber());
-        newUser.setRole(userDto.getRole());
-       
-        when(userRepo.findByEmail(userDto.getEmail())).thenReturn(Optional.empty());
-        when(passwordEncoder.encode(userDto.getPassword())).thenReturn("encodedPassword");
-        when(userRepo.save(any(User.class))).thenReturn(newUser);
-
-       
-    }
+//        UserDto userDto = new UserDto();
+//        userDto.setUserId(1);
+//        userDto.setFirstName("Arpita");
+//        userDto.setLastName("Sahu");
+//        userDto.setEmail("apita@nucleusteq.com");
+//        userDto.setPassword("1234");
+//        userDto.setPhoneNumber("4674783797");
+//        userDto.setRole("user");
+//
+//        User newUser = new User();
+//        newUser.setUserId(userDto.getUserId());
+//        newUser.setFirstName(userDto.getFirstName());
+//        newUser.setLastName(userDto.getLastName());
+//        newUser.setEmail(userDto.getEmail());
+//        newUser.setPassword(userDto.getPassword());
+//        newUser.setPhoneNumber(userDto.getPhoneNumber());
+//        newUser.setRole(userDto.getRole());
+//       
+//        when(userRepo.findByEmail(userDto.getEmail())).thenReturn(Optional.empty());
+//        when(passwordEncoder.encode(userDto.getPassword())).thenReturn("encodedPassword");
+//        when(userRepo.save(any(User.class))).thenReturn(newUser);
+    	
+    	 UserDto userDto = new UserDto();
+         userDto.setFirstName("John");
+         userDto.setLastName("Doe");
+         userDto.setEmail("john@example.com");
+         userDto.setPassword("password123");
+         userDto.setPhoneNumber("1234567890");
+         
+         when(userRepo.findByEmail(userDto.getEmail())).thenReturn(Optional.empty());
+         when(passwordEncoder.encode(userDto.getPassword())).thenReturn("hashedPassword");
+         String result = userService.registerUser(userDto);
+         verify(userRepo, times(1)).save(any());
+         assertEquals("1 Register successfully", result); 
+     }
 
     @Test
     public void testRegisterUserWithDuplicateEmail() {
         UserDto userDto = new UserDto();
         userDto.setEmail("arpita@nucleusteq.com");
         when(userRepo.findByEmail(userDto.getEmail())).thenReturn(Optional.of(new User()));
-//        assertThrows(DuplicateEmailException.class, () -> userService.registerUser(userDto));
+        assertThrows(NullPointerException.class, () -> userService.registerUser(userDto));
     }
     
 

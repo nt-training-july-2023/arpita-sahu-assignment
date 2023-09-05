@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import NotFound from "../NotFound";
 
 function AddCategory() {
   const [title, setTitle] = useState("");
@@ -8,6 +9,7 @@ function AddCategory() {
   const [titleError, setTitleError] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
   const { id } = useParams();
+  const role = localStorage.getItem("userRole");
 
   useEffect(() => {
     if (id) {
@@ -61,15 +63,18 @@ function AddCategory() {
     try {
       if (!id) {
         try {
-          const response = await axios.post("http://localhost:8080/category/save", {
-            title,
-            description,
-          });
-        
+          const response = await axios.post(
+            "http://localhost:8080/category/save",
+            {
+              title,
+              description,
+            }
+          );
+
           if (response.status === 201) {
             console.log("Category added successfully");
           } else {
-            console.error("Failed to add category")
+            console.error("Failed to add category");
           }
         } catch (error) {
           if (error.response && error.response.status === 409) {
@@ -85,7 +90,7 @@ function AddCategory() {
             title,
             description,
           }
-  );
+        );
 
         if (response.status === 200) {
           console.log("Category updated successfully");
@@ -99,27 +104,38 @@ function AddCategory() {
   };
 
   return (
-    <div>
-      <h2>{id ? "Update Category" : "Add Category"}</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Title:</label>
-          <input type="text" value={title} onChange={handleTitleChange} />
-          {titleError && <p className="error-message">{titleError}</p>}
-        </div>
-        <div>
-          <label>Description:</label>
-          <textarea value={description} onChange={handleDescriptionChange} />
-          {descriptionError && (
-            <p className="error-message">{descriptionError}</p>
-          )}
-        </div>
-        <div>
-          <button type="submit">
-            {id ? "Update Category" : "Add Category"}
-          </button>
-        </div>
-      </form>
+    <div class="category-form-container">
+      {role === "admin" ? (
+        <>
+          <div class="category-form-card">
+            <h2>{id ? "Update Category" : "Add Category"}</h2>
+            <form onSubmit={handleSubmit}>
+              <div>
+                <label>Title:</label>
+                <input type="text" value={title} onChange={handleTitleChange} />
+                {titleError && <p className="error-message">{titleError}</p>}
+              </div>
+              <div>
+                <label>Description:</label>
+                <textarea
+                  value={description}
+                  onChange={handleDescriptionChange}
+                />
+                {descriptionError && (
+                  <p className="error-message">{descriptionError}</p>
+                )}
+              </div>
+              <div>
+                <button type="submit">
+                  {id ? "Update Category" : "Add Category"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </>
+      ) : (
+        <NotFound />
+      )}
     </div>
   );
 }

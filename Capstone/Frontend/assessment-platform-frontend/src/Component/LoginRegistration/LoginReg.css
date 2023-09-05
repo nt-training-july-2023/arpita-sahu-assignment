@@ -1,12 +1,12 @@
-@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
-* {
+/* @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap'); */
+/* * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
-}
+} */
 
-body {
+/* .loginReg {
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -16,7 +16,7 @@ body {
 .wrapper {
   position: relative;
   max-width: 100%; 
-  width: 100%; 
+  width: 35%; 
   background: #fff;
   padding: 50px;
   border-radius: 6px;
@@ -63,6 +63,7 @@ form .input-box input {
   border-radius: 6px;
   transition: all 0.3s ease;
 }
+
 form .input-box p{
   font-size: 10px;
   color: rgba(255, 0, 0, 0.74);
@@ -104,7 +105,6 @@ form .text h3 {
   text-align: center;
 }
 
-/* Responsive adjustments */
 @media screen and (max-width: 768px) {
   .wrapper {
     padding: 10px;
@@ -126,6 +126,135 @@ form .text h3 {
     font-size: 12px;
   }
   
+  form .text h3 {
+    font-size: 12px;
+  }
+} */
+
+/* Common styles for both large and small screens */
+.loginReg {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #2d2455;
+}
+
+.wrapper {
+  position: relative;
+  max-width: 100%;
+  width: 25%; /* Adjust the width for smaller screens */
+  background: #fff;
+  padding: 30px; /* Adjust padding for smaller screens */
+  border-radius: 6px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.wrapper h2 {
+  position: relative;
+  font-size: 22px;
+  font-weight: 600;
+  color: #333;
+}
+
+.wrapper h2::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 28px;
+  border-radius: 12px;
+  background: #2d2455;
+}
+
+.wrapper form {
+  margin-top: 20px; /* Adjust margin for smaller screens */
+}
+
+.wrapper form .input-box {
+  height: 42px;
+  margin: 12px 0; /* Adjust margin for smaller screens */
+}
+
+form .input-box input {
+  height: 100%;
+  width: 100%;
+  outline: none;
+  padding: 0 15px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #333;
+  border: 1.5px solid #c7bebe;
+  border-bottom-width: 2.5px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+form .input-box p {
+  font-size: 10px;
+  color: rgba(255, 0, 0, 0.74);
+  font-weight: 600;
+}
+
+.input-box input:focus,
+.input-box input:valid {
+  border-color: #2d2455;
+}
+
+form .policy {
+  display: flex;
+  align-items: center;
+}
+
+form h3 {
+  color: #707070;
+  font-size: 14px;
+  font-weight: 500;
+  margin-left: 10px;
+}
+
+.input-box.button input {
+  color: #fff;
+  letter-spacing: 1px;
+  border: none;
+  background: #2d2455;
+  cursor: pointer;
+}
+
+/* .input-box.button input:hover {
+  background: #0e4bf1;
+} */
+
+form .text h3 {
+  color: #333;
+  width: 100%;
+  text-align: center;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+  .wrapper {
+    width: 90%; /* Adjust the width for smaller screens */
+    padding: 15px; /* Adjust padding for smaller screens */
+  }
+
+  .wrapper h2 {
+    font-size: 18px;
+  }
+
+  form .input-box {
+    margin: 10px 0;
+  }
+
+  form h3 {
+    font-size: 12px;
+  }
+
+  .input-box.button input {
+    font-size: 12px;
+  }
+
   form .text h3 {
     font-size: 12px;
   }

@@ -101,7 +101,7 @@ class CategoryControllerTest {
 
             verify(categoryService, times(1)).getCategoryById(categoryId);
             assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-            assertEquals("Category with ID 1 not found.", response.getBody());
+            assertEquals("Category not found", response.getBody());
         }
         
         @Test

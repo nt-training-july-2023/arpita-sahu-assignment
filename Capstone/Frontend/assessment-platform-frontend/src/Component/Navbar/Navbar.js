@@ -1,16 +1,23 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import '../Navbar/Navbar.css';
+import { Link, useNavigate } from "react-router-dom";
+import "../Navbar/Navbar.css";
 export default function Navbar() {
+  const navigate = useNavigate();
+
+  const handleLogout =()=>{
+   localStorage.removeItem('isLoggedIn');
+   localStorage.removeItem('userRole');
+   navigate('/login');
+  }
   return (
-    <div class="navbar">
-        <ul>
-            <li><Link to ="#">Home</Link></li>
-            <li><Link to ="#">About</Link></li>
-            <li><Link to ="#">Services</Link></li>
-            <li><Link to ="#">Portfolio</Link></li>
-            <li><Link to ="#">Contact</Link></li>
-        </ul>
+    <div className="topnav" id="myTopnav">
+      <Link to ="">Assessment Platform</Link> 
+      <Link to ="#home" className="active">
+        Home
+      </Link>
+      <Link to ="#news">About</Link>
+      <Link to ="/listcategory">Categories</Link>
+      <Link to ="/login"><button onClick={handleLogout}>Logout</button></Link>
     </div>
   );
 }

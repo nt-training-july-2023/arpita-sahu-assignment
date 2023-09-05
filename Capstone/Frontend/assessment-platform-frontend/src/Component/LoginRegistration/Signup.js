@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import './LoginReg.css';
+import "./LoginReg.css";
 
 export default function Signup() {
   const [firstName, setFirstName] = useState("");
@@ -80,21 +80,21 @@ export default function Signup() {
 
   const validateForm = () => {
     let isValid = true;
-  
+
     if (!firstName) {
       setFirstNameError("First Name is required");
       isValid = false;
     } else {
       setFirstNameError("");
     }
-  
+
     if (!lastName) {
       setLastNameError("Last Name is required");
       isValid = false;
     } else {
       setLastNameError("");
     }
-  
+
     if (!email) {
       setEmailError("Email is required");
       isValid = false;
@@ -104,7 +104,7 @@ export default function Signup() {
     } else {
       setEmailError("");
     }
-  
+
     if (!password) {
       setPasswordError("Password is required");
       isValid = false;
@@ -114,7 +114,7 @@ export default function Signup() {
     } else {
       setPasswordError("");
     }
-  
+
     if (!confirmPassword) {
       setConfirmPasswordError("Confirm Password is required");
       isValid = false;
@@ -124,7 +124,7 @@ export default function Signup() {
     } else {
       setConfirmPasswordError("");
     }
-  
+
     if (!phoneNumber) {
       setPhoneNumberError("Phone Number is required");
       isValid = false;
@@ -134,10 +134,9 @@ export default function Signup() {
     } else {
       setPhoneNumberError("");
     }
-  
+
     return isValid;
   };
-  
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -162,77 +161,81 @@ export default function Signup() {
   };
 
   return (
-    <div className="wrapper">
-      <h2>Registration</h2>
-      <form onSubmit={handleFormSubmit}>
-        <div className="input-box">
-          <input
-            type="text"
-            placeholder=" First name"
-            onChange={handleFirstnameChange}
-            value={firstName}
-          />
-          {firstNameError && <p className="error-message">{firstNameError}</p>}
-        </div>
-        <div className="input-box">
-          <input
-            type="text"
-            placeholder=" Last name"
-            onChange={handleLastnameChange}
-            value={lastName}
-          />
-          {lastNameError && <p className="error-message">{lastNameError}</p>}
-        </div>
-        <div className="input-box">
-          <input
-            type="email"
-            placeholder="Email"
-            onChange={handleEmailChange}
-            value={email}
-          />
-          {emailError && <p className="error-message">{emailError}</p>}
-        </div>
-        <div className="input-box">
-          <input
-            type="password"
-            placeholder="Password"
-            onChange={handlePasswordChange}
-            value={password}
-          />
-          {passwordError && <p className="error-message">{passwordError}</p>}
-        </div>
-        <div className="input-box">
-          <input
-            type="password"
-            placeholder="Confirm password"
-            onChange={handleConfirmPasswordChange}
-            value={confirmPassword}
-          />
-          {confirmPasswordError && (
-            <p className="error-message">{confirmPasswordError}</p>
-          )}
-        </div>
-        <div className="input-box">
-          <input
-            type="phone"
-            placeholder="Phone Number"
-            pattern="[0-9]*"
-            onChange={handlephoneChange}
-            value={phoneNumber}
-          />
-          {phoneNumberError && (
-            <p className="error-message">{phoneNumberError}</p>
-          )}
-        </div>
-        <div className="input-box button">
-          <input type="Submit" value="Register Now" />
-        </div>
-        <div className="text">
-          <h3 onClick={redirect}>
-            Already have an account? <Link to="/Login">Login now</Link>
-          </h3>
-        </div>
-      </form>
+    <div className="loginReg">
+      <div className="wrapper">
+        <h2>Registration</h2>
+        <form onSubmit={handleFormSubmit}>
+          <div className="input-box">
+            <input
+              type="text"
+              placeholder=" First name"
+              onChange={handleFirstnameChange}
+              value={firstName}
+            />
+            {firstNameError && (
+              <p className="error-message">{firstNameError}</p>
+            )}
+          </div>
+          <div className="input-box">
+            <input
+              type="text"
+              placeholder=" Last name"
+              onChange={handleLastnameChange}
+              value={lastName}
+            />
+            {lastNameError && <p className="error-message">{lastNameError}</p>}
+          </div>
+          <div className="input-box">
+            <input
+              type="email"
+              placeholder="Email"
+              onChange={handleEmailChange}
+              value={email}
+            />
+            {emailError && <p className="error-message">{emailError}</p>}
+          </div>
+          <div className="input-box">
+            <input
+              type="password"
+              placeholder="Password"
+              onChange={handlePasswordChange}
+              value={password}
+            />
+            {passwordError && <p className="error-message">{passwordError}</p>}
+          </div>
+          <div className="input-box">
+            <input
+              type="password"
+              placeholder="Confirm password"
+              onChange={handleConfirmPasswordChange}
+              value={confirmPassword}
+            />
+            {confirmPasswordError && (
+              <p className="error-message">{confirmPasswordError}</p>
+            )}
+          </div>
+          <div className="input-box">
+            <input
+              type="phone"
+              placeholder="Phone Number"
+              pattern="[0-9]*"
+              onChange={handlephoneChange}
+              value={phoneNumber}
+            />
+            {phoneNumberError && (
+              <p className="error-message">{phoneNumberError}</p>
+            )}
+          </div>
+          <div className="input-box button">
+            <input type="Submit" value="Register Now" />
+          </div>
+          <div className="text">
+            <h3 onClick={redirect}>
+              Already have an account? <Link to="/Login">Login now</Link>
+            </h3>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

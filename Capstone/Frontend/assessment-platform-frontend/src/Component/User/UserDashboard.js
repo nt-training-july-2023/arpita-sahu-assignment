@@ -1,18 +1,20 @@
 import React from 'react'
+import Navbar from '../Navbar/Navbar';
+import NotFound from '../NotFound';
 
 export default function UserDashboard() {
-        const handleLogout = () => {
-          
-          localStorage.removeItem('IsLoggedIn');
-          localStorage.removeItem('userRole');
-          
-        };
-      
+  const role = localStorage.getItem('userRole');
         return (
           <div>
-            <h1>User Dashboard</h1>
-            <button onClick={handleLogout}>Logout</button>
-          </div>
+      {role === "user" ? (
+        <>
+        <Navbar />
+        <p>Welcome to UserDashboard : Logged in as {role}</p>
+        </>
+      ) : (
+        <NotFound />
+      )}
+    </div>
         );
       };
       
