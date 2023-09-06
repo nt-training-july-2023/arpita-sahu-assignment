@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -8,7 +9,6 @@ export default function Login() {
   const navigate = useNavigate();
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-
   const redirect = () => {
     navigate("/Signup");
   };
@@ -33,12 +33,12 @@ export default function Login() {
     if (!email) {
       setEmailError("Email is required");
       isValid = false;
-    }
+    } else setEmailError("");
 
     if (!password) {
       setPasswordError("Password is required");
       isValid = false;
-    }
+    } else setPasswordError("");
 
     return isValid;
   };
@@ -55,52 +55,62 @@ export default function Login() {
         email,
         password,
       });
-
+      Swal.fire({
+        title: "Success",
+        text: "Login Successful",
+        icon: "success"
+      });
       if (response.data.Role === "admin") navigate("/adminDashboard");
       if (response.data.Role === "user") navigate("/userDashboard");
-
+      console.log("Login successfully!", response.data);
       localStorage.setItem("isLoggedIn", response.status);
       localStorage.setItem("userRole", response.data.Role);
-
-      console.log("Login successful!", response.data);
     } catch (error) {
+      if (error.response.data.status === 409) {
+        setPasswordError("Wrong Credentials");
+        Swal.fire({
+          icon: 'error',
+          title: 'Error!',
+          text: 'Wrong Credentials',
+        });
+      }
       console.error("Login failed:", error);
     }
   };
 
   return (
     <div className="loginReg">
-    <div className="wrapper">
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <div className="input-box">
-          <input
-            type="email"
-            placeholder="Email"
-            onChange={handleEmailChange}
-            value={email}
-          />
-          {emailError && <p className="error-message">{emailError}</p>}
-        </div>
-        <div className="input-box">
-          <input
-            type="password"
-            placeholder="Password"
-            onChange={handlePasswordChange}
-            value={password}
-          />
-          {passwordError && <p className="error-message">{passwordError}</p>}
-        </div>
-        <div className="input-box button">
-          <input type="Submit" value="Login Now" />
-        </div>
-        <div className="text">
-          <h3 onClick={redirect}>
-            Don't have an account? <Link>Register now</Link>
-          </h3>
-        </div>
-      </form>
-    </div>
+      <div className="wrapper">
+        <h2>Login</h2>
+        <form onSubmit={handleLogin}>
+          <div className="input-box">
+            <input
+              type="email"
+              placeholder="Email"
+              onChange={handleEmailChange}
+              value={email}
+            />
+            {emailError && <p className="error-message">{emailError}</p>}
+          </div>
+          <div className="input-box">
+            <input
+              type="password"
+              placeholder="Password"
+              onChange={handlePasswordChange}
+              value={password}
+            />
+            {passwordError && <p className="error-message">{passwordError}</p>}
+          </div>
+          <div className="input-box button">
+            <input type="Submit" value="Login Now" />
+          </div>
+          <div className="text">
+            <h3 onClick={redirect}>
+              Don't have an account? <Link>Register now</Link>
+            </h3>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

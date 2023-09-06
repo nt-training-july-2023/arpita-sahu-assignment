@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import {useNavigate, useParams } from "react-router-dom";
 import NotFound from "../NotFound";
+import Swal from "sweetalert2";
 
 function AddCategory() {
   const [title, setTitle] = useState("");
@@ -10,7 +11,7 @@ function AddCategory() {
   const [descriptionError, setDescriptionError] = useState("");
   const { id } = useParams();
   const role = localStorage.getItem("userRole");
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (id) {
       axios
@@ -53,6 +54,7 @@ function AddCategory() {
 
     return isValid;
   };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -72,12 +74,22 @@ function AddCategory() {
           );
 
           if (response.status === 201) {
+            Swal.fire({
+              title: "Success",
+              text: "Category Added Successfully",
+              icon: "success"
+            });
             console.log("Category added successfully");
           } else {
             console.error("Failed to add category");
           }
         } catch (error) {
           if (error.response && error.response.status === 409) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error!',
+              text: 'Title already exists',
+            });
             console.error("Category with the same title already exists");
           } else {
             console.error("An error occurred:", error.message);
@@ -101,6 +113,13 @@ function AddCategory() {
     } catch (error) {
       console.error("An error occurred:", error);
     }
+  };
+  const handleNavigation = () =>{
+   navigate('/listcategory');
+  }
+
+  const handleCancelClick = () => {
+    navigate('/listcategory');
   };
 
   return (
@@ -126,9 +145,10 @@ function AddCategory() {
                 )}
               </div>
               <div>
-                <button type="submit">
-                  {id ? "Update Category" : "Add Category"}
+                <button type="submit" onClick={handleNavigation}>
+                  {id ? "Update Category" : "Add Category"} 
                 </button>
+                <button type="button" className="button-cancel" onClick={handleCancelClick}>Cancel</button>
               </div>
             </form>
           </div>

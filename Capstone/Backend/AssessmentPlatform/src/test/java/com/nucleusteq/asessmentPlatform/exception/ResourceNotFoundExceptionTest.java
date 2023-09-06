@@ -4,12 +4,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-class CategoryNotFoundExceptionTest {
+class ResourceNotFoundExceptionTest {
 
 	@Test
-    void testCategoryNotFoundException() {
+    void testResourceNotFoundException() {
         String message = "Wrong Password";
-        CategoryNotFoundException exception = new CategoryNotFoundException(message);
+        ResourceNotFoundException exception = new ResourceNotFoundException(message);
         assertEquals(message, exception.getMessage());
     }
 }

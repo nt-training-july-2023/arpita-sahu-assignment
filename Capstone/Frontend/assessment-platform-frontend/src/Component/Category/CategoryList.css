@@ -83,6 +83,16 @@ h2 {
   border: 2px solid #ac2d24;
 }
 
+.button-cancel {
+  background-color: #ac2d24 ; 
+  padding: 8px 16px;
+  color: #fff;
+  border: 2px solid #ac2d24;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 10px 8px;
+}
+
 .button-delete:hover {
   background-color: #ac2d24;
   color: white;
@@ -135,24 +145,24 @@ h2 {
   }
 }
 
-@media (max-width: 375px) {
+/* @media (max-width: 375px) {
   .category-card {
-      width: 95%; /* Adjust the width for smaller screens */
+      width: 95%; 
   }
 
   h2 {
-      font-size: 18px; /* Reduce font size for smaller screens */
+      font-size: 18px; 
   }
 
   .category-table th,
   .category-table td {
-      padding: 6px; /* Reduce padding for smaller screens */
+      padding: 6px; 
   }
 
   .category-table td button {
-      font-size: 10px; /* Reduce font size for smaller screens */
+      font-size: 10px; 
   }
-}
+} */
 
 .category-form-container {
   display: flex;
@@ -218,10 +228,6 @@ button[type="submit"] {
   border-radius: 4px;
   cursor: pointer;
 }
-
-/* button[type="submit"]:hover {
-  background-color: #0056b3;
-} */
 
 .error-message {
   color: #ff0000;

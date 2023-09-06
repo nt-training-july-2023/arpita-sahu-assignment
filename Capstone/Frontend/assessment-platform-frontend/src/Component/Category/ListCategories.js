@@ -35,8 +35,8 @@ function CategoryList() {
     {(role === 'admin' || role === 'user')?
     <>
     <Navbar/>
-    <div class="category-wrapper-container">
-    <div class="category-card">
+    <div className="category-wrapper-container">
+    <div className="category-card">
     <div className="category_wrapper">
       <h2 className="cat_head">Category List</h2>
       {role === 'admin' && <Link to='/addCategory'>Add Category</Link>}

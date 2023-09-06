@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import "./LoginReg.css";
+import Swal from "sweetalert2";
 
 export default function Signup() {
   const [firstName, setFirstName] = useState("");
@@ -153,8 +154,18 @@ export default function Signup() {
         password,
         phoneNumber,
       });
+      Swal.fire({
+        title: "Success",
+        text: "Registration Successful",
+        icon: "success"
+      });
       console.log("Registration successful!", response.data);
     } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: 'Registration failed',
+      });
       console.error("Registration failed:", error);
     }
     navigate("/Login");

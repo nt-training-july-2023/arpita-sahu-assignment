@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.nucleusteq.asessmentPlatform.dto.CategoryDto;
 import com.nucleusteq.asessmentPlatform.entities.Category;
-import com.nucleusteq.asessmentPlatform.exception.CategoryNotFoundException;
 import com.nucleusteq.asessmentPlatform.exception.DuplicateResourceException;
+import com.nucleusteq.asessmentPlatform.exception.ResourceNotFoundException;
 import com.nucleusteq.asessmentPlatform.repositories.CategoryRepo;
 import com.nucleusteq.asessmentPlatform.service.CategoryService;
 
@@ -35,7 +35,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public final CategoryDto addCategory(final CategoryDto categoryDto) {
-        Category existingCategory = categoryRepo.findByTitle(categoryDto.getTitle());
+        Category existingCategory = categoryRepo
+                .findByTitle(categoryDto.getTitle());
         if (existingCategory != null) {
             throw new DuplicateResourceException("Category with title '"
                     + categoryDto.getTitle() + "' already exists.");
@@ -59,7 +60,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public final CategoryDto getCategoryById(final int id) {
         Category category = categoryRepo.findById(id)
-                .orElseThrow(() -> new CategoryNotFoundException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Category not found with id " + id));
         return this.categoryToDto(category);
     }
@@ -68,7 +69,7 @@ public class CategoryServiceImpl implements CategoryService {
     public final CategoryDto updateCategory(final CategoryDto category,
             final int id) {
         Category updatedCategory = categoryRepo.findById(id).orElseThrow(
-                () -> new CategoryNotFoundException("category not found"));
+                () -> new ResourceNotFoundException("category not found"));
         updatedCategory.setTitle(category.getTitle());
         updatedCategory.setDescription(category.getDescription());
         categoryRepo.save(updatedCategory);
@@ -78,7 +79,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public final String deleteCategory(final int id) {
         Category category = categoryRepo.findById(id)
-                .orElseThrow(() -> new CategoryNotFoundException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "category not found with id " + id));
         categoryRepo.delete(category);
         return id + " deleted sucessfully";

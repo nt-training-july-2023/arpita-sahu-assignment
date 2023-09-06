@@ -1,8 +1,8 @@
 package com.nucleusteq.asessmentPlatform.controllers;
 
 import com.nucleusteq.asessmentPlatform.dto.CategoryDto;
-import com.nucleusteq.asessmentPlatform.exception.CategoryNotFoundException;
 import com.nucleusteq.asessmentPlatform.exception.DuplicateResourceException;
+import com.nucleusteq.asessmentPlatform.exception.ResourceNotFoundException;
 import com.nucleusteq.asessmentPlatform.service.CategoryService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -80,7 +80,7 @@ class CategoryControllerTest {
 }
 	
         @Test
-        public void testGetCategoryById_returnsCategoryExist_returnsCategoryDto() throws CategoryNotFoundException {
+        public void testGetCategoryById_returnsCategoryExist_returnsCategoryDto() throws ResourceNotFoundException {
         	int categoryId = 1;
         	CategoryDto categoryDto = new CategoryDto(1,"Java","Java mcq");
         	when(categoryService.getCategoryById(categoryId)).thenReturn(categoryDto);
@@ -93,9 +93,9 @@ class CategoryControllerTest {
         }
         
         @Test
-        void getCategoryById_CategoryNotFound_ReturnsNotFoundResponse() throws CategoryNotFoundException {
+        void getCategoryById_CategoryNotFound_ReturnsNotFoundResponse() throws ResourceNotFoundException {
             int categoryId = 1;
-            when(categoryService.getCategoryById(categoryId)).thenThrow(new CategoryNotFoundException("Category not found"));
+            when(categoryService.getCategoryById(categoryId)).thenThrow(new ResourceNotFoundException("Category not found"));
 
             ResponseEntity<?> response = categoryController.getCategoryById(categoryId);
 
@@ -105,7 +105,7 @@ class CategoryControllerTest {
         }
         
         @Test
-        void getCategoryById_ExceptionThrown_ReturnsInternalServerErrorResponse() throws CategoryNotFoundException {
+        void getCategoryById_ExceptionThrown_ReturnsInternalServerErrorResponse() throws ResourceNotFoundException {
             int categoryId = 1;
             when(categoryService.getCategoryById(categoryId)).thenThrow(new RuntimeException("Runtime exception"));
 
