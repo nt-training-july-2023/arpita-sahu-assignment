@@ -30,12 +30,12 @@ public interface UserService {
      * Logs in a user.
      *
      * @param loginRequest The LoginRequest object containing user login.
-     * credentials.
+     *                     credentials.
      * @return A map containing the login response, including authentication.
-     * status and token.
+     *         status and token.
      */
     Map<String, String> loginUser(LoginRequest loginRequest);
-    
+
     /**
      * Deletes a user by their ID.
      *
@@ -44,4 +44,3 @@ public interface UserService {
      */
     String deleteUser(int id);
 }
-

@@ -11,10 +11,10 @@ import lombok.Setter;
 @NoArgsConstructor
 public class QuizDto {
 
-	private int quizId;
-	private String title;
-	private String description;
-	private int quizTimer;
-	private CategoryDto category;
+    private int quizId;
+    private String title;
+    private String description;
+    private int quizTimer;
+    private CategoryDto category;
 
 }

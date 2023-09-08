@@ -40,8 +40,8 @@ public class Result {
 //    private User user;
 
     /**
-     * The quiz for which the result was obtained.
-//     */
+     * The quiz for which the result was obtained. //
+     */
 //    @ManyToOne
 //    @JoinColumn(name = "quiz_id", nullable = false)
 //    private Quiz quiz;
@@ -52,4 +52,3 @@ public class Result {
 
     // private LocalDateTime attemptDateTime;
 }
-

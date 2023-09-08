@@ -4,6 +4,7 @@ import com.nucleusteq.asessmentPlatform.dto.UserDto;
 import com.nucleusteq.asessmentPlatform.entities.LoginRequest;
 import com.nucleusteq.asessmentPlatform.entities.User;
 import com.nucleusteq.asessmentPlatform.exception.BadCredentialsException;
+import com.nucleusteq.asessmentPlatform.exception.UserNotFoundException;
 import com.nucleusteq.asessmentPlatform.repositories.UserRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,16 +34,16 @@ public class UserServiceImplTest {
     private ModelMapper modelMapper;
 
  
-	@SuppressWarnings("deprecation")
+	
 	@BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
     public void testRegisterUser() {
         UserDto userDto = new UserDto();
-        userDto.setUserId(1);
+        userDto.setUserId(0);
         userDto.setFirstName("Arpita");
         userDto.setLastName("Sahu");
         userDto.setEmail("apita@nucleusteq.com");
@@ -59,9 +60,13 @@ public class UserServiceImplTest {
         newUser.setPhoneNumber(userDto.getPhoneNumber());
         newUser.setRole(userDto.getRole());
        
-        when(userRepo.findByEmail(userDto.getEmail())).thenReturn(Optional.empty());
+        when(userRepo.findByEmail(newUser.getEmail())).thenReturn(Optional.empty());
+        
         when(passwordEncoder.encode(userDto.getPassword())).thenReturn("encodedPassword");
-        when(userRepo.save(any(User.class))).thenReturn(newUser);
+        when(modelMapper.map(userDto, User.class)).thenReturn(newUser);
+        when(userRepo.save(any(User.class))).thenReturn(newUser); 
+        String result = userService.registerUser(userDto);
+        assertEquals(userDto.getUserId() + " Register successfully", result);
         
      }
 
@@ -107,4 +112,41 @@ public class UserServiceImplTest {
         when(passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())).thenReturn(false);
         assertThrows(BadCredentialsException.class, () -> userService.loginUser(loginRequest));
     }
+    
+    @Test
+    public void testGetAllUsers() {
+        List<User> addUsers = new ArrayList<>();
+        addUsers.add(new User(1,"Arpita","Sahu","arpita@gmail.com","1234","7389372823", "admin"));
+        addUsers.add(new User(2,"Omi","Sinha","omi@gmail.com","1234","73679372823", "user"));
+        
+        when(userRepo.findAll()).thenReturn(addUsers);
+        
+        List<UserDto> userDtos = userService.getAllUsers();
+        assertNotNull(userDtos);
+        assertEquals(addUsers.size(), userDtos.size());
+        
+    }
+    
+    @Test
+    void testDeleteUser() {
+        int userIdToDelete = 2;
+        User userToDelete = new User(userIdToDelete,"Omi","Sinha","omi@gmail.com","1234","73679372823", "user");
+
+        when(userRepo.findById(userIdToDelete)).thenReturn(Optional.of(userToDelete));
+        String result = userService.deleteUser(userIdToDelete);
+        assertEquals(userIdToDelete + " deleted successfully", result);
+    }
+
+    @Test
+    void testDeleteUserNotFound() {
+        int userIdToDelete = 1;
+        when(userRepo.findById(userIdToDelete)).thenReturn(Optional.empty());
+        UserNotFoundException exception = assertThrows(
+            UserNotFoundException.class,
+            () -> userService.deleteUser(userIdToDelete)
+        );
+        
+        assertEquals("user not found with id " + userIdToDelete, exception.getMessage());
+    }
+
 }

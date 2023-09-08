@@ -4,7 +4,7 @@ import java.util.List;
 import com.nucleusteq.asessmentPlatform.dto.CategoryDto;
 
 /**
- * The CategoryService interface defines methods for managing user-related 
+ * The CategoryService interface defines methods for managing user-related
  * operations.
  */
 public interface CategoryService {
@@ -12,8 +12,8 @@ public interface CategoryService {
     /**
      * Adds a new category.
      *
-     * @param category The CategoryDto object representing the category to
-     *  be added.
+     * @param category The CategoryDto object representing the category to be
+     *                 added.
      * @return The CategoryDto object representing the added category.
      */
     CategoryDto addCategory(CategoryDto category);
@@ -36,8 +36,8 @@ public interface CategoryService {
     /**
      * Updates a category by its ID.
      *
-     * @param category The CategoryDto object containing updated category 
-     * details.
+     * @param category The CategoryDto object containing updated category
+     *                 details.
      * @param id       The ID of the category to update.
      * @return The CategoryDto object representing the updated category.
      */
@@ -51,4 +51,3 @@ public interface CategoryService {
      */
     String deleteCategory(int id);
 }
-

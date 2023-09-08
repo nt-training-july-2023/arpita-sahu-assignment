@@ -18,33 +18,37 @@ import com.nucleusteq.asessmentPlatform.service.QuizService;
 @RequestMapping("/quiz")
 public class QuizController {
 
-	@Autowired
-	private QuizService quizService;
+    @Autowired
+    private QuizService quizService;
 
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public final ResponseEntity<QuizDto> addQuiz(@RequestBody final QuizDto quizDto) {
-		QuizDto quizDto2 = quizService.addQuiz(quizDto);
-		return new ResponseEntity<QuizDto>(quizDto2, HttpStatus.CREATED);
-	}
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public final ResponseEntity<QuizDto> addQuiz(
+            @RequestBody final QuizDto quizDto) {
+        QuizDto quizDto2 = quizService.addQuiz(quizDto);
+        return new ResponseEntity<QuizDto>(quizDto2, HttpStatus.CREATED);
+    }
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public final List<QuizDto> getQuizzes() {
-		return quizService.getAllQuiz();
-	}
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public final List<QuizDto> getQuizzes() {
+        return quizService.getAllQuiz();
+    }
 
-	@RequestMapping(value = "/{quizId}", method = RequestMethod.GET)
-	public final ResponseEntity<QuizDto> getQuizById(@PathVariable final int quizId) {
-		return new ResponseEntity<QuizDto>(quizService.getQuizById(quizId), HttpStatus.OK);
-	}
+    @RequestMapping(value = "/{quizId}", method = RequestMethod.GET)
+    public final ResponseEntity<QuizDto> getQuizById(
+            @PathVariable final int quizId) {
+        return new ResponseEntity<QuizDto>(quizService.getQuizById(quizId),
+                HttpStatus.OK);
+    }
 
-	@RequestMapping(value = "/{quizId}", method = RequestMethod.PUT)
-	public final QuizDto updateQuiz(@PathVariable final int quizId, @RequestBody final QuizDto quizDto) {
-		return quizService.updateQuiz(quizDto, quizId);
-	}
+    @RequestMapping(value = "/{quizId}", method = RequestMethod.PUT)
+    public final QuizDto updateQuiz(@PathVariable final int quizId,
+            @RequestBody final QuizDto quizDto) {
+        return quizService.updateQuiz(quizDto, quizId);
+    }
 
-	@RequestMapping(value = "/{quizId}", method = RequestMethod.DELETE)
-	public final String deleteCategory(@PathVariable final int quizId) {
-		return quizService.deleteQuiz(quizId);
-	}
+    @RequestMapping(value = "/{quizId}", method = RequestMethod.DELETE)
+    public final String deleteCategory(@PathVariable final int quizId) {
+        return quizService.deleteQuiz(quizId);
+    }
 
 }

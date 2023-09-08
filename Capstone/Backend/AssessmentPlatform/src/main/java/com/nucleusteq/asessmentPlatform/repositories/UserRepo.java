@@ -15,8 +15,8 @@ public interface UserRepo extends JpaRepository<User, Integer> {
      * Retrieves an optional User object based on the provided email.
      *
      * @param email The email address used to search for a user.
-     * @return An Optional containing the User object if found, or an empty Optional
-     *         if not found.
+     * @return An Optional containing the User object if found, or an empty
+     *         Optional if not found.
      */
     Optional<User> findByEmail(String email);
 }

@@ -70,12 +70,13 @@ public class CategoryController {
     public final ResponseEntity<?> getCategoryById(@PathVariable final int id) {
         try {
             CategoryDto categoryDto = categoryService.getCategoryById(id);
-            if (categoryDto == null) {
-                String errorMessage = "Category with ID " + id + " not found.";
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(errorMessage);
-            }
+//            if (categoryDto == null) {
+//                String errorMessage = "Category with ID " + id + " not found.";
+//                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+//                        .body(errorMessage);
             return ResponseEntity.ok(categoryDto);
+            
+           
         } catch (ResourceNotFoundException e) {
             String error = e.getMessage();
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);

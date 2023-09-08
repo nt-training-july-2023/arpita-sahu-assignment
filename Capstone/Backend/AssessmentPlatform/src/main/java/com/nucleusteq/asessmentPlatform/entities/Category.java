@@ -11,7 +11,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,7 +21,6 @@ import lombok.Setter;
 @Entity
 @Setter
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "categories")
 public class Category {
@@ -45,10 +43,10 @@ public class Category {
      */
     @Column(name = "category_description", nullable = false)
     private String description;
-    
-    @OneToMany(mappedBy = "category", cascade= CascadeType.ALL)
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Quiz> quizzes = new ArrayList<>();
-    
+
     public List<Quiz> getQuizzes() {
         return new ArrayList<>(quizzes);
     }
@@ -56,9 +54,8 @@ public class Category {
     public void setQuizzes(final List<Quiz> quizzes) {
         this.quizzes = new ArrayList<>(quizzes);
     }
-    
-    public Category(final int categoryId, 
-            final String title,
+
+    public Category(final int categoryId, final String title,
             final String description) {
         this.categoryId = categoryId;
         this.title = title;

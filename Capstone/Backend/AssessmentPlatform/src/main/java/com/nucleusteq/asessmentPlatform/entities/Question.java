@@ -68,4 +68,3 @@ public class Question {
 //    @JoinColumn(name = "quiz_id", nullable = false)
 //    private Quiz quiz;
 }
-

@@ -12,12 +12,11 @@ public final class UserNotFoundException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Constructs a new UserNotFoundException with the specified detail
-     * message.
+     * Constructs a new UserNotFoundException with the specified detail message.
+     * 
      * @param message The detail message.
      */
     public UserNotFoundException(String message) {
         super(message);
     }
 }
-

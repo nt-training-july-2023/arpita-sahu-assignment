@@ -1,6 +1,7 @@
 package com.nucleusteq.asessmentPlatform.services.impl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -35,15 +36,16 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public final CategoryDto addCategory(final CategoryDto categoryDto) {
-        Category existingCategory = categoryRepo
+        Category category = new Category();
+        Optional<Category> existingCategory = categoryRepo
                 .findByTitle(categoryDto.getTitle());
         if (existingCategory != null) {
             throw new DuplicateResourceException("Category with title '"
                     + categoryDto.getTitle() + "' already exists.");
         }
         Category newCategory = new Category();
-        newCategory.setTitle(categoryDto.getTitle());
-        newCategory.setDescription(categoryDto.getDescription());
+        newCategory.setTitle(category.getTitle());
+        newCategory.setDescription(category.getDescription());
         newCategory = categoryRepo.save(newCategory);
         return this.categoryToDto(newCategory);
     }
@@ -82,7 +84,7 @@ public class CategoryServiceImpl implements CategoryService {
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "category not found with id " + id));
         categoryRepo.delete(category);
-        return id + " deleted sucessfully";
+        return id + " deleted successfully";
     }
 
     /**

@@ -2,6 +2,9 @@ package com.nucleusteq.asessmentPlatform.entities;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,6 +22,19 @@ class CategoryTest {
         assertEquals(0, category.getCategoryId());
         assertEquals(null, category.getTitle());
         assertEquals(null, category.getDescription());
+        
+        List<Quiz> quizzes = new ArrayList<>();
+        Quiz quiz1 = new Quiz();
+        Quiz quiz2 = new Quiz();
+        quizzes.add(quiz1);
+        quizzes.add(quiz2);
+        
+        category.setQuizzes(quizzes);
+        
+        List<Quiz> retrievedQuizzes = category.getQuizzes();
+        assertEquals(quizzes, retrievedQuizzes);
+        assertNotSame(quizzes, retrievedQuizzes);
+        
         category.setCategoryId(1);
         category.setTitle("GK");
         category.setDescription("GK Description");

@@ -27,8 +27,8 @@ import com.nucleusteq.asessmentPlatform.service.UserService;
 @Service
 public class UserServiceImpl implements UserService {
     /**
-     * This is User Repository object that is for calling.
-     * the repository methods.
+     * This is User Repository object that is for calling. the repository
+     * methods.
      */
     @Autowired
     private UserRepo userRepo;
@@ -68,8 +68,7 @@ public class UserServiceImpl implements UserService {
     public final List<UserDto> getAllUsers() {
         List<User> users = this.userRepo.findAll();
         List<UserDto> userDtos = users.stream()
-                .map(user -> this.userToDto(user))
-                .collect(Collectors.toList());
+                .map(user -> this.userToDto(user)).collect(Collectors.toList());
         return userDtos;
     }
 
@@ -79,14 +78,14 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new UserNotFoundException(
                         "user not found with id " + id));
         userRepo.delete(user);
-        return id + " deleted sucessfully";
+        return id + " deleted successfully";
     }
 
     @Override
     public final Map<String, String> loginUser(
             final LoginRequest loginRequest) {
-        User user = userRepo.findByEmail(loginRequest.getEmail()).orElseThrow(
-                () -> new UserNotFoundException("User not found"));
+        User user = userRepo.findByEmail(loginRequest.getEmail())
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
         if (!passwordEncoder.matches(loginRequest.getPassword(),
                 user.getPassword())) {
             throw new BadCredentialsException("Invalid password");

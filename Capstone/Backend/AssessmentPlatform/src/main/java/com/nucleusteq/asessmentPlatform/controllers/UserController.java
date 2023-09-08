@@ -67,7 +67,7 @@ public class UserController {
      * @param loginRequest The LoginRequest object containing user login
      *                     credentials.
      * @return A map containing the login response, including authentication
-     *    status and token.
+     *         status and token.
      */
     @PostMapping("/login")
     public final Map<String, String> loginUser(
