@@ -93,6 +93,45 @@ class CategoryServiceImplTest {
     }
   
     @Test
+    void testUpdateCategory() { 
+        CategoryDto updatedCategoryDto = new CategoryDto();
+        updatedCategoryDto.setTitle("Updated Title");
+        updatedCategoryDto.setDescription("Updated Description");
+
+        int categoryId = 1;
+        Category existingCategory = new Category();
+        existingCategory.setCategoryId(categoryId);  
+        existingCategory.setTitle("Original Title");
+        existingCategory.setDescription("Original Description");
+        when(categoryRepo.findById(categoryId)).thenReturn(Optional.of(existingCategory));
+        when(modelMapper.map(updatedCategoryDto, Category.class)).thenReturn(existingCategory);
+        
+        CategoryDto resultDto = categoryService.updateCategory(updatedCategoryDto, categoryId);
+       
+        assertNotNull(resultDto);
+        assertEquals(updatedCategoryDto.getTitle(), resultDto.getTitle());
+        assertEquals(updatedCategoryDto.getDescription(), resultDto.getDescription());
+
+
+    }
+    
+    @Test
+    void testUpdateCategory_CategoryNotFound() {
+        CategoryDto categoryDto = new CategoryDto();
+        categoryDto.setTitle("Updated Title");
+        categoryDto.setDescription("Updated Description");
+
+        when(categoryRepo.findById(1)).thenReturn(Optional.empty());
+        assertThrows(ResourceNotFoundException.class, () -> {
+            categoryService.updateCategory(categoryDto, 1);
+        });
+    }
+    
+    
+    
+    
+    
+    @Test
     void testDeleteCategory() {
         int categoryIdToDelete = 1;
         Category categoryToDelete = new Category(categoryIdToDelete, "Java",

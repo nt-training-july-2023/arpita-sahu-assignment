@@ -38,10 +38,10 @@ public class CategoryServiceImpl implements CategoryService {
     public final CategoryDto addCategory(final CategoryDto categoryDto) {
         Category category = new Category();
         Optional<Category> existingCategory = categoryRepo
-                .findByTitle(categoryDto.getTitle());
-        if (existingCategory != null) {
+                .findByTitle(category.getTitle());
+        if (existingCategory.isPresent()) {
             throw new DuplicateResourceException("Category with title '"
-                    + categoryDto.getTitle() + "' already exists.");
+                    + category.getTitle() + "' already exists.");
         }
         Category newCategory = new Category();
         newCategory.setTitle(category.getTitle());

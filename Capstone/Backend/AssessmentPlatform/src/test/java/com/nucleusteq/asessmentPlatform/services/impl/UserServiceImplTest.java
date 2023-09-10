@@ -65,6 +65,7 @@ public class UserServiceImplTest {
         when(passwordEncoder.encode(userDto.getPassword())).thenReturn("encodedPassword");
         when(modelMapper.map(userDto, User.class)).thenReturn(newUser);
         when(userRepo.save(any(User.class))).thenReturn(newUser); 
+ 
         String result = userService.registerUser(userDto);
         assertEquals(userDto.getUserId() + " Register successfully", result);
         

@@ -1,6 +1,7 @@
 package com.nucleusteq.asessmentPlatform.services.impl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.nucleusteq.asessmentPlatform.dto.QuizDto;
 import com.nucleusteq.asessmentPlatform.entities.Quiz;
+import com.nucleusteq.asessmentPlatform.exception.DuplicateResourceException;
 import com.nucleusteq.asessmentPlatform.exception.ResourceNotFoundException;
 import com.nucleusteq.asessmentPlatform.repositories.QuizRepo;
 import com.nucleusteq.asessmentPlatform.service.QuizService;
@@ -25,6 +27,12 @@ public class QuizServiceImpl implements QuizService {
     @Override
     public QuizDto addQuiz(QuizDto quizDto) {
         Quiz quiz = this.dtoToQuiz(quizDto);
+        Optional<Quiz> existingQuiz =quizRepo
+                .findByTitle(quiz.getTitle());
+        if (existingQuiz.isPresent()) {
+            throw new DuplicateResourceException("Quiz with title '"
+                    + quiz.getTitle() + "' already exists.");
+        }
         Quiz newQuiz = quizRepo.save(quiz);
         return this.quizToDto(newQuiz);
     }
@@ -61,7 +69,7 @@ public class QuizServiceImpl implements QuizService {
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "quiz not found with id " + quizId));
         quizRepo.delete(quiz);
-        return quizId + " deleted sucessfully";
+        return quizId + " deleted successfully";
     }
 
     public final QuizDto quizToDto(final Quiz quiz) {
