@@ -15,10 +15,9 @@ public final class BadCredentialsException extends RuntimeException {
     /**
      * Constructs a new BadCredentialsException with the specified detail
      * message.
-     * 
      * @param message The detail message.
      */
-    public BadCredentialsException(String message) {
+    public BadCredentialsException(final String message) {
         super(message);
     }
 }

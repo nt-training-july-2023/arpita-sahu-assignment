@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 class UserNotFoundExceptionTest {
 
-	@Test
+    @Test
     void testUserNotFoundException() {
         String message = "Wrong Password";
         UserNotFoundException exception = new UserNotFoundException(message);

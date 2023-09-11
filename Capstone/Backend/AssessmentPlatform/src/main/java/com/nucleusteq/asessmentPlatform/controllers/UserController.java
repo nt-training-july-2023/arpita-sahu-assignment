@@ -71,7 +71,7 @@ public class UserController {
      */
     @PostMapping("/login")
     public final Map<String, String> loginUser(
-            @RequestBody LoginRequest loginRequest) {
+            @RequestBody final LoginRequest loginRequest) {
         return userService.loginUser(loginRequest);
     }
 }

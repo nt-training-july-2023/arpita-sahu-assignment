@@ -39,7 +39,7 @@ class UserTest {
         assertEquals("9369790286", user.getPhoneNumber());
         assertEquals("user", user.getRole());
     }
-    
+
     @Test
     void testDefaultConstructor() {
         User user = new User();

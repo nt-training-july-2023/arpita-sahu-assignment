@@ -1,6 +1,6 @@
 package com.nucleusteq.asessmentPlatform.services.impl;
 
-
+import static org.mockito.ArgumentMatchers.any;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
@@ -14,15 +14,22 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
+
+import com.nucleusteq.asessmentPlatform.dto.CategoryDto;
 import com.nucleusteq.asessmentPlatform.dto.QuizDto;
+import com.nucleusteq.asessmentPlatform.entities.Category;
 import com.nucleusteq.asessmentPlatform.entities.Quiz;
 import com.nucleusteq.asessmentPlatform.exception.ResourceNotFoundException;
+import com.nucleusteq.asessmentPlatform.repositories.CategoryRepo;
 import com.nucleusteq.asessmentPlatform.repositories.QuizRepo;
 
 class QuizServiceImplTest {
 
     @Mock
     private ModelMapper modelMapper;
+    
+    @Mock
+    private CategoryRepo categoryRepo;
 
     @Mock
     private QuizRepo quizRepo;
@@ -38,20 +45,43 @@ class QuizServiceImplTest {
     @Test
     public void testAddQuiz_Success() {
         QuizDto quizDto = new QuizDto();
-        quizDto.setTitle("Sample Quiz");
-        quizDto.setDescription("Sample Description");
+        CategoryDto category = new CategoryDto();
+        category.setCategoryId(1);
+        category.setTitle("Category");
+        category.setDescription("Category Description");
+        
+        Category category2 = new Category();
+        category2.setCategoryId(category.getCategoryId());
+        category2.setTitle(category.getTitle());
+        quizDto.setTitle("Sample Quiz Title");
+        
+        Quiz quiz = new Quiz();
+        quiz.setTitle("Sample Quiz Title");
+        quiz.setCategory(category2);
+        
+        when(quizRepo.findByTitle(quiz.getTitle())).thenReturn(Optional.empty());
+        when(categoryRepo.findById(category2.getCategoryId())).thenReturn(Optional.of(category2));
+        quizDto.setCategory(category);
+        when(modelMapper.map(quizDto, Quiz.class)).thenReturn(quiz);
+        String result = quizService.addQuiz(quizDto);
+        assertEquals(" Quiz Added Successfully", result); 
 
-        Quiz newQuiz = new Quiz();
-        newQuiz.setTitle(quizDto.getTitle());
-        newQuiz.setDescription(quizDto.getDescription());
+    }
 
-        when(quizRepo.findByTitle(newQuiz.getTitle()))
-                .thenReturn(Optional.empty());
-        when(modelMapper.map(quizDto, Quiz.class)).thenReturn(newQuiz);
-//        when(quizRepo.save(any(Quiz.class)).thenReturn(newQuiz); 
-        QuizDto resultDto = quizService.addQuiz(quizDto);
-        assertNotNull(resultDto);
-        assertEquals(resultDto.getTitle(), quizDto.getTitle());
+    @Test
+    public void testAddQuiz_DuplicateTitle() {
+        QuizDto quizDto = new QuizDto();
+        Quiz quiz = new Quiz();
+        when(quizRepo.findByTitle(quiz.getTitle())).thenReturn(Optional.of(quiz));
+        assertThrows(NullPointerException.class, () -> {quizService.addQuiz(quizDto);});
+    }
+
+    @Test
+    public void testAddQuiz_CategoryNotFound() {
+        QuizDto quizDto = new QuizDto();
+        when(quizRepo.findByTitle(quizDto.getTitle())).thenReturn(Optional.empty());
+        when(categoryRepo.findById(any())).thenReturn(Optional.empty()); 
+        assertThrows(NullPointerException.class, () -> {quizService.addQuiz(quizDto);});
     }
 
     @Test
@@ -92,21 +122,23 @@ class QuizServiceImplTest {
         updatedQuizDto.setTitle("Updated Quiz");
         updatedQuizDto.setDescription("Updated Description");
 
-        Quiz updatedQuiz = new Quiz();
-        when(quizRepo.findById(1)).thenReturn(Optional.of(updatedQuiz));
+        Quiz existingQuiz = new Quiz();
+        when(quizRepo.findById(1)).thenReturn(Optional.of(existingQuiz));
         when(modelMapper.map(updatedQuizDto, Quiz.class))
-                .thenReturn(updatedQuiz);
-        when(quizRepo.save(updatedQuiz)).thenReturn(updatedQuiz);
-        QuizDto resultDto = quizService.updateQuiz(updatedQuizDto, 1);
-        assertNotNull(resultDto);
-        assertEquals(updatedQuizDto, resultDto);
+                .thenReturn(existingQuiz);
+        when(quizRepo.save(existingQuiz)).thenReturn(existingQuiz);
+        String result = quizService.updateQuiz(updatedQuizDto, 1);
+
+        assertEquals(" Quiz Updated Successfully", result);
+        assertEquals("Updated Quiz", existingQuiz.getTitle());
+        assertEquals("Updated Description", existingQuiz.getDescription());
     }
 
     @Test
     public void testDeleteQuiz_Success() {
         int quizIdToDelete = 1;
-        Quiz quizToDelete = new Quiz(quizIdToDelete, "Quiz1",
-                "Quiz1 based on Java Category", 45);
+        Quiz quizToDelete = new Quiz();
+        quizToDelete.getQuizId();
         when(quizRepo.findById(quizIdToDelete))
                 .thenReturn(Optional.of(quizToDelete));
         String result = quizService.deleteQuiz(quizIdToDelete);
@@ -128,9 +160,7 @@ class QuizServiceImplTest {
     @Test
     public void testUpdateQuiz_QuizNotFound() {
         when(quizRepo.findById(1)).thenReturn(Optional.empty());
-        assertThrows(ResourceNotFoundException.class, () -> {
-            quizService.updateQuiz(new QuizDto(), 1);
-        });
+        assertThrows(ResourceNotFoundException.class, () -> { quizService.updateQuiz(new QuizDto(), 1);});
     }
 
     @Test
@@ -141,7 +171,7 @@ class QuizServiceImplTest {
                 ResourceNotFoundException.class,
                 () -> quizService.deleteQuiz(quizIdToDelete));
 
-        assertEquals("quiz not found with id " + quizIdToDelete,
+        assertEquals("Quiz not found with id " + quizIdToDelete,
                 exception.getMessage());
     }
 

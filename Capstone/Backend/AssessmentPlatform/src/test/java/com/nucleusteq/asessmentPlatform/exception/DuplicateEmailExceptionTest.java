@@ -9,7 +9,8 @@ class DuplicateEmailExceptionTest {
     @Test
     void testDuplicateEmailException() {
         String message = "Wrong Password";
-        DuplicateEmailException exception = new DuplicateEmailException(message);
+        DuplicateEmailException exception = new DuplicateEmailException(
+                message);
         assertEquals(message, exception.getMessage());
     }
 

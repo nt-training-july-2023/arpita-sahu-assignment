@@ -38,20 +38,10 @@ public class Quiz {
      */
     @Column(name = "quiz_description")
     private String description;
-
-    private int quizTimer;
-
     /**
-     * The number of questions in the quiz.
+     * The timer of the quiz.
      */
-//    @Column(name = "no._of_ques")
-//    private int numOfQues;
-
-//    @Temporal(TemporalType.TIMESTAMP)
-//    private Date startTime;
-//    
-//    @Temporal(TemporalType.TIMESTAMP)
-//    private Date endTime;
+    private int quizTimer;
 
     /**
      * The category to which this quiz belongs.
@@ -60,21 +50,42 @@ public class Quiz {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    public Category getCategory() {
+    /**
+     * Gets the category associated with this quiz.
+     *
+     * @return A new Category object representing the associated category.
+     */
+
+    public final Category getCategory() {
         return new Category(category.getCategoryId(), category.getTitle(),
                 category.getDescription());
     }
 
-    public void setCategory(final Category category) {
-        this.category = new Category(category.getCategoryId(),
-                category.getTitle(), category.getDescription());
+    /**
+     * Sets the category for this quiz.
+     *
+     * @param cat The Category object to associate with this quiz.
+     */
+
+    public final void setCategory(final Category cat) {
+        this.category = new Category(cat.getCategoryId(),
+                cat.getTitle(), cat.getDescription());
     }
 
-    public Quiz(final int quizId, final String title, final String description,
+    /**
+     * Constructs a new Quiz object with the specified parameters.
+     *
+     * @param id      The unique identifier of the quiz.
+     * @param quizTitle   The title of the quiz.
+     * @param desc        A brief description of the quiz.
+     * @param time        The timer duration in seconds for the quiz.
+     */
+
+    public Quiz(final int id, final String quizTitle, final String desc,
             final int time) {
-        this.quizId = quizId;
-        this.title = title;
-        this.description = description;
+        this.quizId = id;
+        this.title = quizTitle;
+        this.description = desc;
         this.quizTimer = time;
     }
 }

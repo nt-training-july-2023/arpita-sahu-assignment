@@ -6,10 +6,11 @@ import org.junit.jupiter.api.Test;
 
 class BadCredentialsExceptionTest {
 
-	@Test
+    @Test
     void testBadCredentialsException() {
         String message = "Wrong Password";
-        BadCredentialsException exception = new BadCredentialsException(message);
+        BadCredentialsException exception = new BadCredentialsException(
+                message);
         assertEquals(message, exception.getMessage());
     }
 

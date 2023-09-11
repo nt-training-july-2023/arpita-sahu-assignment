@@ -1,4 +1,5 @@
 package com.nucleusteq.asessmentPlatform.controllers;
+
 import com.nucleusteq.asessmentPlatform.dto.UserDto;
 import com.nucleusteq.asessmentPlatform.entities.LoginRequest;
 import com.nucleusteq.asessmentPlatform.service.UserService;
@@ -24,7 +25,7 @@ public class UserControllerTest {
     private UserService userService;
 
     @SuppressWarnings("deprecation")
-	@BeforeEach
+    @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
@@ -39,7 +40,8 @@ public class UserControllerTest {
         userDto.setPassword("1234");
         userDto.setPhoneNumber("9767276262");
 
-        when(userService.registerUser(userDto)).thenReturn("1 Register successfully");
+        when(userService.registerUser(userDto))
+                .thenReturn("1 Register successfully");
         String response = userController.saveUser(userDto);
         assertEquals("1 Register successfully", response);
         verify(userService, times(1)).registerUser(userDto);
@@ -69,8 +71,9 @@ public class UserControllerTest {
     @Test
     public void testDeleteUser() {
         int userId = 1;
-        when(userService.deleteUser(userId)).thenReturn("1 deleted successfully");
-        String response = userController.deleteUser(userId);        
+        when(userService.deleteUser(userId))
+                .thenReturn("1 deleted successfully");
+        String response = userController.deleteUser(userId);
         assertEquals("1 deleted successfully", response);
         verify(userService, times(1)).deleteUser(userId);
     }
@@ -80,7 +83,8 @@ public class UserControllerTest {
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setEmail("arpita@nucleusteq.com");
         loginRequest.setPassword("1234");
-        Map<String, String> loginResponse = Map.of("Status", "True", "Role", "user");
+        Map<String, String> loginResponse = Map.of("Status", "True", "Role",
+                "user");
         when(userService.loginUser(loginRequest)).thenReturn(loginResponse);
         Map<String, String> response = userController.loginUser(loginRequest);
         assertEquals(loginResponse, response);

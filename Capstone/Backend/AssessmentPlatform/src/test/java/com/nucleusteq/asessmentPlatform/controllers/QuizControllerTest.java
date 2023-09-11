@@ -33,19 +33,17 @@ class QuizControllerTest {
     @Test
     public void testAddQuiz() {
         QuizDto quizDto = new QuizDto();
-        when(quizService.addQuiz(quizDto)).thenReturn(quizDto);
-        ResponseEntity<QuizDto> response = quizController.addQuiz(quizDto);
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals(quizDto, response.getBody());
+        when(quizService.addQuiz(quizDto)).thenReturn("Quiz Added Successfully");
+        String response = quizController.addQuiz(quizDto);
+        assertEquals("Quiz Added Successfully", response);
+        
     }
 
     @Test
     public void testGetQuizzes() {
         List<QuizDto> quizDtoList = new ArrayList<>();
         when(quizService.getAllQuiz()).thenReturn(quizDtoList);
-
         List<QuizDto> result = quizController.getQuizzes();
-
         assertEquals(quizDtoList, result);
     }
 
@@ -63,15 +61,16 @@ class QuizControllerTest {
     public void testUpdateQuiz() {
         int quizId = 1;
         QuizDto quizDto = new QuizDto();
-        when(quizService.updateQuiz(quizDto, quizId)).thenReturn(quizDto);
-        QuizDto result = quizController.updateQuiz(quizId, quizDto);
-        assertEquals(quizDto, result);
+        when(quizService.updateQuiz(quizDto, quizId)).thenReturn("Updated Successfully");
+        String result = quizController.updateQuiz(quizId, quizDto);
+        assertEquals("Updated Successfully", result);
     }
 
     @Test
     public void testDeleteQuiz() {
         int quizId = 1;
-        when(quizService.deleteQuiz(quizId)).thenReturn("Quiz deleted successfully");
+        when(quizService.deleteQuiz(quizId))
+                .thenReturn("Quiz deleted successfully");
         String result = quizController.deleteCategory(quizId);
         assertEquals("Quiz deleted successfully", result);
     }

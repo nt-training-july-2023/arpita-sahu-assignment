@@ -18,10 +18,10 @@ class LoginRequestTest {
     void testGettersAndSetters() {
         assertEquals(null, loginRequest.getEmail());
         assertEquals(null, loginRequest.getPassword());
-        
+
         loginRequest.setEmail("arpita@nucleusteq.com");
         loginRequest.setPassword("1234");
-        
+
         assertEquals("arpita@nucleusteq.com", loginRequest.getEmail());
         assertEquals("1234", loginRequest.getPassword());
     }
@@ -30,12 +30,13 @@ class LoginRequestTest {
     void testDefaultConstructor() {
         LoginRequest loginRequest = new LoginRequest();
         assertEquals(null, loginRequest.getEmail());
-        assertEquals(null, loginRequest.getPassword());      
+        assertEquals(null, loginRequest.getPassword());
     }
 
     @Test
     void testParameterisedConstructor() {
-        LoginRequest loginRequest = new LoginRequest("arpita@nucleusteq.com","1234");
+        LoginRequest loginRequest = new LoginRequest("arpita@nucleusteq.com",
+                "1234");
         assertEquals("arpita@nucleusteq.com", loginRequest.getEmail());
         assertEquals("1234", loginRequest.getPassword());
     }

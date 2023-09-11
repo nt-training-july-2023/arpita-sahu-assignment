@@ -11,10 +11,9 @@ public final class ResourceNotFoundException extends RuntimeException {
     /**
      * Constructs a new CategoryNotFoundException with the specified detail
      * message.
-     * 
      * @param message The detail message.
      */
-    public ResourceNotFoundException(String message) {
+    public ResourceNotFoundException(final String message) {
         super(message);
     }
 }

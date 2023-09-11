@@ -55,8 +55,8 @@ class UserDtoTest {
 
     @Test
     void testParametrizedConstructor() {
-        UserDto userDto = new UserDto(45, "Arpita", "Sahu", "arpita@nucleusteq.com",
-                "1234567", "9369790286", "user");
+        UserDto userDto = new UserDto(45, "Arpita", "Sahu",
+                "arpita@nucleusteq.com", "1234567", "9369790286", "user");
         assertEquals(45, userDto.getUserId());
         assertEquals("Arpita", userDto.getFirstName());
         assertEquals("Sahu", userDto.getLastName());

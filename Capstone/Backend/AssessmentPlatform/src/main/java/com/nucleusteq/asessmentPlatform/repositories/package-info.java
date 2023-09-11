@@ -1,4 +1,4 @@
 /**
- * Package info for assessmentPlatform repository
+ * Package info for assessmentPlatform repository.
  */
 package com.nucleusteq.asessmentPlatform.repositories;

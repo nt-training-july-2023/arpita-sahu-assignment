@@ -43,22 +43,44 @@ public class Category {
      */
     @Column(name = "category_description", nullable = false)
     private String description;
-
+    /**
+     * ArrayList for the quiz.
+     */
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Quiz> quizzes = new ArrayList<>();
 
-    public List<Quiz> getQuizzes() {
+    /**
+     * Gets a list of quizzes associated with this category.
+     *
+     * @return A new ArrayList containing the quizzes associated with this
+     *         category.
+     */
+    public final List<Quiz> getQuizzes() {
         return new ArrayList<>(quizzes);
     }
 
-    public void setQuizzes(final List<Quiz> quizzes) {
-        this.quizzes = new ArrayList<>(quizzes);
+    /**
+     * Sets the list of quizzes associated with this category.
+     *
+     * @param quiz The list of Quiz objects to associate with this category.
+     */
+
+    public final void setQuizzes(final List<Quiz> quiz) {
+        this.quizzes = new ArrayList<>(quiz);
     }
 
-    public Category(final int categoryId, final String title,
-            final String description) {
-        this.categoryId = categoryId;
-        this.title = title;
-        this.description = description;
+    /**
+     * Constructs a new Category object with the specified parameters.
+     *
+     * @param catId  The unique identifier of the category.
+     * @param catTitle       The title of the category.
+     * @param desc A brief description of the category.
+     */
+
+    public Category(final int catId, final String catTitle,
+            final String desc) {
+        this.categoryId = catId;
+        this.title = catTitle;
+        this.description = desc;
     }
 }

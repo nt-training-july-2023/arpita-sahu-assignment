@@ -29,13 +29,11 @@ public class UserServiceImplTest {
 
     @Mock
     private PasswordEncoder passwordEncoder;
-    
+
     @Mock
     private ModelMapper modelMapper;
 
- 
-	
-	@BeforeEach
+    @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
     }
@@ -59,27 +57,29 @@ public class UserServiceImplTest {
         newUser.setPassword(userDto.getPassword());
         newUser.setPhoneNumber(userDto.getPhoneNumber());
         newUser.setRole(userDto.getRole());
-       
-        when(userRepo.findByEmail(newUser.getEmail())).thenReturn(Optional.empty());
-        
-        when(passwordEncoder.encode(userDto.getPassword())).thenReturn("encodedPassword");
+
+        when(userRepo.findByEmail(newUser.getEmail()))
+                .thenReturn(Optional.empty());
+
+        when(passwordEncoder.encode(userDto.getPassword()))
+                .thenReturn("encodedPassword");
         when(modelMapper.map(userDto, User.class)).thenReturn(newUser);
-        when(userRepo.save(any(User.class))).thenReturn(newUser); 
- 
+        when(userRepo.save(any(User.class))).thenReturn(newUser);
+
         String result = userService.registerUser(userDto);
         assertEquals(userDto.getUserId() + " Register successfully", result);
-        
-     }
+
+    }
 
     @Test
     public void testRegisterUserWithDuplicateEmail() {
         UserDto userDto = new UserDto();
         userDto.setEmail("arpita@nucleusteq.com");
-        when(userRepo.findByEmail(userDto.getEmail())).thenReturn(Optional.of(new User()));
-        assertThrows(NullPointerException.class, () -> userService.registerUser(userDto));
+        when(userRepo.findByEmail(userDto.getEmail()))
+                .thenReturn(Optional.of(new User()));
+        assertThrows(NullPointerException.class,
+                () -> userService.registerUser(userDto));
     }
-    
-
 
     @Test
     public void testLoginUser() {
@@ -91,8 +91,10 @@ public class UserServiceImplTest {
         user.setPassword("encodedPassword");
         user.setRole("user");
 
-        when(userRepo.findByEmail(loginRequest.getEmail())).thenReturn(Optional.of(user));
-        when(passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())).thenReturn(true);
+        when(userRepo.findByEmail(loginRequest.getEmail()))
+                .thenReturn(Optional.of(user));
+        when(passwordEncoder.matches(loginRequest.getPassword(),
+                user.getPassword())).thenReturn(true);
 
         Map<String, String> response = userService.loginUser(loginRequest);
 
@@ -109,31 +111,38 @@ public class UserServiceImplTest {
 
         User user = new User();
         user.setPassword("encodedPassword");
-        when(userRepo.findByEmail(loginRequest.getEmail())).thenReturn(Optional.of(user));
-        when(passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())).thenReturn(false);
-        assertThrows(BadCredentialsException.class, () -> userService.loginUser(loginRequest));
+        when(userRepo.findByEmail(loginRequest.getEmail()))
+                .thenReturn(Optional.of(user));
+        when(passwordEncoder.matches(loginRequest.getPassword(),
+                user.getPassword())).thenReturn(false);
+        assertThrows(BadCredentialsException.class,
+                () -> userService.loginUser(loginRequest));
     }
-    
+
     @Test
     public void testGetAllUsers() {
         List<User> addUsers = new ArrayList<>();
-        addUsers.add(new User(1,"Arpita","Sahu","arpita@gmail.com","1234","7389372823", "admin"));
-        addUsers.add(new User(2,"Omi","Sinha","omi@gmail.com","1234","73679372823", "user"));
-        
+        addUsers.add(new User(1, "Arpita", "Sahu", "arpita@gmail.com", "1234",
+                "7389372823", "admin"));
+        addUsers.add(new User(2, "Omi", "Sinha", "omi@gmail.com", "1234",
+                "73679372823", "user"));
+
         when(userRepo.findAll()).thenReturn(addUsers);
-        
+
         List<UserDto> userDtos = userService.getAllUsers();
         assertNotNull(userDtos);
         assertEquals(addUsers.size(), userDtos.size());
-        
+
     }
-    
+
     @Test
     void testDeleteUser() {
         int userIdToDelete = 2;
-        User userToDelete = new User(userIdToDelete,"Omi","Sinha","omi@gmail.com","1234","73679372823", "user");
+        User userToDelete = new User(userIdToDelete, "Omi", "Sinha",
+                "omi@gmail.com", "1234", "73679372823", "user");
 
-        when(userRepo.findById(userIdToDelete)).thenReturn(Optional.of(userToDelete));
+        when(userRepo.findById(userIdToDelete))
+                .thenReturn(Optional.of(userToDelete));
         String result = userService.deleteUser(userIdToDelete);
         assertEquals(userIdToDelete + " deleted successfully", result);
     }
@@ -143,11 +152,11 @@ public class UserServiceImplTest {
         int userIdToDelete = 1;
         when(userRepo.findById(userIdToDelete)).thenReturn(Optional.empty());
         UserNotFoundException exception = assertThrows(
-            UserNotFoundException.class,
-            () -> userService.deleteUser(userIdToDelete)
-        );
-        
-        assertEquals("user not found with id " + userIdToDelete, exception.getMessage());
+                UserNotFoundException.class,
+                () -> userService.deleteUser(userIdToDelete));
+
+        assertEquals("user not found with id " + userIdToDelete,
+                exception.getMessage());
     }
 
 }

@@ -16,10 +16,9 @@ public final class DuplicateEmailException extends RuntimeException {
     /**
      * Constructs a new DuplicateEmailException with the specified detail
      * message.
-     * 
      * @param message The detail message.
      */
-    public DuplicateEmailException(String message) {
+    public DuplicateEmailException(final String message) {
         super(message);
     }
 }

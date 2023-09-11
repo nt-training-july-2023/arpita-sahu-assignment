@@ -88,17 +88,13 @@
 					<configLocation>
 					C:\Users\Arpita Sahu\eclipse-workspace\NucleusTeq\Capstone\Backend\AssessmentPlatform\checkstyle.xml</configLocation>
 				</configuration>
-			</plugin>
-
-
+			</plugin>			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
-				<version>3.13.0</version>
+				<!--<version>3.13.0</version>-->
 				<configuration>
-
 					<failOnViolation>true</failOnViolation>
-
 					<printFailingErrors>true</printFailingErrors>
 				</configuration>
 				<executions>

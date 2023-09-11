@@ -31,14 +31,18 @@ public class CategoryController {
     private CategoryService categoryService;
 
     /**
-     * Endpoint for creating a new category.
+     * Saves a new category using the provided CategoryDto object.
      *
-     * @param category The CategoryDto object containing category details.
-     * @return A ResponseEntity with the saved CategoryDto and HTTP status code.
+     * @param categoryDto The CategoryDto object containing category information
+     *                    to be added.
+     * @return A ResponseEntity with a success status (201 Created) and a
+     *         success message if the category is added successfully. If a
+     *         DuplicateResourceException is thrown, it returns a ResponseEntity
+     *         with a conflict status (409 Conflict) and an error message.
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public ResponseEntity<String> saveCategory(
-            @RequestBody CategoryDto categoryDto) {
+    public final ResponseEntity<String> saveCategory(
+            @RequestBody final CategoryDto categoryDto) {
         try {
             categoryService.addCategory(categoryDto);
             return ResponseEntity.status(HttpStatus.CREATED)
@@ -51,7 +55,6 @@ public class CategoryController {
 
     /**
      * Endpoint for retrieving a list of all categories.
-     *
      * @return A list of CategoryDto objects representing all categories.
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -61,7 +64,6 @@ public class CategoryController {
 
     /**
      * Endpoint for retrieving a category by its ID.
-     * 
      * @param id The ID of the category to retrieve.
      * @return A ResponseEntity with the retrieved CategoryDto or an error
      *         message if not found.
@@ -70,18 +72,13 @@ public class CategoryController {
     public final ResponseEntity<?> getCategoryById(@PathVariable final int id) {
         try {
             CategoryDto categoryDto = categoryService.getCategoryById(id);
-//            if (categoryDto == null) {
-//                String errorMessage = "Category with ID " + id + " not found.";
-//                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-//                        .body(errorMessage);
             return ResponseEntity.ok(categoryDto);
-            
-           
         } catch (ResourceNotFoundException e) {
             String error = e.getMessage();
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         } catch (Exception e) {
-            String errorMessage = "An error occurred while processing your request.";
+            String errorMessage =
+                    "An error occurred while processing your request.";
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(errorMessage);
         }
