@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import com.nucleusteq.asessmentPlatform.service.QuizService;
 /**
  * Controller class for managing quizzes.
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/quiz")
 public class QuizController {
@@ -63,6 +65,12 @@ public class QuizController {
         return new ResponseEntity<QuizDto>(quizService.getQuizById(quizId),
                 HttpStatus.OK);
     }
+    @RequestMapping(value = "category/{categoryId}", method = RequestMethod.GET)
+    public final List<QuizDto> getQuizByCategoryId(
+            @PathVariable final int categoryId) {
+       return quizService.getQuizByCategoryId(categoryId);
+    }
+    
 
     /**
      * Update an existing quiz by its ID.

@@ -1,0 +1,33 @@
+.page-container {
+    margin: 50px; 
+  }
+  
+.quiz-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .quiz-card {
+    width: calc(33.33% - 20px); 
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin: 10px 0; 
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(27, 26, 26, 0.1);
+  }
+  
+  .start-quiz-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .start-quiz-button:hover {
+    background-color: #0056b3;
+  }
+  

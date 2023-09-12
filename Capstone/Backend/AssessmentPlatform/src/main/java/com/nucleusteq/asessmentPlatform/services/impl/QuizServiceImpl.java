@@ -8,7 +8,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.nucleusteq.asessmentPlatform.dto.CategoryDto;
 import com.nucleusteq.asessmentPlatform.dto.QuizDto;
+import com.nucleusteq.asessmentPlatform.entities.Category;
 import com.nucleusteq.asessmentPlatform.entities.Quiz;
 import com.nucleusteq.asessmentPlatform.exception.BadCredentialsException;
 import com.nucleusteq.asessmentPlatform.exception.DuplicateResourceException;
@@ -79,6 +81,14 @@ public class QuizServiceImpl implements QuizService {
                 .map(quiz -> this.quizToDto(quiz)).collect(Collectors.toList());
         return quizDtos;
     }
+    
+    @Override
+    public final List<QuizDto> getQuizByCategoryId(int categoryId){
+        List<Quiz> quizzes = quizRepo.findQuizByCategoryId(categoryId);
+        List<QuizDto> quizDtos = quizzes.stream()
+                .map(quiz -> this.quizToDto(quiz)).collect(Collectors.toList());
+        return quizDtos;
+    }
 
     /**
      * Get a quiz by its ID.
@@ -95,6 +105,8 @@ public class QuizServiceImpl implements QuizService {
                         "Quiz not found with id " + quizId));
         return this.quizToDto(quiz);
     }
+    
+    
 
     /**
      * Update an existing quiz by its ID.
@@ -140,8 +152,12 @@ public class QuizServiceImpl implements QuizService {
      * @return The QuizDto.
      */
     public final QuizDto quizToDto(final Quiz quiz) {
-        QuizDto quizDto = modelMapper.map(quiz, QuizDto.class);
-        return quizDto;
+        QuizDto quizDTO = modelMapper.map(quiz, QuizDto.class);
+        if (quiz.getCategory() != null) {
+            CategoryDto categoryDto = modelMapper.map(quiz.getCategory(), CategoryDto.class);
+            quizDTO.setCategory(categoryDto);
+        }
+        return quizDTO;
     }
 
     /**
@@ -151,7 +167,11 @@ public class QuizServiceImpl implements QuizService {
      * @return The Quiz entity.
      */
     public final Quiz dtoToQuiz(final QuizDto quizDto) {
-        Quiz quiz = this.modelMapper.map(quizDto, Quiz.class);
+        Quiz quiz = modelMapper.map(quizDto, Quiz.class);
+        if (quizDto.getCategory() != null) {
+            Category category = modelMapper.map(quizDto.getCategory(), Category.class);
+            quiz.setCategory(category);
+        }
         return quiz;
     }
 

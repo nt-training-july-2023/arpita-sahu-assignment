@@ -48,4 +48,7 @@ public interface QuizService {
      * @return A message indicating the successful deletion of the quiz.
      */
     String deleteQuiz(int quizId);
+
+    List<QuizDto> getQuizByCategoryId(int categoryId);
+
 }

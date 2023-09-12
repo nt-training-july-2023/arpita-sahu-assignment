@@ -3,6 +3,7 @@ import axios from "axios";
 import {useNavigate, useParams } from "react-router-dom";
 import NotFound from "../NotFound";
 import Swal from "sweetalert2";
+import Navbar from "../Navbar/Navbar";
 
 function AddCategory() {
   const [title, setTitle] = useState("");
@@ -15,7 +16,7 @@ function AddCategory() {
   useEffect(() => {
     if (id) {
       axios
-        .get(`http://localhost:8080/category/${id}`)
+        .get(`http://localhost:8080/quiz/category/${id}`)
         .then((response) => {
           setTitle(response.data.title);
           setDescription(response.data.description);
@@ -123,6 +124,8 @@ function AddCategory() {
   };
 
   return (
+    <>
+    <Navbar/>
     <div class="category-form-container">
       {role === "admin" ? (
         <>
@@ -157,6 +160,7 @@ function AddCategory() {
         <NotFound />
       )}
     </div>
+    </>
   );
 }
 

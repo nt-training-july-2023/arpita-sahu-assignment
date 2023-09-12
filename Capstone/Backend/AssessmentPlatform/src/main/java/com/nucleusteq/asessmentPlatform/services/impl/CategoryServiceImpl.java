@@ -12,6 +12,7 @@ import com.nucleusteq.asessmentPlatform.entities.Category;
 import com.nucleusteq.asessmentPlatform.exception.DuplicateResourceException;
 import com.nucleusteq.asessmentPlatform.exception.ResourceNotFoundException;
 import com.nucleusteq.asessmentPlatform.repositories.CategoryRepo;
+import com.nucleusteq.asessmentPlatform.repositories.QuizRepo;
 import com.nucleusteq.asessmentPlatform.service.CategoryService;
 
 /**
@@ -27,6 +28,9 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Autowired
     private CategoryRepo categoryRepo;
+    
+    @Autowired
+    private QuizRepo quizRepo;
 
     /**
      * Autowired field for the ModelMapper instance.
@@ -36,7 +40,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public final CategoryDto addCategory(final CategoryDto categoryDto) {
-        Category category = new Category();
+        Category category = this.dtoToCategory(categoryDto);
         Optional<Category> existingCategory = categoryRepo
                 .findByTitle(category.getTitle());
         if (existingCategory.isPresent()) {
@@ -86,6 +90,7 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepo.delete(category);
         return id + " deleted successfully";
     }
+    
 
     /**
      * Converts a {@link Category} entity to a {@link CategoryDto} object.

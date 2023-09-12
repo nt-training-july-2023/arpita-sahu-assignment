@@ -1,8 +1,10 @@
 package com.nucleusteq.asessmentPlatform.repositories;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import com.nucleusteq.asessmentPlatform.entities.Quiz;
 
@@ -22,6 +24,9 @@ public interface QuizRepo extends JpaRepository<Quiz, Integer> {
      */
 
     Optional<Quiz> findByTitle(String title);
+    
+    @Query("select q from Quiz q where q.category.categoryId=:categoryId")
+    List<Quiz> findQuizByCategoryId(int categoryId);
 
 
 }

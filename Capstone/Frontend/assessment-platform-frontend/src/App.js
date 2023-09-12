@@ -7,12 +7,12 @@ import AdminDashboard from "./Component/Admin/AdminDashboard";
 import AddCategory from "./Component/Category/AddCategory";
 import ListCategories from "./Component/Category/ListCategories";
 import Navbar from "./Component/Navbar/Navbar";
+import Quiz from "./Component/Quiz/Quiz";
 import NotFound from './Component/NotFound';
 
 
 function App() {
-  //  const userRole = localStorage.getItem('userRole');
-  
+ 
   return (
     <div className="App">
       <BrowserRouter>
@@ -26,6 +26,7 @@ function App() {
           <Route path="/listcategory" element={<ListCategories />} />
           <Route path="/addcategory/:id" element={<AddCategory />} />
           <Route path="/notfound" element={<NotFound />} />
+          <Route path="/quiz/:categoryId" element={<Quiz/>}/>
         </Routes>
       </BrowserRouter>
     </div>

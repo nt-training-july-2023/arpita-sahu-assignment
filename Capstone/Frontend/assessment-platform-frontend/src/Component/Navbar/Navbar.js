@@ -27,6 +27,7 @@ export default function Navbar() {
      
       <Link to ="#news">About</Link>
       <Link to ="/listcategory">Categories</Link>
+      <Link to ="/quiz">Quiz</Link>
       <Link to ="/login"><button onClick={handleLogout}>Logout</button></Link>
     </div>
   );

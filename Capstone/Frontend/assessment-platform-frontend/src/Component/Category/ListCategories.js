@@ -49,6 +49,7 @@ function CategoryList() {
             <th>Description</th>
             <th style={{textAlign:"end"}}>Actions</th>
             <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -61,6 +62,7 @@ function CategoryList() {
                 <>
               <td><button className="button-edit" onClick={() => navigate(`/addcategory/${category.categoryId}`)}>Update</button></td>
               <td><button className="button-delete" onClick={() => deleteCategory(category.categoryId)}>Delete</button></td></>)}
+              <td><button className="button-quiz" onClick={() => navigate(`/quiz/${category.categoryId}`)}>Quizzes</button></td>
             </tr>
           ))}
         </tbody>

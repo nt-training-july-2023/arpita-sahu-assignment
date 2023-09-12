@@ -2,7 +2,6 @@ package com.nucleusteq.asessmentPlatform.service;
 
 import java.util.List;
 import com.nucleusteq.asessmentPlatform.dto.CategoryDto;
-
 /**
  * The CategoryService interface defines methods for managing user-related
  * operations.
@@ -50,4 +49,6 @@ public interface CategoryService {
      * @return A message indicating the result of the deletion operation.
      */
     String deleteCategory(int id);
+
+//    List<Quiz> getAllQuizByCategory(int categoryId);
 }
