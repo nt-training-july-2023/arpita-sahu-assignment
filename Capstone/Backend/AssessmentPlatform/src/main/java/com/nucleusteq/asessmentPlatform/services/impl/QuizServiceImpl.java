@@ -57,7 +57,7 @@ public class QuizServiceImpl implements QuizService {
         Quiz quiz = this.dtoToQuiz(quizDto);
         Optional<Quiz> existingQuiz = quizRepo.findByTitle(quiz.getTitle());
         if (existingQuiz.isPresent()) {
-           throw new DuplicateResourceException("Quiz with title '"
+            throw new DuplicateResourceException("Quiz with title '"
                     + quiz.getTitle() + "' already exists.");
         }
         if (categoryRepo.findById(quiz.getCategory().getCategoryId())
@@ -81,9 +81,9 @@ public class QuizServiceImpl implements QuizService {
                 .map(quiz -> this.quizToDto(quiz)).collect(Collectors.toList());
         return quizDtos;
     }
-    
+
     @Override
-    public final List<QuizDto> getQuizByCategoryId(int categoryId){
+    public final List<QuizDto> getQuizByCategoryId(int categoryId) {
         List<Quiz> quizzes = quizRepo.findQuizByCategoryId(categoryId);
         List<QuizDto> quizDtos = quizzes.stream()
                 .map(quiz -> this.quizToDto(quiz)).collect(Collectors.toList());
@@ -105,8 +105,6 @@ public class QuizServiceImpl implements QuizService {
                         "Quiz not found with id " + quizId));
         return this.quizToDto(quiz);
     }
-    
-    
 
     /**
      * Update an existing quiz by its ID.
@@ -119,13 +117,28 @@ public class QuizServiceImpl implements QuizService {
      */
     @Override
     public final String updateQuiz(final QuizDto quizDto, final int quizId) {
-        Quiz updatedQuiz = quizRepo.findById(quizId)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Quiz not found with id " + quizId));
-        updatedQuiz.setTitle(quizDto.getTitle());
-        updatedQuiz.setDescription(quizDto.getDescription());
-        quizRepo.save(updatedQuiz);
-        return " Quiz Updated Successfully";
+        Quiz updatedQuiz = this.dtoToQuiz(quizDto);
+        String newTitle = updatedQuiz.getTitle();
+        Optional<Quiz> existingQuizById = quizRepo.findById(quizId);
+
+        if (existingQuizById.isPresent()) {
+            Quiz existingQuiz = existingQuizById.get();
+            if (!existingQuiz.getTitle().equals(newTitle)) {
+                Optional<Quiz> existingQuizByTitle = quizRepo
+                        .findByTitle(newTitle);
+                if (existingQuizByTitle.isPresent()) {
+                    throw new DuplicateResourceException("Quiz with title '"
+                            + newTitle + "' already exists.");
+                }
+            }
+            existingQuiz.setTitle(newTitle);
+            existingQuiz.setDescription(updatedQuiz.getDescription());
+            quizRepo.save(existingQuiz);
+            return "Quiz Updated Successfully";
+        } else {
+            throw new ResourceNotFoundException(
+                    "Quiz not found with ID " + quizId);
+        }
     }
 
     /**
@@ -154,7 +167,8 @@ public class QuizServiceImpl implements QuizService {
     public final QuizDto quizToDto(final Quiz quiz) {
         QuizDto quizDTO = modelMapper.map(quiz, QuizDto.class);
         if (quiz.getCategory() != null) {
-            CategoryDto categoryDto = modelMapper.map(quiz.getCategory(), CategoryDto.class);
+            CategoryDto categoryDto = modelMapper.map(quiz.getCategory(),
+                    CategoryDto.class);
             quizDTO.setCategory(categoryDto);
         }
         return quizDTO;
@@ -169,7 +183,8 @@ public class QuizServiceImpl implements QuizService {
     public final Quiz dtoToQuiz(final QuizDto quizDto) {
         Quiz quiz = modelMapper.map(quizDto, Quiz.class);
         if (quizDto.getCategory() != null) {
-            Category category = modelMapper.map(quizDto.getCategory(), Category.class);
+            Category category = modelMapper.map(quizDto.getCategory(),
+                    Category.class);
             quiz.setCategory(category);
         }
         return quiz;

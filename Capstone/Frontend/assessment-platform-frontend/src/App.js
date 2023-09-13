@@ -9,6 +9,7 @@ import ListCategories from "./Component/Category/ListCategories";
 import Navbar from "./Component/Navbar/Navbar";
 import Quiz from "./Component/Quiz/Quiz";
 import NotFound from './Component/NotFound';
+import AddQuiz from "./Component/Quiz/AddQuiz";
 
 
 function App() {
@@ -24,9 +25,11 @@ function App() {
           <Route path="/adminDashboard" element={<AdminDashboard/>} />
           <Route path="/addcategory" element={<AddCategory />} />
           <Route path="/listcategory" element={<ListCategories />} />
-          <Route path="/addcategory/:id" element={<AddCategory />} />
+          <Route path="/updateCategory/:id" element={<AddCategory />} />
           <Route path="/notfound" element={<NotFound />} />
+          <Route path="/addQuiz/:categoryId" element = {<AddQuiz/>}/>
           <Route path="/quiz/:categoryId" element={<Quiz/>}/>
+          <Route path="/updateQuiz/:quizId" element ={<AddQuiz/>}/>
         </Routes>
       </BrowserRouter>
     </div>

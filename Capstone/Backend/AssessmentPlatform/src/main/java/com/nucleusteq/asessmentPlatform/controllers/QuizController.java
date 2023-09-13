@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nucleusteq.asessmentPlatform.dto.QuizDto;
+import com.nucleusteq.asessmentPlatform.exception.DuplicateResourceException;
 import com.nucleusteq.asessmentPlatform.service.QuizService;
 
 /**
@@ -37,9 +38,17 @@ public class QuizController {
      *         201 (Created).
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public final String addQuiz(
+    public final ResponseEntity<String> addQuiz(
             @RequestBody final QuizDto quizDto) {
-        return quizService.addQuiz(quizDto);
+//        return quizService.addQuiz(quizDto);
+        try {
+            quizService.addQuiz(quizDto);
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body("Quiz Added Successfully.");
+        } catch (DuplicateResourceException ex) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("Quiz already exist");
+        }
     }
 
     /**
@@ -80,9 +89,17 @@ public class QuizController {
      * @return The updated QuizDto.
      */
     @RequestMapping(value = "/{quizId}", method = RequestMethod.PUT)
-    public final String updateQuiz(@PathVariable final int quizId,
+    public final ResponseEntity<String> updateQuiz(@PathVariable final int quizId,
             @RequestBody final QuizDto quizDto) {
-        return quizService.updateQuiz(quizDto, quizId);
+        try {
+            quizService.updateQuiz(quizDto, quizId);
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body("Quiz Updated Successfully.");
+        } catch (DuplicateResourceException ex) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("Quiz already exist");
+        }
+        //return quizService.updateQuiz(quizDto, quizId);
     }
 
     /**

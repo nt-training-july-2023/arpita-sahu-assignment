@@ -16,7 +16,7 @@ function AddCategory() {
   useEffect(() => {
     if (id) {
       axios
-        .get(`http://localhost:8080/quiz/category/${id}`)
+        .get(`http://localhost:8080/category/${id}`)
         .then((response) => {
           setTitle(response.data.title);
           setDescription(response.data.description);
@@ -126,10 +126,10 @@ function AddCategory() {
   return (
     <>
     <Navbar/>
-    <div class="category-form-container">
+    <div className="category-form-container">
       {role === "admin" ? (
         <>
-          <div class="category-form-card">
+          <div className="category-form-card">
             <h2>{id ? "Update Category" : "Add Category"}</h2>
             <form onSubmit={handleSubmit}>
               <div>
