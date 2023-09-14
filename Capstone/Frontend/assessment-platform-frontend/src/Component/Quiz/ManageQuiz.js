@@ -4,7 +4,7 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import "./quiz.css";
 import Navbar from "../Navbar/Navbar";
 import NotFound from "../NotFound";
-export default function MAnageQuiz() {
+export default function ManageQuiz() {
   const [quizzes, setQuizzes] = useState([]);
   const [categories, setCategories] = useState([]);
   const { categoryId } = useParams();

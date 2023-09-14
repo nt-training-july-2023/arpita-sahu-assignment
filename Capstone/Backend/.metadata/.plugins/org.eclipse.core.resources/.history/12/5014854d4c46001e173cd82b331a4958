@@ -1,0 +1,5 @@
+package com.nucleusteq.asessmentPlatform.dto;
+
+public class UserDto {
+
+}

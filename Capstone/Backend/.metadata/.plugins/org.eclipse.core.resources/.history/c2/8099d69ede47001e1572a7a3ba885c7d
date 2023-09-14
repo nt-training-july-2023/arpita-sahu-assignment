@@ -1,0 +1,70 @@
+package com.nucleusteq.asessmentPlatform.dto;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import com.nucleusteq.asessmentPlatform.entities.User;
+
+class UserDtoTest {
+
+    UserDto userDto;
+
+    @BeforeEach
+    void init() {
+        userDto = new UserDto();
+    }
+
+    @Test
+    void testAllGettersSetters() {
+        assertEquals(0, userDto.getUserId());
+        assertEquals(null, userDto.getFirstName());
+        assertEquals(null, userDto.getLastName());
+        assertEquals(null, userDto.getEmail());
+        assertEquals(null, userDto.getPassword());
+        assertEquals(null, userDto.getPhoneNumber());
+        assertEquals(null, userDto.getRole());
+
+        userDto.setUserId(45);
+        userDto.setFirstName("Arpita");Dto
+        userDto.setLastName("Sahu");
+        userDto.setEmail("arpita@nucleusteq.com");
+        userDto.setPassword("1234567");
+        userDto.setPhoneNumber("9369790286");
+        userDto.setRole("user");
+
+        assertEquals(45, user.getUserId());
+        assertEquals("Arpita", user.getFirstName());
+        assertEquals("Sahu", user.getLastName());
+        assertEquals("arpita@nucleusteq.com", user.getEmail());
+        assertEquals("1234567", user.getPassword());
+        assertEquals("9369790286", user.getPhoneNumber());
+        assertEquals("user", user.getRole());
+    }
+
+    @Test
+    void testDefaultConstructor() {
+        User user = new User();
+        assertEquals(0, user.getUserId());
+        assertEquals(null, user.getFirstName());
+        assertEquals(null, user.getLastName());
+        assertEquals(null, user.getEmail());
+        assertEquals(null, user.getPassword());
+        assertEquals(null, user.getPhoneNumber());
+        assertEquals(null, user.getRole());
+    }
+
+    @Test
+    void testParametrizedConstructor() {
+        User user = new User(45, "Arpita", "Sahu", "arpita@nucleusteq.com",
+                "1234567", "9369790286", "user");
+        assertEquals(45, user.getUserId());
+        assertEquals("Arpita", user.getFirstName());
+        assertEquals("Sahu", user.getLastName());
+        assertEquals("arpita@nucleusteq.com", user.getEmail());
+        assertEquals("1234567", user.getPassword());
+        assertEquals("9369790286", user.getPhoneNumber());
+        assertEquals("user", user.getRole());
+    }
+}

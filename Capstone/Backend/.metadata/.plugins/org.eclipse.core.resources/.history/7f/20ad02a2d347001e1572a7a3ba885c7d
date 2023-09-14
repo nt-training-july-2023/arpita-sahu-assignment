@@ -1,0 +1,35 @@
+package com.nucleusteq.asessmentPlatform.entities;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+
+class UserTest {
+    User user;
+    @BeforeEach
+    void init() {
+        user = new User();
+    }
+
+    @Test
+    void testAllGettersSetters() {
+        assertEquals(0, user.getUserId());
+        assertEquals(null, user.getFirstName());
+        assertEquals(null, user.getLastName());
+        assertEquals(null, user.getEmail());
+        assertEquals(null, user.getPassword());
+        assertEquals(0, user.getPhoneNumber());
+        assertEquals(null, user.getRole());
+       
+        user.setUserId(45);
+        user.setFirstName("Arpita");
+        user.setLastName("Sahu");
+        user.setEmail("arpita@nucleusteq.com");
+        user.setPassword("1234567");
+        user.setPhoneNumber("9369790286");
+        user.setRole("user");
+    }
+
+}

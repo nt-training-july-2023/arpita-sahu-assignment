@@ -99,7 +99,7 @@ class QuizServiceImplTest {
     @Test
     public void testGetQuizById_Success() {
         int quizId = 1;
-        QuizDto quizDto = new QuizDto();
+        QuizDto quizDto = new QuizDto();y
         quizDto.setQuizId(1);
         quizDto.setTitle("Quiz1");
         quizDto.setDescription("Quiz1 based on Java");

@@ -1,0 +1,10 @@
+package com.nucleusteq.asessmentPlatform.entities;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+class QuestionTest {
+
+    Question question = new Question();
+}
