@@ -7,9 +7,9 @@ import AdminDashboard from "./Component/Admin/AdminDashboard";
 import AddCategory from "./Component/Category/AddCategory";
 import ListCategories from "./Component/Category/ListCategories";
 import Navbar from "./Component/Navbar/Navbar";
-import Quiz from "./Component/Quiz/Quiz";
 import NotFound from './Component/NotFound';
-import AddQuiz from "./Component/Quiz/AddQuiz";
+import AddUpdateQuiz from "./Component/Quiz/AddUpdateQuiz";
+import ManageQuiz from "./Component/Quiz/ManageQuiz";
 
 
 function App() {
@@ -27,9 +27,9 @@ function App() {
           <Route path="/listcategory" element={<ListCategories />} />
           <Route path="/updateCategory/:id" element={<AddCategory />} />
           <Route path="/notfound" element={<NotFound />} />
-          <Route path="/addQuiz/:categoryId" element = {<AddQuiz/>}/>
-          <Route path="/quiz/:categoryId" element={<Quiz/>}/>
-          <Route path="/updateQuiz/:quizId" element ={<AddQuiz/>}/>
+          <Route path="/addQuiz/:categoryId" element = {<AddUpdateQuiz/>}/>
+          <Route path="/quiz/:categoryId" element={<ManageQuiz/>}/>
+          <Route path="/updateQuiz/:quizId" element ={<AddUpdateQuiz/>}/>
         </Routes>
       </BrowserRouter>
     </div>

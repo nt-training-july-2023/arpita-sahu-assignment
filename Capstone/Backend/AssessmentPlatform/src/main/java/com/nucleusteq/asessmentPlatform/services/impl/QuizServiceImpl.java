@@ -165,6 +165,8 @@ public class QuizServiceImpl implements QuizService {
      * @return The QuizDto.
      */
     public final QuizDto quizToDto(final Quiz quiz) {
+        if(quiz == null)
+            return null;
         QuizDto quizDTO = modelMapper.map(quiz, QuizDto.class);
         if (quiz.getCategory() != null) {
             CategoryDto categoryDto = modelMapper.map(quiz.getCategory(),
@@ -181,6 +183,9 @@ public class QuizServiceImpl implements QuizService {
      * @return The Quiz entity.
      */
     public final Quiz dtoToQuiz(final QuizDto quizDto) {
+        if (quizDto == null) {
+            return null; 
+        }
         Quiz quiz = modelMapper.map(quizDto, Quiz.class);
         if (quizDto.getCategory() != null) {
             Category category = modelMapper.map(quizDto.getCategory(),

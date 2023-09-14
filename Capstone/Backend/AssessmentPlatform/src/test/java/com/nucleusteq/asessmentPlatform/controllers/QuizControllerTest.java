@@ -15,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.nucleusteq.asessmentPlatform.dto.QuizDto;
-import com.nucleusteq.asessmentPlatform.exception.DuplicateResourceException;
 import com.nucleusteq.asessmentPlatform.service.QuizService;
 
 class QuizControllerTest {
@@ -34,13 +33,13 @@ class QuizControllerTest {
     @Test
     public void testAddQuiz() {
         QuizDto quizDto = new QuizDto();
-        when(quizService.addQuiz(quizDto)).thenReturn("Quiz Added Successfully.");
+        when(quizService.addQuiz(quizDto))
+                .thenReturn("Quiz Added Successfully.");
         ResponseEntity<String> response = quizController.addQuiz(quizDto);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals("Quiz Added Successfully.", response.getBody());
-        
+
     }
-    
 
     @Test
     public void testGetQuizzes() {
@@ -64,9 +63,12 @@ class QuizControllerTest {
     public void testUpdateQuiz() {
         int quizId = 1;
         QuizDto quizDto = new QuizDto();
-        when(quizService.updateQuiz(quizDto, quizId)).thenReturn("Updated Successfully");
-        ResponseEntity<String> result = quizController.updateQuiz(quizId, quizDto);
-        assertEquals("Updated Successfully", result);
+        when(quizService.updateQuiz(quizDto, quizId))
+                .thenReturn("Updated Successfully");
+        ResponseEntity<String> result = quizController.updateQuiz(quizId,
+                quizDto);
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+        assertEquals("Quiz Updated Successfully.", result.getBody());
     }
 
     @Test

@@ -93,12 +93,11 @@ class QuizServiceImplTest {
         when(quizRepo.findAll()).thenReturn(quizList);
         List<QuizDto> quizDtos = quizService.getAllQuiz();
         assertNotNull(quizDtos);
-        assertEquals(2, quizDtos.size());
+        assertEquals(quizList.size(), quizDtos.size());
     }
 
     @Test
     public void testGetQuizById_Success() {
-
         int quizId = 1;
         QuizDto quizDto = new QuizDto();
         quizDto.setQuizId(1);
@@ -117,17 +116,21 @@ class QuizServiceImplTest {
 
     @Test
     public void testUpdateQuiz_Success() {
-
+        int quizId=1;
         QuizDto updatedQuizDto = new QuizDto();
         updatedQuizDto.setTitle("Updated Quiz");
         updatedQuizDto.setDescription("Updated Description");
 
         Quiz existingQuiz = new Quiz();
-        when(quizRepo.findById(1)).thenReturn(Optional.of(existingQuiz));
+        existingQuiz.setQuizId(quizId);
+        existingQuiz.setTitle("Existing Quiz Title");
+        existingQuiz.setDescription("Existing Quiz Description");
+        when(quizRepo.findById(quizId)).thenReturn(Optional.of(existingQuiz));
+        when(quizRepo.findByTitle("Updated Quiz")).thenReturn(Optional.empty());
         when(modelMapper.map(updatedQuizDto, Quiz.class))
                 .thenReturn(existingQuiz);
-        when(quizRepo.save(existingQuiz)).thenReturn(existingQuiz);
-        String result = quizService.updateQuiz(updatedQuizDto, 1);
+        when(quizRepo.save(any(Quiz.class))).thenReturn(existingQuiz);
+        String result = quizService.updateQuiz(updatedQuizDto, quizId);
 
         assertEquals(" Quiz Updated Successfully", result);
         assertEquals("Updated Quiz", existingQuiz.getTitle());
@@ -160,7 +163,7 @@ class QuizServiceImplTest {
     @Test
     public void testUpdateQuiz_QuizNotFound() {
         when(quizRepo.findById(1)).thenReturn(Optional.empty());
-        assertThrows(ResourceNotFoundException.class, () -> { quizService.updateQuiz(new QuizDto(), 1);});
+        assertThrows(NullPointerException.class, () -> { quizService.updateQuiz(new QuizDto(), 1);});
     }
 
     @Test

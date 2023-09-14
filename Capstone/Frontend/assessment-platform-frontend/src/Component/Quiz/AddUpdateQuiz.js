@@ -5,12 +5,11 @@ import NotFound from "../NotFound";
 import Swal from "sweetalert2";
 import Navbar from "../Navbar/Navbar";
 
-function AddQuiz() {
+function AddUpdateQuiz() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [titleError, setTitleError] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
-  const [categories, setCategories] = useState({});
   const { quizId, categoryId } = useParams();
   const role = localStorage.getItem("userRole");
   const navigate = useNavigate();
@@ -21,7 +20,6 @@ function AddQuiz() {
         .then((response) => {
           setTitle(response.data.title);
           setDescription(response.data.description);
-          setCategories(response.data.category);
           console.log(response);
         })
         .catch((error) => {
@@ -133,10 +131,10 @@ function AddQuiz() {
 
   return (
     <>
-      <Navbar />
-      <div className="category-form-container">
-        {role === "admin" ? (
+    {role === "admin" ? (
           <>
+      <Navbar/>
+      <div className="category-form-container">        
             <div className="category-form-card">
               <h2>{quizId ? "Update Quiz" : "Add Quiz"}</h2>
               <form onSubmit={handleSubmit}>
@@ -169,13 +167,14 @@ function AddQuiz() {
                 </div>
               </form>
             </div>
+            </div>
           </>
         ) : (
           <NotFound />
         )}
-      </div>
+      
     </>
   );
 }
 
-export default AddQuiz;
+export default AddUpdateQuiz;
