@@ -11,6 +11,7 @@ function AddCategory() {
   const [titleError, setTitleError] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
   const { id } = useParams();
+  const [categories, setCategories]=useState({});
   const role = localStorage.getItem("userRole");
   const navigate = useNavigate();
   useEffect(() => {

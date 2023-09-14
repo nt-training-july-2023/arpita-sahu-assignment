@@ -5,6 +5,5 @@ bin/
 .buildpath
 tmp/
 *.tmp
-
 capstone/.metadata
 backend/.metadata
