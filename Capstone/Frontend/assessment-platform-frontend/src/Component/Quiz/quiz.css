@@ -66,4 +66,12 @@
     background-color: #ac2d24;
     color: white;
   } 
-  
+
+@media (max-width: 600px) {
+  .quiz-card {
+      width: 100%;
+  }
+}
+
+
+

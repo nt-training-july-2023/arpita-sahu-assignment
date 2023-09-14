@@ -7,3 +7,14 @@ tmp/
 *.tmp
 capstone/.metadata
 backend/.metadata
+
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper
+.mvn/
+mvnw
+mvnw.cmd
+*.xml
+!**/src/main/**/target/
+!**/src/test/**/target/
