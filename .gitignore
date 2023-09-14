@@ -2,8 +2,9 @@
 .project
 .settings
 bin/
-**/metadata/*
 .buildpath
-/.metadata/
 tmp/
 *.tmp
+
+capstone/.metadata
+backend/.metadata
