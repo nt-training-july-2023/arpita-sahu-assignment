@@ -27,7 +27,6 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Autowired
     private CategoryRepo categoryRepo;
-    
 
     /**
      * Autowired field for the ModelMapper instance.
@@ -35,6 +34,15 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private ModelMapper modelMapper;
 
+    /**
+     * Adds a new category.
+     *
+     * @param categoryDto The CategoryDto containing category details to be
+     *                    added.
+     * @return The added CategoryDto.
+     * @throws DuplicateResourceException If a category with the same title
+     *                                    already exists.
+     */
     @Override
     public final CategoryDto addCategory(final CategoryDto categoryDto) {
         Category category = this.dtoToCategory(categoryDto);
@@ -51,6 +59,11 @@ public class CategoryServiceImpl implements CategoryService {
         return this.categoryToDto(newCategory);
     }
 
+    /**
+     * Retrieves all categories.
+     *
+     * @return A list of CategoryDtos containing all categories.
+     */
     @Override
     public final List<CategoryDto> getAllCategories() {
         List<Category> categories = this.categoryRepo.findAll();
@@ -60,6 +73,14 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryDtos;
     }
 
+    /**
+     * Retrieves a category by its ID.
+     *
+     * @param id The ID of the category to retrieve.
+     * @return The CategoryDto representing the retrieved category.
+     * @throws ResourceNotFoundException If the category with the specified ID
+     *                                   is not found.
+     */
     @Override
     public final CategoryDto getCategoryById(final int id) {
         Category category = categoryRepo.findById(id)
@@ -67,6 +88,16 @@ public class CategoryServiceImpl implements CategoryService {
                         "Category not found with id " + id));
         return this.categoryToDto(category);
     }
+
+    /**
+     * Updates a category with the given ID.
+     *
+     * @param category The updated CategoryDto.
+     * @param id       The ID of the category to update.
+     * @return The updated CategoryDto.
+     * @throws ResourceNotFoundException If the category with the specified ID
+     *                                   is not found.
+     */
 
     @Override
     public final CategoryDto updateCategory(final CategoryDto category,
@@ -79,6 +110,14 @@ public class CategoryServiceImpl implements CategoryService {
         return this.categoryToDto(updatedCategory);
     }
 
+    /**
+     * Deletes a category by its ID.
+     *
+     * @param id The ID of the category to delete.
+     * @return A success message indicating the deletion.
+     * @throws ResourceNotFoundException If the category with the specified ID
+     *                                   is not found.
+     */
     @Override
     public final String deleteCategory(final int id) {
         Category category = categoryRepo.findById(id)
@@ -87,7 +126,6 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepo.delete(category);
         return id + " deleted successfully";
     }
-    
 
     /**
      * Converts a {@link Category} entity to a {@link CategoryDto} object.

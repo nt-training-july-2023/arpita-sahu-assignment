@@ -4,16 +4,50 @@ import java.util.List;
 
 import com.nucleusteq.asessmentPlatform.dto.QuestionDto;
 
-public interface QuestionService {
+    /**
+     * An interface for managing questions.
+     */
+    public interface QuestionService {
 
-    QuestionDto addQuestion(QuestionDto question);
+        /**
+         * Adds a new question.
+         *
+         * @param question The QuestionDto containing
+         * question details to be added.
+         * @return The added QuestionDto.
+         */
+        QuestionDto addQuestion(QuestionDto question);
 
-    List<QuestionDto> getAllQuestions();
+        /**
+         * Retrieves all questions.
+         *
+         * @return A list of QuestionDtos containing all questions.
+         */
+        List<QuestionDto> getAllQuestions();
 
-    QuestionDto getQuestionById(int quesId);
+        /**
+         * Retrieves a question by its ID.
+         *
+         * @param quesId The ID of the question to retrieve.
+         * @return The QuestionDto representing the retrieved question.
+         */
+        QuestionDto getQuestionById(int quesId);
 
-    QuestionDto updateQuestion(QuestionDto question, int quesId);
+        /**
+         * Updates a question with the given ID.
+         *
+         * @param question The updated QuestionDto.
+         * @param quesId   The ID of the question to update.
+         * @return The updated QuestionDto.
+         */
+        QuestionDto updateQuestion(QuestionDto question, int quesId);
 
-    String deleteQuestion(int quesId);
+        /**
+         * Deletes a question by its ID.
+         *
+         * @param quesId The ID of the question to delete.
+         * @return A success message indicating the deletion.
+         */
+        String deleteQuestion(int quesId);
+    }
 
-}

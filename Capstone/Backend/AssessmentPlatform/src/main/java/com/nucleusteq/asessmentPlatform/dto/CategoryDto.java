@@ -41,7 +41,7 @@ public class CategoryDto {
     /**
      * Copy constructor for the CategoryDto class.
      * @param cId          The CategoryDto object to create a copy from.
-     * @param catTitle        The CategoryDto object to create a copy from.
+     * @param catTitle     The CategoryDto object to create a copy from.
      * @param cDescription The CategoryDto object to create a copy from.
      */
     public CategoryDto(final int cId, final String catTitle,

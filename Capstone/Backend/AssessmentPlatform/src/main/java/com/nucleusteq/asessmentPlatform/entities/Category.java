@@ -72,13 +72,12 @@ public class Category {
     /**
      * Constructs a new Category object with the specified parameters.
      *
-     * @param catId  The unique identifier of the category.
-     * @param catTitle       The title of the category.
-     * @param desc A brief description of the category.
+     * @param catId    The unique identifier of the category.
+     * @param catTitle The title of the category.
+     * @param desc     A brief description of the category.
      */
 
-    public Category(final int catId, final String catTitle,
-            final String desc) {
+    public Category(final int catId, final String catTitle, final String desc) {
         this.categoryId = catId;
         this.title = catTitle;
         this.description = desc;

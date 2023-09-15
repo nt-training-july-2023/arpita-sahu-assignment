@@ -77,25 +77,42 @@ public class Quiz {
     @JsonIgnore
     private List<Question> question = new ArrayList<>();
 
+    /**
+     * Sets the category for this quiz.
+     *
+     * @param cat The Category object to set for this quiz.
+     */
     public final void setCategory(final Category cat) {
-        this.category = new Category(cat.getCategoryId(),
-                cat.getTitle(), cat.getDescription());
+        this.category = new Category(cat.getCategoryId(), cat.getTitle(),
+                cat.getDescription());
     }
+
+    /**
+     * Retrieves a list of questions associated with this quiz.
+     *
+     * @return A new ArrayList containing the questions associated with this
+     *         quiz.
+     */
     public final List<Question> getQuestion() {
         return new ArrayList<>(question);
     }
-    
-    public final void setQuestion(final List<Question> que) {
-        this.question = new ArrayList<>(que);
+
+    /**
+     * Sets the list of questions for this quiz.
+     *
+     * @param ques The List of Question objects to set for this quiz.
+     */
+    public final void setQuestion(final List<Question> ques) {
+        this.question = new ArrayList<>(ques);
     }
 
     /**
      * Constructs a new Quiz object with the specified parameters.
      *
-     * @param id      The unique identifier of the quiz.
-     * @param quizTitle   The title of the quiz.
-     * @param desc        A brief description of the quiz.
-     * @param time        The timer duration in seconds for the quiz.
+     * @param id        The unique identifier of the quiz.
+     * @param quizTitle The title of the quiz.
+     * @param desc      A brief description of the quiz.
+     * @param time      The timer duration in seconds for the quiz.
      */
 
     public Quiz(final int id, final String quizTitle, final String desc,
@@ -105,6 +122,5 @@ public class Quiz {
         this.description = desc;
         this.quizTimer = time;
     }
-    
-    
+
 }

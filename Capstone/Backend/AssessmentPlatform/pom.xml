@@ -84,7 +84,7 @@
 						</goals>
 					</execution>
 				</executions>
-				<configuration>
+			    <configuration>
 					<configLocation>
 					C:\Users\Arpita Sahu\eclipse-workspace\NucleusTeq\Capstone\Backend\AssessmentPlatform\checkstyle.xml</configLocation>
 				</configuration>

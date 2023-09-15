@@ -24,9 +24,13 @@ public interface QuizRepo extends JpaRepository<Quiz, Integer> {
      */
 
     Optional<Quiz> findByTitle(String title);
-    
+    /**
+     * Retrieves a list of quizzes by their category ID.
+     * @param categoryId The ID of the category
+     * for which quizzes should be retrieved.
+     * @return A list of Quiz entities that belong to the specified category.
+     */
     @Query("select q from Quiz q where q.category.categoryId=:categoryId")
     List<Quiz> findQuizByCategoryId(int categoryId);
-
 
 }

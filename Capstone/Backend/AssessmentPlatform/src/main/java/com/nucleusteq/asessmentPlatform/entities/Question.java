@@ -73,24 +73,47 @@ public class Question {
     @JoinColumn(name = "quiz_id", nullable = false)
     private Quiz quiz;
 
-    public Quiz getQuiz() {
+    /**
+     * Retrieves a copy of the Quiz associated with this question.
+     *
+     * @return A new Quiz object with the same properties as the associated
+     *         quiz.
+     */
+    public final Quiz getQuiz() {
         return new Quiz(quiz.getQuizId(), quiz.getTitle(),
                 quiz.getDescription(), quiz.getQuizTimer());
     }
 
-    public void setQuiz(Quiz quiz) {
-        this.quiz = new Quiz(quiz.getQuizId(), quiz.getTitle(),
-                quiz.getDescription(), quiz.getQuizTimer());
+    /**
+     * Sets the associated quiz for this question.
+     *
+     * @param quizz The Quiz object to associate with this question.
+     */
+    public final void setQuiz(final Quiz quizz) {
+        this.quiz = new Quiz(quizz.getQuizId(), quizz.getTitle(),
+                quizz.getDescription(), quizz.getQuizTimer());
     }
 
-    public Question(int quesId, String question, String option1, String option2,
-            String option3, String option4, String answer) {
-        this.quesId=quesId;
-        this.question=question;
-        this.option1=option1;
-        this.option2=option2;
-        this.option3=option3;
-        this.option4=option4;
-        this.answer=answer;
+    /**
+     * Constructs a Question object with the provided attributes.
+     *
+     * @param questionId   The ID of the question.
+     * @param questionName The content of the question.
+     * @param opt1  The first option for the question.
+     * @param opt2  The second option for the question.
+     * @param opt3  The third option for the question.
+     * @param opt4  The fourth option for the question.
+     * @param correctAnswer   The correct answer to the question.
+     */
+    public Question(final int questionId, final String questionName,
+            final String opt1, final String opt2, final String opt3,
+            final String opt4, final String correctAnswer) {
+        this.quesId = questionId;
+        this.question = questionName;
+        this.option1 = opt1;
+        this.option2 = opt2;
+        this.option3 = opt3;
+        this.option4 = opt4;
+        this.answer = correctAnswer;
     }
 }

@@ -39,7 +39,7 @@ public interface QuizService {
      * @param quizId  The ID of the quiz to update.
      * @return The updated DTO of the quiz.
      */
-     String updateQuiz(QuizDto quizDto, int quizId);
+    String updateQuiz(QuizDto quizDto, int quizId);
 
     /**
      * Delete a quiz by its ID.
@@ -49,6 +49,14 @@ public interface QuizService {
      */
     String deleteQuiz(int quizId);
 
+    /**
+     * Retrieves a list of quizzes by their category ID.
+     *
+     * @param categoryId The ID of the category for which quizzes should be
+     *                   retrieved.
+     * @return A list of QuizDto objects representing quizzes that belong to the
+     *         specified category.
+     */
     List<QuizDto> getQuizByCategoryId(int categoryId);
 
 }

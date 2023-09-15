@@ -1,6 +1,7 @@
 package com.nucleusteq.asessmentPlatform.services.impl;
 
 import java.util.List;
+
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
@@ -14,21 +15,40 @@ import com.nucleusteq.asessmentPlatform.exception.ResourceNotFoundException;
 import com.nucleusteq.asessmentPlatform.repositories.QuestionRepo;
 import com.nucleusteq.asessmentPlatform.service.QuestionService;
 
+/**
+ * Service implementation for managing questions.
+ */
+
 @Service
 public class QuestionServiceImpl implements QuestionService {
-
+    /**
+     * Autowired field for the ModelMapper instance.
+     */
     @Autowired
     private ModelMapper modelMapper;
-
+    /**
+     * This is question Repository object that is for calling the repository
+     * methods.
+     */
     @Autowired
     private QuestionRepo questionRepo;
 
+    /**
+     * Adds a new question.
+     *
+     * @param questionDto The QuestionDto containing question details to be
+     *                    added.
+     * @return The added QuestionDto.
+     * @throws BadCredentialsException If the question is empty.
+     */
     @Override
-    public QuestionDto addQuestion(QuestionDto questionDto) {
+    public final QuestionDto addQuestion(final QuestionDto questionDto) {
         Question question = this.dtoToQues(questionDto);
-        Optional<Question> existingQuestion = questionRepo.findByQuestion(question.getQuestion());
-        if(existingQuestion.isEmpty())
+        Optional<Question> existingQuestion = questionRepo
+                .findByQuestion(question.getQuestion());
+        if (existingQuestion.isEmpty()) {
             throw new BadCredentialsException("Question must not be empty");
+        }
         Quiz quiz = new Quiz();
         quiz.setQuizId(questionDto.getQuizId());
         question.setQuiz(quiz);
@@ -36,8 +56,14 @@ public class QuestionServiceImpl implements QuestionService {
         return this.quesToDto(question);
     }
 
+    /**
+     * Retrieves all questions.
+     *
+     * @return A list of QuestionDtos containing all questions.
+     */
+
     @Override
-    public List<QuestionDto> getAllQuestions() {
+    public final List<QuestionDto> getAllQuestions() {
         List<Question> questions = questionRepo.findAll();
         List<QuestionDto> questionDtos = questions.stream()
                 .map(question -> this.quesToDto(question))
@@ -45,16 +71,34 @@ public class QuestionServiceImpl implements QuestionService {
         return questionDtos;
     }
 
+    /**
+     * Retrieves a question by its ID.
+     *
+     * @param quesId The ID of the question to retrieve.
+     * @return The QuestionDto representing the retrieved question.
+     * @throws ResourceNotFoundException If the question with the specified ID
+     *                                   is not found.
+     */
     @Override
-    public QuestionDto getQuestionById(int quesId) {
+    public final QuestionDto getQuestionById(final int quesId) {
         Question question = questionRepo.findById(quesId)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Question not found with id " + quesId));
         return this.quesToDto(question);
     }
 
+    /**
+     * Updates a question with the given ID.
+     *
+     * @param question The updated QuestionDto.
+     * @param quesId   The ID of the question to update.
+     * @return The updated QuestionDto.
+     * @throws ResourceNotFoundException If the question with the specified ID
+     *                                   is not found.
+     */
     @Override
-    public QuestionDto updateQuestion(QuestionDto question, int quesId) {
+    public final QuestionDto updateQuestion(final QuestionDto question,
+            final int quesId) {
         Question updatedQuestion = questionRepo.findById(quesId).orElseThrow(
                 () -> new ResourceNotFoundException("Question Not Found."));
         updatedQuestion.setQuestion(question.getQuestion());
@@ -67,8 +111,16 @@ public class QuestionServiceImpl implements QuestionService {
         return this.quesToDto(updatedQuestion);
     }
 
+    /**
+     * Deletes a question by its ID.
+     *
+     * @param quesId The ID of the question to delete.
+     * @return A success message indicating the deletion.
+     * @throws ResourceNotFoundException If the question with the specified ID
+     *                                   is not found.
+     */
     @Override
-    public String deleteQuestion(int quesId) {
+    public final String deleteQuestion(final int quesId) {
         Question question = questionRepo.findById(quesId)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Question Not found with id " + quesId));
@@ -76,15 +128,27 @@ public class QuestionServiceImpl implements QuestionService {
         return quesId + " deleted Successfully";
     }
 
+    /**
+     * Maps a Question entity to a QuestionDto.
+     *
+     * @param question The Question entity to map.
+     * @return The mapped QuestionDto.
+     */
     public final QuestionDto quesToDto(final Question question) {
         QuestionDto questionDto = modelMapper.map(question, QuestionDto.class);
 //        if(question.getQuiz() != null) {
-//            QuizDto quizDto = modelMapper.map(question.getQuiz(), QuizDto.class);
+//    QuizDto quizDto = modelMapper.map(question.getQuiz(), QuizDto.class);
 //            questionDto.setQuiz(quizDto);
 //        }
         return questionDto;
     }
 
+    /**
+     * Maps a QuestionDto to a Question entity.
+     *
+     * @param questionDto The QuestionDto to map.
+     * @return The mapped Question entity.
+     */
     public final Question dtoToQues(final QuestionDto questionDto) {
         Question question = modelMapper.map(questionDto, Question.class);
 //        if(questionDto.getQuiz() != null) {

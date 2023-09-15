@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.nucleusteq.asessmentPlatform.dto.CategoryDto;
 import com.nucleusteq.asessmentPlatform.exception.DuplicateResourceException;
 import com.nucleusteq.asessmentPlatform.exception.ResourceNotFoundException;
 import com.nucleusteq.asessmentPlatform.service.CategoryService;
-
 /**
  * Controller class that handles CRUD operations for managing categories.
  */
@@ -55,7 +55,6 @@ public class CategoryController {
 
     /**
      * Endpoint for retrieving a list of all categories.
-     * 
      * @return A list of CategoryDto objects representing all categories.
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -65,7 +64,6 @@ public class CategoryController {
 
     /**
      * Endpoint for retrieving a category by its ID.
-     * 
      * @param id The ID of the category to retrieve.
      * @return A ResponseEntity with the retrieved CategoryDto or an error
      *         message if not found.
@@ -79,7 +77,8 @@ public class CategoryController {
             String error = e.getMessage();
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         } catch (Exception e) {
-            String errorMessage = "An error occurred while processing your request.";
+            String errorMessage =
+                    "An error occurred while processing your request.";
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(errorMessage);
         }

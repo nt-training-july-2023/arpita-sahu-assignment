@@ -75,6 +75,14 @@ public class QuizController {
                 HttpStatus.OK);
     }
 
+    /**
+     * Retrieves a list of quizzes by their category ID.
+     *
+     * @param categoryId The ID of the category for which quizzes should be
+     *                   retrieved.
+     * @return A list of QuizDto objects representing quizzes that belong to the
+     *         specified category.
+     */
     @RequestMapping(value = "category/{categoryId}", method = RequestMethod.GET)
     public final List<QuizDto> getQuizByCategoryId(
             @PathVariable final int categoryId) {

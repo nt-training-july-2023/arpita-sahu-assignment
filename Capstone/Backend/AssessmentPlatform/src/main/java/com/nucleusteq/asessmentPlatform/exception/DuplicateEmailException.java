@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 @ResponseStatus(HttpStatus.CONFLICT)
 public final class DuplicateEmailException extends RuntimeException {
-
     private static final long serialVersionUID = 1L;
 
     /**

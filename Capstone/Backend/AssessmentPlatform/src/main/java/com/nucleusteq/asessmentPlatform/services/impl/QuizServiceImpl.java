@@ -83,7 +83,7 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public final List<QuizDto> getQuizByCategoryId(int categoryId) {
+    public final List<QuizDto> getQuizByCategoryId(final int categoryId) {
         List<Quiz> quizzes = quizRepo.findQuizByCategoryId(categoryId);
         List<QuizDto> quizDtos = quizzes.stream()
                 .map(quiz -> this.quizToDto(quiz)).collect(Collectors.toList());
@@ -111,7 +111,7 @@ public class QuizServiceImpl implements QuizService {
      *
      * @param quizDto The DTO representing the updated quiz.
      * @param quizId  The ID of the quiz to update.
-     * @return The updated DTO of the quiz.
+     * @return The message after updating of the quiz.
      * @throws ResourceNotFoundException if the quiz with the specified ID is
      *                                   not found.
      */
