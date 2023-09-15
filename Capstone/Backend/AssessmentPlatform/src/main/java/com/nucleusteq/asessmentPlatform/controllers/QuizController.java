@@ -74,12 +74,12 @@ public class QuizController {
         return new ResponseEntity<QuizDto>(quizService.getQuizById(quizId),
                 HttpStatus.OK);
     }
+
     @RequestMapping(value = "category/{categoryId}", method = RequestMethod.GET)
     public final List<QuizDto> getQuizByCategoryId(
             @PathVariable final int categoryId) {
-       return quizService.getQuizByCategoryId(categoryId);
+        return quizService.getQuizByCategoryId(categoryId);
     }
-    
 
     /**
      * Update an existing quiz by its ID.
@@ -89,7 +89,8 @@ public class QuizController {
      * @return The updated QuizDto.
      */
     @RequestMapping(value = "/{quizId}", method = RequestMethod.PUT)
-    public final ResponseEntity<String> updateQuiz(@PathVariable final int quizId,
+    public final ResponseEntity<String> updateQuiz(
+            @PathVariable final int quizId,
             @RequestBody final QuizDto quizDto) {
         try {
             quizService.updateQuiz(quizDto, quizId);
@@ -99,7 +100,7 @@ public class QuizController {
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body("Quiz already exist");
         }
-        //return quizService.updateQuiz(quizDto, quizId);
+        // return quizService.updateQuiz(quizDto, quizId);
     }
 
     /**

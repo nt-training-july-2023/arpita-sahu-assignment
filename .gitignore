@@ -18,3 +18,6 @@ mvnw.cmd
 *.xml
 !**/src/main/**/target/
 !**/src/test/**/target/
+
+checkstyle.xml
+checkstyle_suppressions.xml

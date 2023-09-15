@@ -12,7 +12,6 @@ import com.nucleusteq.asessmentPlatform.entities.Category;
 import com.nucleusteq.asessmentPlatform.exception.DuplicateResourceException;
 import com.nucleusteq.asessmentPlatform.exception.ResourceNotFoundException;
 import com.nucleusteq.asessmentPlatform.repositories.CategoryRepo;
-import com.nucleusteq.asessmentPlatform.repositories.QuizRepo;
 import com.nucleusteq.asessmentPlatform.service.CategoryService;
 
 /**
@@ -29,8 +28,6 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private CategoryRepo categoryRepo;
     
-    @Autowired
-    private QuizRepo quizRepo;
 
     /**
      * Autowired field for the ModelMapper instance.

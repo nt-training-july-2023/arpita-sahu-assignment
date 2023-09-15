@@ -15,7 +15,7 @@ public interface QuizService {
      * @param quizDto The DTO representing the quiz to be created.
      * @return The DTO of the created quiz.
      */
-    String addQuiz(QuizDto quizDto);
+    QuizDto addQuiz(QuizDto quizDto);
 
     /**
      * Get a list of all quizzes.

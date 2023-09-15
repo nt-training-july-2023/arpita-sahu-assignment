@@ -53,7 +53,7 @@ public class QuizServiceImpl implements QuizService {
      *                                    exists.
      */
     @Override
-    public final String addQuiz(final QuizDto quizDto) {
+    public final QuizDto addQuiz(final QuizDto quizDto) {
         Quiz quiz = this.dtoToQuiz(quizDto);
         Optional<Quiz> existingQuiz = quizRepo.findByTitle(quiz.getTitle());
         if (existingQuiz.isPresent()) {
@@ -66,7 +66,7 @@ public class QuizServiceImpl implements QuizService {
         } else {
             throw new BadCredentialsException("Category not exist");
         }
-        return " Quiz Added Successfully";
+        return this.quizToDto(quiz);
     }
 
     /**
@@ -165,8 +165,6 @@ public class QuizServiceImpl implements QuizService {
      * @return The QuizDto.
      */
     public final QuizDto quizToDto(final Quiz quiz) {
-        if(quiz == null)
-            return null;
         QuizDto quizDTO = modelMapper.map(quiz, QuizDto.class);
         if (quiz.getCategory() != null) {
             CategoryDto categoryDto = modelMapper.map(quiz.getCategory(),
@@ -183,9 +181,6 @@ public class QuizServiceImpl implements QuizService {
      * @return The Quiz entity.
      */
     public final Quiz dtoToQuiz(final QuizDto quizDto) {
-        if (quizDto == null) {
-            return null; 
-        }
         Quiz quiz = modelMapper.map(quizDto, Quiz.class);
         if (quizDto.getCategory() != null) {
             Category category = modelMapper.map(quizDto.getCategory(),

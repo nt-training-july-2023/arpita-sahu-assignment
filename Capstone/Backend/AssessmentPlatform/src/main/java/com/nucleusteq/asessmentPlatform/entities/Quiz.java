@@ -1,5 +1,11 @@
 package com.nucleusteq.asessmentPlatform.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -66,10 +73,20 @@ public class Quiz {
      *
      * @param cat The Category object to associate with this quiz.
      */
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Question> question = new ArrayList<>();
 
     public final void setCategory(final Category cat) {
         this.category = new Category(cat.getCategoryId(),
                 cat.getTitle(), cat.getDescription());
+    }
+    public final List<Question> getQuestion() {
+        return new ArrayList<>(question);
+    }
+    
+    public final void setQuestion(final List<Question> que) {
+        this.question = new ArrayList<>(que);
     }
 
     /**
@@ -88,4 +105,6 @@ public class Quiz {
         this.description = desc;
         this.quizTimer = time;
     }
+    
+    
 }

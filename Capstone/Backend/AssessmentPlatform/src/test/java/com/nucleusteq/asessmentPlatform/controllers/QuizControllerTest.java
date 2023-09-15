@@ -34,7 +34,7 @@ class QuizControllerTest {
     public void testAddQuiz() {
         QuizDto quizDto = new QuizDto();
         when(quizService.addQuiz(quizDto))
-                .thenReturn("Quiz Added Successfully.");
+                .thenReturn(quizDto);
         ResponseEntity<String> response = quizController.addQuiz(quizDto);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals("Quiz Added Successfully.", response.getBody());

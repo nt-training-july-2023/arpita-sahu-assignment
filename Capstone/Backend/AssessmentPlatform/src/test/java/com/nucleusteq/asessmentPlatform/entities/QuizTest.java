@@ -57,11 +57,13 @@ class QuizTest {
 
     @Test
     void testParameterisedConstructor() {
+        Category category = new Category(1,"java","java category");
         Quiz newQuiz = new Quiz(1, "mcq1", "contains java based mcq", 45);
         assertEquals(1, newQuiz.getQuizId());
         assertEquals("mcq1", newQuiz.getTitle());
         assertEquals("contains java based mcq", newQuiz.getDescription());
         assertEquals(45, newQuiz.getQuizTimer());
+//        assertEquals(category, newQuiz.getCategory());
 
     }
 

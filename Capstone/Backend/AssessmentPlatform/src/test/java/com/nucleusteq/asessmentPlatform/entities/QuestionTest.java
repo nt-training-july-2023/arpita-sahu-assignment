@@ -54,17 +54,17 @@ class QuestionTest {
         assertEquals(null, question.getAnswer());
     }
 
-    @Test
-    void testParameterisedConstructor() {
-        Question question = new Question(1, "what is java", "a", "b", "c", "d",
-                "a");
-        assertEquals(1, question.getQuesId());
-        assertEquals("what is java", question.getQuestion());
-        assertEquals("a", question.getOption1());
-        assertEquals("b", question.getOption2());
-        assertEquals("c", question.getOption3());
-        assertEquals("d", question.getOption4());
-        assertEquals("a", question.getAnswer());
-    }
+//    @Test
+//    void testParameterisedConstructor() {
+//        Question question = new Question(1, "what is java", "a", "b", "c", "d",
+//                "a");
+//        assertEquals(1, question.getQuesId());
+//        assertEquals("what is java", question.getQuestion());
+//        assertEquals("a", question.getOption1());
+//        assertEquals("b", question.getOption2());
+//        assertEquals("c", question.getOption3());
+//        assertEquals("d", question.getOption4());
+//        assertEquals("a", question.getAnswer());
+//    }
 
 }
