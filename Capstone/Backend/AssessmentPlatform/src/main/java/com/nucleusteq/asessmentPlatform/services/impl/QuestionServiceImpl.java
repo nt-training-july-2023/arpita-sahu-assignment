@@ -2,7 +2,7 @@ package com.nucleusteq.asessmentPlatform.services.impl;
 
 import java.util.List;
 
-import java.util.Optional;
+
 import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,9 +44,8 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public final QuestionDto addQuestion(final QuestionDto questionDto) {
         Question question = this.dtoToQues(questionDto);
-        Optional<Question> existingQuestion = questionRepo
-                .findByQuestion(question.getQuestion());
-        if (existingQuestion.isEmpty()) {
+        if (question == null || question.getQuestion() == null
+                || question.getQuestion().isEmpty()) {
             throw new BadCredentialsException("Question must not be empty");
         }
         Quiz quiz = new Quiz();
@@ -136,10 +135,6 @@ public class QuestionServiceImpl implements QuestionService {
      */
     public final QuestionDto quesToDto(final Question question) {
         QuestionDto questionDto = modelMapper.map(question, QuestionDto.class);
-//        if(question.getQuiz() != null) {
-//    QuizDto quizDto = modelMapper.map(question.getQuiz(), QuizDto.class);
-//            questionDto.setQuiz(quizDto);
-//        }
         return questionDto;
     }
 
@@ -151,10 +146,6 @@ public class QuestionServiceImpl implements QuestionService {
      */
     public final Question dtoToQues(final QuestionDto questionDto) {
         Question question = modelMapper.map(questionDto, Question.class);
-//        if(questionDto.getQuiz() != null) {
-//            Quiz quiz = modelMapper.map(questionDto.getQuiz(), Quiz.class);
-//            question.setQuiz(quiz);
-//        }
         return question;
     }
 

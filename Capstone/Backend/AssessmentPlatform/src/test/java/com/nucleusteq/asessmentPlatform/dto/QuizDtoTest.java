@@ -41,9 +41,10 @@ class QuizDtoTest {
         categoryDto.setCategoryId(1);
         categoryDto.setTitle("Java");
         categoryDto.setDescription("Java Category");
-        
+
+        QuizDto quizDto = new QuizDto();
         quizDto.setCategory(categoryDto);
-        
+
         CategoryDto newCategoryDto = quizDto.getCategory();
         assertEquals(1, newCategoryDto.getCategoryId());
         assertEquals("Java", newCategoryDto.getTitle());

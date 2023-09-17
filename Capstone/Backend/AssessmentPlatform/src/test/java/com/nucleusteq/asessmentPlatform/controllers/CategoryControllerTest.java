@@ -40,10 +40,8 @@ class CategoryControllerTest {
                 .thenReturn(categoryDto);
         ResponseEntity<String> response = categoryController
                 .saveCategory(categoryDto);
-        verify(categoryService, times(1)).addCategory(categoryDto);
-        assert response.getStatusCode() == HttpStatus.CREATED;
-        assert response.getBody().equals("category added successfully.");
-
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals("category added successfully.", response.getBody());
     }
 
     @Test

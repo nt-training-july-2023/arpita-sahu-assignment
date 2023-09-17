@@ -35,6 +35,26 @@ class CategoryServiceImplTest {
     public void setUp() {
         MockitoAnnotations.openMocks(this);
     }
+    
+    @Test
+    public void testAddCategory_Success() {
+        CategoryDto categoryDto = new CategoryDto();
+        categoryDto.setCategoryId(1);
+        categoryDto.setTitle("Test Title");
+        categoryDto.setDescription("Test Description");
+        
+        Category category = new Category();
+        category.setCategoryId(categoryDto.getCategoryId());
+        category.setTitle(categoryDto.getTitle());
+        category.setDescription(categoryDto.getDescription());
+        when(modelMapper.map(categoryDto, Category.class)).thenReturn(category);
+        when(modelMapper.map(category, CategoryDto.class)).thenReturn(categoryDto);
+        when(categoryRepo.findByTitle(categoryDto.getTitle()))
+        .thenReturn(Optional.empty());
+        CategoryDto result = categoryService.addCategory(categoryDto);
+        assertNotNull(result);
+        assertEquals(categoryDto.getTitle(), result.getTitle());
+    }
 
     @Test
     public void testAddCategoryDuplicate() {
@@ -44,14 +64,12 @@ class CategoryServiceImplTest {
         Category category = new Category();
         category.setTitle("Test Category");
         category.setDescription("Test Description");
-        when(modelMapper.map(category, CategoryDto.class))
-                .thenReturn(categoryDTO);
         when(modelMapper.map(categoryDTO, Category.class)).thenReturn(category);
         when(categoryRepo.findByTitle(categoryDTO.getTitle()))
                 .thenReturn(Optional.of(category));
-//        assertThrows(DuplicateResourceException.class, () -> {
-//            categoryService.addCategory(categoryDTO);
-//        });
+        assertThrows(DuplicateResourceException.class, () -> {
+            categoryService.addCategory(categoryDTO);
+        });
     }
 
     @Test
@@ -102,21 +120,18 @@ class CategoryServiceImplTest {
 
         int categoryId = 1;
         Category existingCategory = new Category();
-        existingCategory.setCategoryId(categoryId);
-        existingCategory.setTitle("Original Title");
-        existingCategory.setDescription("Original Description");
+        existingCategory.setCategoryId(updatedCategoryDto.getCategoryId());
+        existingCategory.setTitle(updatedCategoryDto.getTitle());
+        existingCategory.setDescription(updatedCategoryDto.getDescription());
         when(categoryRepo.findById(categoryId))
                 .thenReturn(Optional.of(existingCategory));
-        when(modelMapper.map(updatedCategoryDto, Category.class))
-                .thenReturn(existingCategory);
-
+        when(modelMapper.map(existingCategory, CategoryDto.class)).thenReturn(updatedCategoryDto);
         CategoryDto resultDto = categoryService
                 .updateCategory(updatedCategoryDto, categoryId);
-
-//        assertNotNull(resultDto);
-//        assertEquals(updatedCategoryDto.getTitle(), resultDto.getTitle());
-//        assertEquals(updatedCategoryDto.getDescription(),
-//                resultDto.getDescription());
+        assertNotNull(resultDto);
+        assertEquals(updatedCategoryDto.getTitle(), resultDto.getTitle());
+        assertEquals(updatedCategoryDto.getDescription(),
+                resultDto.getDescription());
 
     }
 
@@ -125,11 +140,9 @@ class CategoryServiceImplTest {
         CategoryDto categoryDto = new CategoryDto();
         categoryDto.setTitle("Updated Title");
         categoryDto.setDescription("Updated Description");
-
-//        when(categoryRepo.findById(1)).thenReturn(Optional.empty());
-//        assertThrows(ResourceNotFoundException.class, () -> {
-//            categoryService.updateCategory(categoryDto, 1);
-//        });
+        when(categoryRepo.findById(1)).thenReturn(Optional.empty());
+        assertThrows(ResourceNotFoundException.class, () -> {categoryService.updateCategory(categoryDto, 1);
+        });
     }
 
     @Test

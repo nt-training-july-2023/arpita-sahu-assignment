@@ -1,5 +1,6 @@
 package com.nucleusteq.asessmentPlatform.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class CategoryDto {
 
     /**
@@ -27,28 +29,17 @@ public class CategoryDto {
      */
     private String description;
 
-    /**
-     * Copy constructor for the CategoryDto class.
-     *
-     * @param category The CategoryDto object to create a copy from.
-     */
-    public CategoryDto(final CategoryDto category) {
-        this.categoryId = category.categoryId;
-        this.title = category.title;
-        this.description = category.description;
-    }
-
-    /**
-     * Copy constructor for the CategoryDto class.
-     * @param cId          The CategoryDto object to create a copy from.
-     * @param catTitle     The CategoryDto object to create a copy from.
-     * @param cDescription The CategoryDto object to create a copy from.
-     */
-    public CategoryDto(final int cId, final String catTitle,
-            final String cDescription) {
-        super();
-        this.categoryId = cId;
-        this.title = catTitle;
-        this.description = cDescription;
-    }
+//    /**
+//     * Copy constructor for the CategoryDto class.
+//     * @param cId          The CategoryDto object to create a copy from.
+//     * @param catTitle     The CategoryDto object to create a copy from.
+//     * @param cDescription The CategoryDto object to create a copy from.
+//     */
+//    public CategoryDto(final int cId, final String catTitle,
+//            final String cDescription) {
+//        super();
+//        this.categoryId = cId;
+//        this.title = catTitle;
+//        this.description = cDescription;
+//    }
 }

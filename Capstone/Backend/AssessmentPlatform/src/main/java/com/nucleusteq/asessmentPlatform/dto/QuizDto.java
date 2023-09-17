@@ -1,5 +1,6 @@
 package com.nucleusteq.asessmentPlatform.dto;
 
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -47,8 +48,10 @@ public class QuizDto {
      *         associated category.
      */
     public final CategoryDto getCategory() {
+        if(category != null)
         return new CategoryDto(category.getCategoryId(), category.getTitle(),
                 category.getDescription());
+        return null;
     }
 
     /**
@@ -57,8 +60,11 @@ public class QuizDto {
      * @param cat The CategoryDto object to associate with this quiz.
      */
     public final void setCategory(final CategoryDto cat) {
-        this.category = new CategoryDto(cat.getCategoryId(), cat.getTitle(),
-                cat.getDescription());
+        if (cat != null) {
+            this.category = new CategoryDto(cat.getCategoryId(), cat.getTitle(), cat.getDescription());
+        } else {
+            this.category = null;
+        }
     }
 
     /**
@@ -76,7 +82,11 @@ public class QuizDto {
         this.title = qTitle;
         this.description = qDescription;
         this.quizTimer = qTimer;
+        if(cat != null) {
         this.category = new CategoryDto(cat.getCategoryId(), cat.getTitle(),
                 cat.getDescription());
+        }else {
+            this.category =null;
+        }
     }
 }

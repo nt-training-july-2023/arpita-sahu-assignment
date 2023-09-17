@@ -40,7 +40,6 @@ public class QuizController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public final ResponseEntity<String> addQuiz(
             @RequestBody final QuizDto quizDto) {
-//        return quizService.addQuiz(quizDto);
         try {
             quizService.addQuiz(quizDto);
             return ResponseEntity.status(HttpStatus.CREATED)

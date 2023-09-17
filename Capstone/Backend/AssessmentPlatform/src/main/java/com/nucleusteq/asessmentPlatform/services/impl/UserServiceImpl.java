@@ -52,16 +52,11 @@ public class UserServiceImpl implements UserService {
                 .findByEmail(user.getEmail());
         if (existingUserByEmail.isPresent()) {
             throw new DuplicateEmailException("Email address already exists");
-        }
-        User newUser = new User();
-        newUser.setFirstName(user.getFirstName());
-        newUser.setLastName(user.getLastName());
-        newUser.setEmail(user.getEmail());
-        newUser.setPassword(passwordEncoder.encode(user.getPassword()));
-        newUser.setPhoneNumber(user.getPhoneNumber());
-        newUser.setRole("user");
-        userRepo.save(newUser);
-        return newUser.getUserId() + " Register successfully";
+        }    
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole("user");
+        userRepo.save(user);
+        return "User Register successfully";
     }
 
     @Override

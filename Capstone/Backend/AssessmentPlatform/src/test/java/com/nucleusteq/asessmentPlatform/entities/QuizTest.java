@@ -2,6 +2,9 @@ package com.nucleusteq.asessmentPlatform.entities;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -57,14 +60,23 @@ class QuizTest {
 
     @Test
     void testParameterisedConstructor() {
-        Category category = new Category(1,"java","java category");
-        Quiz newQuiz = new Quiz(1, "mcq1", "contains java based mcq", 45);
+        Quiz newQuiz = new Quiz(1, "mcq1", "contains java based mcq", 45);//changed here
         assertEquals(1, newQuiz.getQuizId());
         assertEquals("mcq1", newQuiz.getTitle());
         assertEquals("contains java based mcq", newQuiz.getDescription());
         assertEquals(45, newQuiz.getQuizTimer());
-//        assertEquals(category, newQuiz.getCategory());
-
     }
-
+    
+    @Test
+    public void testGetAndSetQuestion() {
+        List<Question> questions = new ArrayList<>();
+        questions.add(new Question(1,"QuesName1","option1","option2","option3","option4","answer"));
+        questions.add(new Question(2,"QuesName2","option1","option2","option3","option4","answer"));
+        quiz.setQuestion(questions);
+        List<Question> result = quiz.getQuestion();
+        assertNotNull(result);
+        assertEquals(questions.size(), result.size());
+    }
 }
+
+

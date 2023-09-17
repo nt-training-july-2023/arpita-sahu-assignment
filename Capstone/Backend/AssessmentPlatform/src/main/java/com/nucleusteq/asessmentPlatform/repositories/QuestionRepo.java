@@ -18,5 +18,5 @@ public interface QuestionRepo extends JpaRepository<Question, Integer> {
      * @return An Optional containing the Question entity if found, or empty if
      *         not found.
      */
-    Optional<Question> findByQuestion(String question);
+//    Optional<Question> findByQuestion(String question);
 }

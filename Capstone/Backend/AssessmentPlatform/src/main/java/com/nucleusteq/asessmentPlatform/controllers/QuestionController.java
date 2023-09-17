@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.nucleusteq.asessmentPlatform.dto.QuestionDto;
-import com.nucleusteq.asessmentPlatform.exception.DuplicateResourceException;
+import com.nucleusteq.asessmentPlatform.exception.BadCredentialsException;
 import com.nucleusteq.asessmentPlatform.service.QuestionService;
 
 /**
@@ -44,9 +44,9 @@ public class QuestionController {
             questionService.addQuestion(questionDto);
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body("Question Added Successfully.");
-        } catch (DuplicateResourceException ex) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body("Question already exists");
+        } catch (BadCredentialsException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Question must not be empty");
         }
     }
 
@@ -90,9 +90,9 @@ public class QuestionController {
             questionService.updateQuestion(questionDto, quesId);
             return ResponseEntity.status(HttpStatus.OK)
                     .body("Question Updated Successfully.");
-        } catch (DuplicateResourceException ex) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body("Question already exists");
+        } catch (BadCredentialsException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("An error occurred.");
         }
     }
 

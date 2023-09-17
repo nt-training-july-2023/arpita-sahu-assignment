@@ -14,7 +14,10 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import com.nucleusteq.asessmentPlatform.dto.QuestionDto;
 import com.nucleusteq.asessmentPlatform.dto.QuizDto;
+import com.nucleusteq.asessmentPlatform.exception.BadCredentialsException;
+import com.nucleusteq.asessmentPlatform.exception.DuplicateResourceException;
 import com.nucleusteq.asessmentPlatform.service.QuizService;
 
 class QuizControllerTest {
@@ -33,12 +36,21 @@ class QuizControllerTest {
     @Test
     public void testAddQuiz() {
         QuizDto quizDto = new QuizDto();
-        when(quizService.addQuiz(quizDto))
-                .thenReturn(quizDto);
+        when(quizService.addQuiz(quizDto)).thenReturn(quizDto);
         ResponseEntity<String> response = quizController.addQuiz(quizDto);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals("Quiz Added Successfully.", response.getBody());
 
+    }
+
+    @Test
+    void testAddQuizConflict() {
+        QuizDto quizDto = new QuizDto();
+        when(quizService.addQuiz(quizDto)).thenThrow(
+                new DuplicateResourceException("Quiz already exist"));
+        ResponseEntity<String> response = quizController.addQuiz(quizDto);
+        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+        assertEquals("Quiz already exist", response.getBody());
     }
 
     @Test
@@ -72,12 +84,33 @@ class QuizControllerTest {
     }
 
     @Test
+    public void testUpdatedConflict() {
+        int quizId = 1;
+        QuizDto quizDto = new QuizDto();
+        when(quizService.updateQuiz(quizDto, quizId)).thenThrow(
+                new DuplicateResourceException("Quiz already exist"));
+        ResponseEntity<String> response = quizController.updateQuiz(quizId,
+                quizDto);
+        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+        assertEquals("Quiz already exist", response.getBody());
+    }
+
+    @Test
     public void testDeleteQuiz() {
         int quizId = 1;
         when(quizService.deleteQuiz(quizId))
                 .thenReturn("Quiz deleted successfully");
         String result = quizController.deleteCategory(quizId);
         assertEquals("Quiz deleted successfully", result);
+    }
+
+    @Test
+    public void testGetQuizByCategoryId() {
+        int categoryId = 1;
+        List<QuizDto> category = new ArrayList<>();
+        when(quizService.getQuizByCategoryId(categoryId)).thenReturn(category);
+        List<QuizDto> result = quizController.getQuizByCategoryId(categoryId);
+        assertEquals(category, result);
     }
 
 }

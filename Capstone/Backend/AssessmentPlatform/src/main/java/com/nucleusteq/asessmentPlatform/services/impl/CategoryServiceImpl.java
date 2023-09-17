@@ -52,11 +52,8 @@ public class CategoryServiceImpl implements CategoryService {
             throw new DuplicateResourceException("Category with title '"
                     + category.getTitle() + "' already exists.");
         }
-        Category newCategory = new Category();
-        newCategory.setTitle(category.getTitle());
-        newCategory.setDescription(category.getDescription());
-        newCategory = categoryRepo.save(newCategory);
-        return this.categoryToDto(newCategory);
+        categoryRepo.save(category);
+        return this.categoryToDto(category);
     }
 
     /**
