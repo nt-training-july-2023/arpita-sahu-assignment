@@ -7,7 +7,6 @@ import NotFound from "../NotFound";
 export default function ManageQuiz() {
   const [quizzes, setQuizzes] = useState([]);
   const [categories, setCategories] = useState([]);
-  const[demo, setDemo]=useState();
   const { categoryId } = useParams();
   const navigate = useNavigate();
   const role = localStorage.getItem("userRole");
@@ -75,7 +74,14 @@ export default function ManageQuiz() {
                       onClick={() => deleteQuiz(quiz.quizId)}
                     >
                       Delete Quiz
-                    </button></> }
+                    </button>
+                    <button
+                      className="start-quiz-button"
+                      onClick={() => navigate(`/manage-questions/${quiz.quizId}`)}
+                    >
+                      Questions
+                    </button>
+                    </> }
                   </div>
                 ))}
               </div>

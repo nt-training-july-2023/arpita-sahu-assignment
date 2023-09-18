@@ -133,7 +133,7 @@ public class QuizServiceImpl implements QuizService {
             }
             existingQuiz.setTitle(newTitle);
             existingQuiz.setDescription(updatedQuiz.getDescription());
-            existingQuiz.setCategory(updatedQuiz.getCategory());
+            //existingQuiz.setCategory(updatedQuiz.getCategory());
             quizRepo.save(existingQuiz);
             return "Quiz Updated Successfully";
         } else {

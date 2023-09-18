@@ -124,11 +124,10 @@ function AddCategory() {
   };
 
   return (
-    <>
+    <> 
     <Navbar/>
-    <div className="category-form-container">
-      {role === "admin" ? (
-        <>
+    {role === "admin" ? ( <>
+         <div className="category-form-container">
           <div className="category-form-card">
             <h2>{id ? "Update Category" : "Add Category"}</h2>
             <form onSubmit={handleSubmit}>
@@ -154,12 +153,11 @@ function AddCategory() {
                 <button type="button" className="button-cancel" onClick={handleCancelClick}>Cancel</button>
               </div>
             </form>
-          </div>
-        </>
+          </div>        
+    </div></>
       ) : (
         <NotFound />
       )}
-    </div>
     </>
   );
 }

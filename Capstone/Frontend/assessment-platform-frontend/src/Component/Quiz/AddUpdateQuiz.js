@@ -132,7 +132,7 @@ function AddUpdateQuiz() {
   return (
     <>
     {role === "admin" ? (
-          <>
+      <>
       <Navbar/>
       <div className="category-form-container">        
             <div className="category-form-card">

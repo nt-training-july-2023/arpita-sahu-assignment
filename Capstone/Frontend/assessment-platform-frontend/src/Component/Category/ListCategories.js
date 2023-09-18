@@ -60,7 +60,7 @@ function CategoryList() {
               <td>{category.description}</td>
               {role === 'admin' &&(
                 <>
-              <td><button className="button-edit" onClick={() => navigate(`/addcategory/${category.categoryId}`)}>Update</button></td>
+              <td><button className="button-edit" onClick={() => navigate(`/updatecategory/${category.categoryId}`)}>Update</button></td>
               <td><button className="button-delete" onClick={() => deleteCategory(category.categoryId)}>Delete</button></td></>)}
               <td><button className="button-quiz" onClick={() => navigate(`/quiz/${category.categoryId}`)}>Quizzes</button></td>
             </tr>

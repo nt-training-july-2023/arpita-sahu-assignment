@@ -10,6 +10,7 @@ import Navbar from "./Component/Navbar/Navbar";
 import NotFound from './Component/NotFound';
 import AddUpdateQuiz from "./Component/Quiz/AddUpdateQuiz";
 import ManageQuiz from "./Component/Quiz/ManageQuiz";
+import ManageQuestion from "./Component/Question/ManageQuestion";
 
 
 function App() {
@@ -25,11 +26,12 @@ function App() {
           <Route path="/adminDashboard" element={<AdminDashboard/>} />
           <Route path="/addcategory" element={<AddCategory />} />
           <Route path="/listcategory" element={<ListCategories />} />
-          <Route path="/updateCategory/:id" element={<AddCategory />} />
+          <Route path="/updatecategory/:id" element={<AddCategory />} />
           <Route path="/notfound" element={<NotFound />} />
           <Route path="/addQuiz/:categoryId" element = {<AddUpdateQuiz/>}/>
           <Route path="/quiz/:categoryId" element={<ManageQuiz/>}/>
           <Route path="/updateQuiz/:quizId" element ={<AddUpdateQuiz/>}/>
+          <Route path="/manage-questions/:quizId" element={<ManageQuestion/>}/>
         </Routes>
       </BrowserRouter>
     </div>
