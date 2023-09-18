@@ -7,6 +7,7 @@ import NotFound from "../NotFound";
 export default function ManageQuiz() {
   const [quizzes, setQuizzes] = useState([]);
   const [categories, setCategories] = useState([]);
+  const[demo, setDemo]=useState();
   const { categoryId } = useParams();
   const navigate = useNavigate();
   const role = localStorage.getItem("userRole");
