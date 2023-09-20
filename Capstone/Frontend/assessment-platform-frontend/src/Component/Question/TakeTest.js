@@ -1,80 +1,89 @@
-// import React, { useEffect, useState } from 'react'
-// import axios from 'axios';
-// import { useParams } from 'react-router-dom';
-
-// export default function TakeTest() {
-//     const[questions, setQuestions]= useState([]);
-//     const {quizId} =useParams();
-//     useEffect(()=>{
-//         loadQuestions();
-//       })
-    
-//           const loadQuestions = async () => {
-//             try {
-//               const result = await axios.get(`http://localhost:8080/ques/quiz/${quizId}`);
-//               setQuestions(result.data);
-//             } catch (error) {
-//               console.error("Error loading questions:", error);
-//             }
-//           };
-//   return (
-//     <div>TakeTest</div>
-//   )
-// }
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
 export default function TakeTest() {
   const [questions, setQuestions] = useState([]);
-  const [selectedOptions, setSelectedOptions] = useState({}); // To store selected options
+  const [selectedAnswers, setSelectedAnswers] = useState({});
+  const [submitted, setSubmitted] = useState(false);
+  const [score, setScore] = useState(0);
   const { quizId } = useParams();
 
   useEffect(() => {
     loadQuestions();
-  }, [quizId]);
+  }, []);
 
   const loadQuestions = async () => {
-    try {
-      const result = await axios.get(`http://localhost:8080/ques/quiz/${quizId}`);
-      setQuestions(result.data);
-    } catch (error) {
-      console.error("Error loading questions:", error);
-    }
+ 
+      try {
+        const result = await axios.get(`http://localhost:8080/ques/quiz/${quizId}`);
+        console.log("API Response:", result.data);
+        setQuestions(result.data);
+      } catch (error) {
+        console.error("Error loading questions:", error);
+      }
+  };
+  
+  const handleAnswerSelection = (questionId, selectedOption) => {
+    setSelectedAnswers((prevSelectedAnswers) => ({
+      ...prevSelectedAnswers,
+      [questionId]: selectedOption,
+    }));
   };
 
-  const handleOptionSelect = (questionId, option) => {
-    const updatedSelectedOptions = { ...selectedOptions };
-    updatedSelectedOptions[questionId] = option;
-    setSelectedOptions(updatedSelectedOptions);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    let obtainedScore = 0;
+    questions.forEach((question) => {
+      const correctAnswer = question.answer; 
+      const selectedAnswer = selectedAnswers[question.quesId];
+      if (selectedAnswer === correctAnswer) {
+        obtainedScore += 1;
+      }
+    });
+    setScore(obtainedScore);
+    setSubmitted(true);
   };
 
   return (
     <div>
       <h1>Take Test</h1>
-      <ul>
-        {questions.map((question) => (
-          <li key={question.id}>
-            <h3>{question.questionText}</h3>
-            <ul>
-              {question.options.map((option) => (
-                <li key={option.id}>
-                  <label>
-                    <input
-                      type="radio"
-                      name={`question_${question.id}`}
-                      value={option.id}
-                      checked={selectedOptions[question.id] === option.id}
-                      onChange={() => handleOptionSelect(question.id, option.id)}
-                    />
-                    {option.optionText}
-                  </label>
-                </li>
-              ))}
-            </ul>
-          </li>
-        ))}
-      </ul>
+      {questions.length > 0 ? (
+        <form onSubmit={handleSubmit}>
+          {questions.map((question, index) => (
+            <div key={index}>
+              <h2>Question {index + 1}</h2>
+              <p>{question.question}</p>
+              <ul>
+                {['option1', 'option2', 'option3', 'option4'].map((optionKey) => (
+                  <li key={optionKey}>
+                    <label>
+                      <input
+                        type="radio"
+                        name={`question-${index}`}
+                        value={question[optionKey]}
+                        onChange={() => handleAnswerSelection(question.quesId, question[optionKey])}
+                        checked={selectedAnswers[question.quesId] === question[optionKey]}
+                        disabled={submitted}
+                      />
+                      {question[optionKey]}
+                    </label>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+          <button type="submit">Submit Answers</button>
+        </form>
+      ) : (
+        <p>Loading questions...</p>
+      )}
+       {submitted && (
+        <div>
+          <h2>Your Score:</h2>
+          <p>{score} out of {questions.length}</p>
+        </div>
+      )}
     </div>
   );
 }
