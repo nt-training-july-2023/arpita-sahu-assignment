@@ -106,6 +106,11 @@ function AddCategory() {
         );
 
         if (response.status === 200) {
+          Swal.fire({
+            title: "Success",
+            text: "Category Updated Successfully",
+            icon: "success"
+          });
           console.log("Category updated successfully");
         } else {
           console.error("Failed to update category");
@@ -115,14 +120,9 @@ function AddCategory() {
       console.error("An error occurred:", error);
     }
   };
-  const handleNavigation = () =>{
-   navigate('/listcategory');
-  }
-
-  const handleCancelClick = () => {
-    navigate('/listcategory');
-  };
-
+  // const handleNavigation = () =>{
+  //  navigate('/listcategory');
+  // }
   return (
     <> 
     <Navbar/>
@@ -147,10 +147,10 @@ function AddCategory() {
                 )}
               </div>
               <div>
-                <button type="submit" onClick={handleNavigation}>
+                <button type="submit">
                   {id ? "Update Category" : "Add Category"} 
                 </button>
-                <button type="button" className="button-cancel" onClick={handleCancelClick}>Cancel</button>
+                <button type="button" className="button-cancel">Cancel</button>
               </div>
             </form>
           </div>        

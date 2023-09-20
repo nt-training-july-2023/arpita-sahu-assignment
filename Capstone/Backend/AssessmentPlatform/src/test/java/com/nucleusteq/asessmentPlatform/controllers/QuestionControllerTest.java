@@ -71,6 +71,15 @@ class QuestionControllerTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(expectedQuestion, response.getBody());
     }
+    
+    @Test
+    public void testGetQuestionByQuizId() {
+        int quizId=1;
+        List<QuestionDto> questionDtos = new ArrayList<>();
+        when(questionService.getQuestionsByQuizId(quizId)).thenReturn(questionDtos);
+        List<QuestionDto> result = questionController.getQuestionByQuiId(quizId);
+        assertEquals(questionDtos, result);
+    }
 
     @Test
     public void testUpdateQuestion() {
@@ -84,6 +93,7 @@ class QuestionControllerTest {
         assertEquals("Question Updated Successfully.", response.getBody());
 
     }
+
 
     @Test
     public void testUpdatedBadRequest() {

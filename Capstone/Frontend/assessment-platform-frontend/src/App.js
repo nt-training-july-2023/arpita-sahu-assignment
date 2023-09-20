@@ -11,7 +11,8 @@ import NotFound from './Component/NotFound';
 import AddUpdateQuiz from "./Component/Quiz/AddUpdateQuiz";
 import ManageQuiz from "./Component/Quiz/ManageQuiz";
 import ManageQuestion from "./Component/Question/ManageQuestion";
-
+import AddUpdateQuestion from "./Component/Question/AddUpdateQuestion";
+import TakeTest from "./Component/Question/TakeTest";
 
 function App() {
  
@@ -32,6 +33,9 @@ function App() {
           <Route path="/quiz/:categoryId" element={<ManageQuiz/>}/>
           <Route path="/updateQuiz/:quizId" element ={<AddUpdateQuiz/>}/>
           <Route path="/manage-questions/:quizId" element={<ManageQuestion/>}/>
+          <Route path="/addquestion/:quizId" element={<AddUpdateQuestion/>}/>
+          <Route path="/updatequestion/:quesId" element={<AddUpdateQuestion/>}/>
+          <Route path="/takeTest/:quizId" element ={<TakeTest/>}/>
         </Routes>
       </BrowserRouter>
     </div>

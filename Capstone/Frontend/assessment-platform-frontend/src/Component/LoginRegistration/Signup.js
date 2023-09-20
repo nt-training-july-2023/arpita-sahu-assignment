@@ -70,7 +70,7 @@ export default function Signup() {
     }
   };
   const handlephoneChange = (e) => {
-    const numericInput = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+    const numericInput = e.target.value.replace(/\D/g, ""); 
     setPhoneNumber(numericInput);
     if (numericInput.length < 10) {
       setPhoneNumberError("Phone number must be at least 10 digits");

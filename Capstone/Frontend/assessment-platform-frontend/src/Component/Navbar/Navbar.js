@@ -25,7 +25,7 @@ export default function Navbar() {
         Home
       </Link>}
      
-      <Link to ="#news">About</Link>
+      <Link to ="">About</Link>
       <Link to ="/listcategory">Categories</Link>
       {/* <Link to ="/quiz">Quiz</Link> */}
       <button className="logout" onClick={handleLogout}>Logout</button>

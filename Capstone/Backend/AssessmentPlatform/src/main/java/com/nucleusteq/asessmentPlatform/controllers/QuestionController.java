@@ -73,6 +73,12 @@ public class QuestionController {
         return new ResponseEntity<QuestionDto>(
                 questionService.getQuestionById(quesId), HttpStatus.OK);
     }
+    
+    @RequestMapping(value = "quiz/{quizId}", method = RequestMethod.GET)
+    public final List<QuestionDto> getQuestionByQuiId(
+            @PathVariable final int quizId) {
+        return questionService.getQuestionsByQuizId(quizId);
+    }
 
     /**
      * Updates a question with the given ID.

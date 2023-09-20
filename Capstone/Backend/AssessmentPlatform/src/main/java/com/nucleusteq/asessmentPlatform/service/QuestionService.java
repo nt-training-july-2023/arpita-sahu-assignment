@@ -49,5 +49,7 @@ import com.nucleusteq.asessmentPlatform.dto.QuestionDto;
          * @return A success message indicating the deletion.
          */
         String deleteQuestion(int quesId);
+
+        List<QuestionDto> getQuestionsByQuizId(int quizId);
     }
 
