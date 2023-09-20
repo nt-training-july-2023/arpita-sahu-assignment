@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import NotFound from "../NotFound";
 import Swal from "sweetalert2";
 import Navbar from "../Navbar/Navbar";
@@ -8,11 +8,13 @@ import Navbar from "../Navbar/Navbar";
 function AddUpdateQuiz() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [quizTimer, setQuizTimer] = useState("");
   const [titleError, setTitleError] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
+  const [timerError, setTimerError] = useState("");
   const { quizId, categoryId } = useParams();
   const role = localStorage.getItem("userRole");
-  const navigate = useNavigate();
+
   useEffect(() => {
     if (quizId) {
       axios
@@ -20,6 +22,7 @@ function AddUpdateQuiz() {
         .then((response) => {
           setTitle(response.data.title);
           setDescription(response.data.description);
+          setQuizTimer(response.data.quizTimer);
           console.log(response);
         })
         .catch((error) => {
@@ -42,6 +45,12 @@ function AddUpdateQuiz() {
     }
   };
 
+  const handleTimerChange = (e) => {
+    const numericInput = e.target.value.replace(/\D/g, "");
+    setQuizTimer(numericInput);
+    if (timerError) setTimerError("");
+  };
+
   const validateCategory = () => {
     let isValid = true;
     if (!title) {
@@ -53,7 +62,10 @@ function AddUpdateQuiz() {
       setDescriptionError("Description is required");
       isValid = false;
     }
-
+    if (!quizTimer) {
+      setTimerError("Timer is required");
+      isValid = false;
+    }
     return isValid;
   };
 
@@ -72,6 +84,7 @@ function AddUpdateQuiz() {
         const response = await axios.post("http://localhost:8080/quiz/add", {
           title,
           description,
+          quizTimer,
           category: categoryObject,
         });
         console.log(response);
@@ -91,6 +104,7 @@ function AddUpdateQuiz() {
           {
             title,
             description,
+            quizTimer,
             category: categoryObject,
           }
         );
@@ -121,20 +135,12 @@ function AddUpdateQuiz() {
     }
   };
 
-  const handleNavigation = () => {
-    navigate("/listcategory");
-  };
-
-  const handleCancelClick = () => {
-    navigate("/listcategory");
-  };
-
   return (
     <>
-    {role === "admin" ? (
-      <>
-      <Navbar/>
-      <div className="category-form-container">        
+      {role === "admin" ? (
+        <>
+          <Navbar />
+          <div className="category-form-container">
             <div className="category-form-card">
               <h2>{quizId ? "Update Quiz" : "Add Quiz"}</h2>
               <form onSubmit={handleSubmit}>
@@ -158,6 +164,15 @@ function AddUpdateQuiz() {
                   )}
                 </div>
                 <div>
+                  <label>Timer:</label>
+                  <input
+                    type="text"
+                    onChange={handleTimerChange}
+                    value={quizTimer}
+                  />
+                  {timerError && <p className="error-message">{timerError}</p>}
+                </div>
+                <div>
                   <button type="submit">
                     {quizId ? "Update Quiz" : "Add Quiz"}
                   </button>
@@ -167,12 +182,11 @@ function AddUpdateQuiz() {
                 </div>
               </form>
             </div>
-            </div>
-          </>
-        ) : (
-          <NotFound />
-        )}
-      
+          </div>
+        </>
+      ) : (
+        <NotFound />
+      )}
     </>
   );
 }

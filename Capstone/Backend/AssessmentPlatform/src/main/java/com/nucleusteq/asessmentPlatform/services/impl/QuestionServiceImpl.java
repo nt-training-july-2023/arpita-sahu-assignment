@@ -85,6 +85,14 @@ public class QuestionServiceImpl implements QuestionService {
                         "Question not found with id " + quesId));
         return this.quesToDto(question);
     }
+    
+    @Override
+    public final List<QuestionDto> getQuestionsByQuizId(final int quizId){
+        List<Question> questions = questionRepo.findQuestionByQuizId(quizId);
+        List<QuestionDto> quesDtos = questions.stream()
+                .map(ques -> this.quesToDto(ques)).collect(Collectors.toList());
+        return quesDtos;
+    }
 
     /**
      * Updates a question with the given ID.

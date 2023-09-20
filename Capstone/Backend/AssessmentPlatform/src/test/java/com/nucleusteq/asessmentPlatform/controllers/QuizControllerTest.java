@@ -13,10 +13,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import com.nucleusteq.asessmentPlatform.dto.QuestionDto;
 import com.nucleusteq.asessmentPlatform.dto.QuizDto;
-import com.nucleusteq.asessmentPlatform.exception.BadCredentialsException;
 import com.nucleusteq.asessmentPlatform.exception.DuplicateResourceException;
 import com.nucleusteq.asessmentPlatform.service.QuizService;
 

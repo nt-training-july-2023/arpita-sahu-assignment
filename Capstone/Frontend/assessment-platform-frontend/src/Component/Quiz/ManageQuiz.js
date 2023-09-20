@@ -62,7 +62,7 @@ export default function ManageQuiz() {
                   <div key={quiz.quizId} className="quiz-card">
                     <h3>{quiz.title}</h3>
                     <p>{quiz.description}</p>
-                    {role === 'user' ? <button className="start-quiz-button">Start Quiz</button> : <>
+                    {role === 'user' ? <button className="start-quiz-button" onClick={()=> navigate(`/takeTest/${quiz.quizId}`)}>Start Quiz</button> : <>
                     <button
                       className="button-edit"
                       onClick={() => navigate(`/updateQuiz/${quiz.quizId}`)}

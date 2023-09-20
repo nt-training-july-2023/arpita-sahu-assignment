@@ -1,7 +1,10 @@
 package com.nucleusteq.asessmentPlatform.repositories;
 
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.nucleusteq.asessmentPlatform.entities.Question;
 
@@ -10,12 +13,7 @@ import com.nucleusteq.asessmentPlatform.entities.Question;
  */
 public interface QuestionRepo extends JpaRepository<Question, Integer> {
 
-    /**
-     * Find a question by its content.
-     *
-     * @param question The content of the question to search for.
-     * @return An Optional containing the Question entity if found, or empty if
-     *         not found.
-     */
-//    Optional<Question> findByQuestion(String question);
+    @Query("select q from Question q where q.quiz.quizId=:quizId")
+    List<Question> findQuestionByQuizId(int quizId);
+    
 }

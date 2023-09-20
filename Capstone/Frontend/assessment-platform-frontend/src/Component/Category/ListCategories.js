@@ -47,9 +47,10 @@ function CategoryList() {
             <th>ID</th>
             <th>Title</th>
             <th>Description</th>
+            {role === 'admin' ?<>
             <th style={{textAlign:"end"}}>Actions</th>
             <th></th>
-            <th></th>
+            <th></th></> : <th>Actions</th>}
           </tr>
         </thead>
         <tbody>

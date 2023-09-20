@@ -154,6 +154,37 @@ class QuestionServiceImplTest {
         assertEquals(expectedMessage, result);
         
     }
+    
+    @Test
+    public void testGetQuestionByQuizId() {
+        int quizId=1;
+        List<Question> quesList = new ArrayList<Question>();
+        Question question = new Question();
+        question.setQuesId(1);
+        question.setQuestion("Question");
+        question.setOption1("a");
+        question.setOption2("b");
+        question.setOption3("c");
+        question.setOption4("d");
+        question.setAnswer("a");
+        QuestionDto questionDto = new QuestionDto();
+        questionDto.setQuesId(question.getQuesId());
+        questionDto.setQuestion(question.getQuestion());
+        questionDto.setOption1(question.getOption1());
+        questionDto.setOption2(question.getOption2());
+        questionDto.setOption3(question.getOption3());
+        questionDto.setOption4(question.getOption4());
+        questionDto.setAnswer(question.getAnswer());
+        
+        quesList.add(question);
+        
+        when(modelMapper.map(question, QuestionDto.class)).thenReturn(questionDto);
+        when(questionRepo.findQuestionByQuizId(quizId)).thenReturn(quesList);
+        List<QuestionDto> questionDtos = questionService.getQuestionsByQuizId(quizId);
+        assertNotNull(questionDtos);
+        assertEquals(1, questionDtos.size());
+        assertEquals("Question", questionDtos.get(0).getQuestion());
+    }
 
     @Test
     public void testDeleteQuestionNotFound() {
