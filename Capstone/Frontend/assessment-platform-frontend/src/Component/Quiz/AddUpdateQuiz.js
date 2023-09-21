@@ -95,6 +95,7 @@ function AddUpdateQuiz() {
             icon: "success",
           });
           console.log("Quiz added Successfully");
+          window.history.back();
         } else {
           console.error("Failed to add Quiz");
         }
@@ -116,6 +117,7 @@ function AddUpdateQuiz() {
             icon: "success",
           });
           console.log("Quiz Updated Successfully");
+          window.history.back();
         } else {
           console.log("Failed to Update Category");
         }

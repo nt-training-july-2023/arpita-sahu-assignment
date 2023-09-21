@@ -12,7 +12,7 @@ function AddUpdateQuestion() {
     option2: "",
     option3: "",
     option4: "",
-    answer: "", 
+    answer: "",
   });
 
   const [error, setError] = useState("");
@@ -88,6 +88,7 @@ function AddUpdateQuestion() {
             icon: "success",
           });
           console.log("Question added Successfully");
+          navigate(`/manage-questions/${quizId}`);
         } else {
           console.error("Failed to add Question");
         }
@@ -104,6 +105,7 @@ function AddUpdateQuestion() {
             icon: "success",
           });
           console.log("Question Updated Successfully");
+          window.history.back();
         } else {
           console.log("Failed to Update Question");
         }
@@ -184,7 +186,7 @@ function AddUpdateQuestion() {
                     <option value="">Select Answer</option>
                     {answerOptions.map((option, index) => (
                       <option key={index} value={option.value}>
-                        {option.label}
+                        {option.value}
                       </option>
                     ))}
                   </select>
@@ -210,4 +212,3 @@ function AddUpdateQuestion() {
 }
 
 export default AddUpdateQuestion;
-

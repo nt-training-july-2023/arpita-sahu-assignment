@@ -48,46 +48,60 @@ export default function ManageQuiz() {
 
   return (
     <>
-      {(role === "admin" ||
-        role === "user") ?
-          <>
-            <Navbar />
-            <div className="page-container">
-              <h2>Available Quizzes for the Category: {categories.title} </h2>
-             {role === 'admin' && <Link className="" to={`/addQuiz/${categoryId}`}>
+      {role === "admin" || role === "user" ? (
+        <>
+          <Navbar />
+          <div className="page-container">
+            <h2>Available Quizzes for the Category: {categories.title} </h2>
+            {role === "admin" && (
+              <Link className="" to={`/addQuiz/${categoryId}`}>
                 Add Quiz
-              </Link>}
-              <div className="quiz-cards">
-                {quizzes.map((quiz) => (
-                  <div key={quiz.quizId} className="quiz-card">
-                    <h3>{quiz.title}</h3>
-                    <p>{quiz.description}</p>
-                    {role === 'user' ? <button className="start-quiz-button" onClick={()=> navigate(`/takeTest/${quiz.quizId}`)}>Start Quiz</button> : <>
-                    <button
-                      className="button-edit"
-                      onClick={() => navigate(`/updateQuiz/${quiz.quizId}`)}
-                    >
-                      Update
-                    </button>
-                    <button
-                      className="button-delete"
-                      onClick={() => deleteQuiz(quiz.quizId)}
-                    >
-                      Delete Quiz
-                    </button>
+              </Link>
+            )}
+            <div className="quiz-cards">
+              {quizzes.map((quiz) => (
+                <div key={quiz.quizId} className="quiz-card">
+                  <h3>{quiz.title}</h3>
+                  <p>{quiz.description}</p>
+                  {role === "user" ? (
                     <button
                       className="start-quiz-button"
-                      onClick={() => navigate(`/manage-questions/${quiz.quizId}`)}
+                      onClick={() => navigate(`/takeTest/${quiz.quizId}`)}
                     >
-                      Questions
+                      Start Quiz
                     </button>
-                    </> }
-                  </div>
-                ))}
-              </div>
+                  ) : (
+                    <>
+                      <button
+                        className="button-edit"
+                        onClick={() => navigate(`/updateQuiz/${quiz.quizId}`)}
+                      >
+                        Update
+                      </button>
+                      <button
+                        className="button-delete"
+                        onClick={() => deleteQuiz(quiz.quizId)}
+                      >
+                        Delete Quiz
+                      </button>
+                      <button
+                        className="start-quiz-button"
+                        onClick={() =>
+                          navigate(`/manage-questions/${quiz.quizId}`)
+                        }
+                      >
+                        Questions
+                      </button>
+                    </>
+                  )}
+                </div>
+              ))}
             </div>
-          </> :<NotFound/>
-        }
+          </div>
+        </>
+      ) : (
+        <NotFound />
+      )}
     </>
   );
 }

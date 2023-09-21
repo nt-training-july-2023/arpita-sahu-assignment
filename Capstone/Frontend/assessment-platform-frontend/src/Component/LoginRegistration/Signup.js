@@ -70,7 +70,7 @@ export default function Signup() {
     }
   };
   const handlephoneChange = (e) => {
-    const numericInput = e.target.value.replace(/\D/g, ""); 
+    const numericInput = e.target.value.replace(/\D/g, "");
     setPhoneNumber(numericInput);
     if (numericInput.length < 10) {
       setPhoneNumberError("Phone number must be at least 10 digits");
@@ -157,14 +157,14 @@ export default function Signup() {
       Swal.fire({
         title: "Success",
         text: "Registration Successful",
-        icon: "success"
+        icon: "success",
       });
       console.log("Registration successful!", response.data);
     } catch (error) {
       Swal.fire({
-        icon: 'error',
-        title: 'Error!',
-        text: 'Registration failed',
+        icon: "error",
+        title: "Error!",
+        text: "Registration failed",
       });
       console.error("Registration failed:", error);
     }

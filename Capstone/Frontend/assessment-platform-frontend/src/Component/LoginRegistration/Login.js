@@ -58,7 +58,7 @@ export default function Login() {
       Swal.fire({
         title: "Success",
         text: "Login Successful",
-        icon: "success"
+        icon: "success",
       });
       if (response.data.Role === "admin") navigate("/adminDashboard");
       if (response.data.Role === "user") navigate("/userDashboard");
@@ -69,9 +69,9 @@ export default function Login() {
       if (error.response.data.status === 409) {
         setPasswordError("Wrong Credentials");
         Swal.fire({
-          icon: 'error',
-          title: 'Error!',
-          text: 'Wrong Credentials',
+          icon: "error",
+          title: "Error!",
+          text: "Wrong Credentials",
         });
       }
       console.error("Login failed:", error);

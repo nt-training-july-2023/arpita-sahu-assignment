@@ -8,8 +8,8 @@ export default function AdminDashboard() {
     <div>
       {role === "admin" ? (
         <>
-        <Navbar />
-        <p>Welcome to AdminDashboard : Logged in as {role}</p>
+          <Navbar />
+          <p>Welcome to AdminDashboard : Logged in as {role}</p>
         </>
       ) : (
         <NotFound />

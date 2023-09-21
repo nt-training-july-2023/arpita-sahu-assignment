@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import {useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import NotFound from "../NotFound";
 import Swal from "sweetalert2";
 import Navbar from "../Navbar/Navbar";
@@ -12,7 +12,6 @@ function AddCategory() {
   const [descriptionError, setDescriptionError] = useState("");
   const { id } = useParams();
   const role = localStorage.getItem("userRole");
-  const navigate = useNavigate();
   useEffect(() => {
     if (id) {
       axios
@@ -55,7 +54,6 @@ function AddCategory() {
 
     return isValid;
   };
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -78,18 +76,19 @@ function AddCategory() {
             Swal.fire({
               title: "Success",
               text: "Category Added Successfully",
-              icon: "success"
+              icon: "success",
             });
             console.log("Category added successfully");
+            window.history.back();
           } else {
             console.error("Failed to add category");
           }
         } catch (error) {
           if (error.response && error.response.status === 409) {
             Swal.fire({
-              icon: 'error',
-              title: 'Error!',
-              text: 'Title already exists',
+              icon: "error",
+              title: "Error!",
+              text: "Title already exists",
             });
             console.error("Category with the same title already exists");
           } else {
@@ -109,9 +108,10 @@ function AddCategory() {
           Swal.fire({
             title: "Success",
             text: "Category Updated Successfully",
-            icon: "success"
+            icon: "success",
           });
           console.log("Category updated successfully");
+          window.history.back();
         } else {
           console.error("Failed to update category");
         }
@@ -120,41 +120,46 @@ function AddCategory() {
       console.error("An error occurred:", error);
     }
   };
-  // const handleNavigation = () =>{
-  //  navigate('/listcategory');
-  // }
   return (
-    <> 
-    <Navbar/>
-    {role === "admin" ? ( <>
-         <div className="category-form-container">
-          <div className="category-form-card">
-            <h2>{id ? "Update Category" : "Add Category"}</h2>
-            <form onSubmit={handleSubmit}>
-              <div>
-                <label>Title:</label>
-                <input type="text" value={title} onChange={handleTitleChange} />
-                {titleError && <p className="error-message">{titleError}</p>}
-              </div>
-              <div>
-                <label>Description:</label>
-                <textarea
-                  value={description}
-                  onChange={handleDescriptionChange}
-                />
-                {descriptionError && (
-                  <p className="error-message">{descriptionError}</p>
-                )}
-              </div>
-              <div>
-                <button type="submit">
-                  {id ? "Update Category" : "Add Category"} 
-                </button>
-                <button type="button" className="button-cancel">Cancel</button>
-              </div>
-            </form>
-          </div>        
-    </div></>
+    <>
+      <Navbar />
+      {role === "admin" ? (
+        <>
+          <div className="category-form-container">
+            <div className="category-form-card">
+              <h2>{id ? "Update Category" : "Add Category"}</h2>
+              <form onSubmit={handleSubmit}>
+                <div>
+                  <label>Title:</label>
+                  <input
+                    type="text"
+                    value={title}
+                    onChange={handleTitleChange}
+                  />
+                  {titleError && <p className="error-message">{titleError}</p>}
+                </div>
+                <div>
+                  <label>Description:</label>
+                  <textarea
+                    value={description}
+                    onChange={handleDescriptionChange}
+                  />
+                  {descriptionError && (
+                    <p className="error-message">{descriptionError}</p>
+                  )}
+                </div>
+                <div>
+                  <button type="submit">
+                    {id ? "Update Category" : "Add Category"}
+                  </button>
+                  <button type="button" className="button-cancel">
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </>
       ) : (
         <NotFound />
       )}
