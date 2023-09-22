@@ -2,6 +2,7 @@ package com.nucleusteq.asessmentPlatform.controllers;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,8 @@ import com.nucleusteq.asessmentPlatform.dto.CategoryDto;
 import com.nucleusteq.asessmentPlatform.exception.DuplicateResourceException;
 import com.nucleusteq.asessmentPlatform.exception.ResourceNotFoundException;
 import com.nucleusteq.asessmentPlatform.service.CategoryService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  * Controller class that handles CRUD operations for managing categories.
  */
@@ -29,6 +32,7 @@ public class CategoryController {
      */
     @Autowired
     private CategoryService categoryService;
+    private Logger logger = LoggerFactory.getLogger(CategoryController.class) ;
 
     /**
      * Saves a new category using the provided CategoryDto object.
@@ -45,9 +49,11 @@ public class CategoryController {
             @RequestBody final CategoryDto categoryDto) {
         try {
             categoryService.addCategory(categoryDto);
+            logger.info("Category Added Successfully");
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body("category added successfully.");
         } catch (DuplicateResourceException ex) {
+            logger.error("category already exist");
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body("category already exist");
         }
@@ -72,13 +78,16 @@ public class CategoryController {
     public final ResponseEntity<?> getCategoryById(@PathVariable final int id) {
         try {
             CategoryDto categoryDto = categoryService.getCategoryById(id);
+            logger.info("Get category by id");
             return ResponseEntity.ok(categoryDto);
         } catch (ResourceNotFoundException e) {
             String error = e.getMessage();
+            logger.error("category not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         } catch (Exception e) {
             String errorMessage =
                     "An error occurred while processing your request.";
+            logger.error(errorMessage);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(errorMessage);
         }
@@ -96,6 +105,7 @@ public class CategoryController {
     public final CategoryDto updateCategory(
             @RequestBody final CategoryDto category,
             @PathVariable final int id) {
+        logger.info("Category updated");
         return categoryService.updateCategory(category, id);
     }
 
@@ -107,6 +117,7 @@ public class CategoryController {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public final String deleteCategory(@PathVariable final int id) {
+        logger.info("category deleted");
         return categoryService.deleteCategory(id);
     }
 

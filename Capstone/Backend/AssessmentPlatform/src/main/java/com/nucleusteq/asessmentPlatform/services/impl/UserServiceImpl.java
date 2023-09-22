@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
                 .findByEmail(user.getEmail());
         if (existingUserByEmail.isPresent()) {
             throw new DuplicateEmailException("Email address already exists");
-        }    
+        }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole("user");
         userRepo.save(user);

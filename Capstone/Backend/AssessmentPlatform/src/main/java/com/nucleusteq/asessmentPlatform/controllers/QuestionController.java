@@ -73,7 +73,14 @@ public class QuestionController {
         return new ResponseEntity<QuestionDto>(
                 questionService.getQuestionById(quesId), HttpStatus.OK);
     }
-    
+
+    /**
+     * Retrieves a list of questions by quiz ID.
+     * @param quizId The unique identifier of the quiz for which questions are
+     *               to be retrieved.
+     * @return A list of QuestionDto objects representing questions associated
+     *         with the specified quiz ID.
+     */
     @RequestMapping(value = "quiz/{quizId}", method = RequestMethod.GET)
     public final List<QuestionDto> getQuestionByQuiId(
             @PathVariable final int quizId) {

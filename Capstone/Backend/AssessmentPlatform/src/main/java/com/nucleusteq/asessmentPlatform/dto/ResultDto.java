@@ -1,30 +1,22 @@
-package com.nucleusteq.asessmentPlatform.entities;
+package com.nucleusteq.asessmentPlatform.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Entity class representing a result of a quiz attempt.
+ * Data Transfer Object (DTO) representing a result of a quiz attempt.
  */
-@Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class Result {
+@NoArgsConstructor
+public class ResultDto {
+
     /**
      * The unique identifier of the result.
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "result_id")
     private int resultId;
 
     /**
@@ -72,3 +64,4 @@ public class Result {
      */
     private String dateAndTime;
 }
+

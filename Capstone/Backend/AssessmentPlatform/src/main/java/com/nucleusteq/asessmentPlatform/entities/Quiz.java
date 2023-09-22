@@ -64,9 +64,10 @@ public class Quiz {
      */
 
     public final Category getCategory() {
-        if(category != null)
-        return new Category(category.getCategoryId(), category.getTitle(),
-                category.getDescription());
+        if (category != null) {
+            return new Category(category.getCategoryId(), category.getTitle(),
+                    category.getDescription());
+        }
         return null;
     }
 
@@ -85,11 +86,11 @@ public class Quiz {
      * @param cat The Category object to set for this quiz.
      */
     public final void setCategory(final Category cat) {
-        if(cat != null)
-        this.category = new Category(cat.getCategoryId(), cat.getTitle(),
-                cat.getDescription()); 
-        else {
-         this.category=null;
+        if (cat != null) {
+            this.category = new Category(cat.getCategoryId(), cat.getTitle(),
+                    cat.getDescription());
+        } else {
+            this.category = null;
         }
     }
 
@@ -127,7 +128,7 @@ public class Quiz {
         this.title = quizTitle;
         this.description = desc;
         this.quizTimer = time;
-       
+
     }
 
 }
