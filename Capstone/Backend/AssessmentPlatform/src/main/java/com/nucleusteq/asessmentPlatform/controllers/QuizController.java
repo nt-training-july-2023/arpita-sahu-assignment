@@ -2,6 +2,8 @@ package com.nucleusteq.asessmentPlatform.controllers;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import com.nucleusteq.asessmentPlatform.dto.QuizDto;
 import com.nucleusteq.asessmentPlatform.exception.DuplicateResourceException;
 import com.nucleusteq.asessmentPlatform.service.QuizService;
 
+
 /**
  * Controller class for managing quizzes.
  */
@@ -29,6 +32,7 @@ public class QuizController {
      */
     @Autowired
     private QuizService quizService;
+    private Logger logger = LoggerFactory.getLogger(CategoryController.class);
 
     /**
      * Create a new quiz.
@@ -42,9 +46,11 @@ public class QuizController {
             @RequestBody final QuizDto quizDto) {
         try {
             quizService.addQuiz(quizDto);
+            logger.info("Quiz Added Successfully");
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body("Quiz Added Successfully.");
         } catch (DuplicateResourceException ex) {
+            logger.error("Quiz already exist");
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body("Quiz already exist");
         }
@@ -57,6 +63,7 @@ public class QuizController {
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public final List<QuizDto> getQuizzes() {
+        logger.info("Get All Quizzes");
         return quizService.getAllQuiz();
     }
 
@@ -70,6 +77,7 @@ public class QuizController {
     @RequestMapping(value = "/{quizId}", method = RequestMethod.GET)
     public final ResponseEntity<QuizDto> getQuizById(
             @PathVariable final int quizId) {
+        logger.info("Get Quiz By Quiz Id");
         return new ResponseEntity<QuizDto>(quizService.getQuizById(quizId),
                 HttpStatus.OK);
     }
@@ -85,6 +93,7 @@ public class QuizController {
     @RequestMapping(value = "category/{categoryId}", method = RequestMethod.GET)
     public final List<QuizDto> getQuizByCategoryId(
             @PathVariable final int categoryId) {
+        logger.info("Get Quiz By Category Id");
         return quizService.getQuizByCategoryId(categoryId);
     }
 
@@ -101,9 +110,11 @@ public class QuizController {
             @RequestBody final QuizDto quizDto) {
         try {
             quizService.updateQuiz(quizDto, quizId);
+            logger.info("Quiz Updated Successfully.");
             return ResponseEntity.status(HttpStatus.OK)
                     .body("Quiz Updated Successfully.");
         } catch (DuplicateResourceException ex) {
+            logger.error("Quiz already exist");
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body("Quiz already exist");
         }
@@ -118,6 +129,7 @@ public class QuizController {
      */
     @RequestMapping(value = "/{quizId}", method = RequestMethod.DELETE)
     public final String deleteCategory(@PathVariable final int quizId) {
+        logger.info("Quiz deleted Sucessfully");
         return quizService.deleteQuiz(quizId);
     }
 

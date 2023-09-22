@@ -32,7 +32,7 @@ public class CategoryController {
      */
     @Autowired
     private CategoryService categoryService;
-    private Logger logger = LoggerFactory.getLogger(CategoryController.class) ;
+    private Logger logger = LoggerFactory.getLogger(CategoryController.class);
 
     /**
      * Saves a new category using the provided CategoryDto object.

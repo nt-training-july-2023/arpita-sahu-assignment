@@ -5,9 +5,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.nucleusteq.asessmentPlatform.controllers.CategoryController;
 import com.nucleusteq.asessmentPlatform.dto.CategoryDto;
 import com.nucleusteq.asessmentPlatform.dto.QuizDto;
 import com.nucleusteq.asessmentPlatform.entities.Category;
@@ -43,7 +46,7 @@ public class QuizServiceImpl implements QuizService {
      */
     @Autowired
     private QuizRepo quizRepo;
-
+    private Logger logger = LoggerFactory.getLogger(CategoryController.class);
     /**
      * Create a new quiz.
      *
@@ -57,13 +60,16 @@ public class QuizServiceImpl implements QuizService {
         Quiz quiz = this.dtoToQuiz(quizDto);
         Optional<Quiz> existingQuiz = quizRepo.findByTitle(quiz.getTitle());
         if (existingQuiz.isPresent()) {
+            logger.error("Quiz Title already exist");
             throw new DuplicateResourceException("Quiz with title '"
                     + quiz.getTitle() + "' already exists.");
         }
         if (categoryRepo.findById(quiz.getCategory().getCategoryId())
                 .isPresent()) {
+            logger.info("Quiz saved successfully");
             quizRepo.save(quiz);
         } else {
+            logger.error("category not exist");
             throw new BadCredentialsException("Category not exist");
         }
         return this.quizToDto(quiz);
@@ -79,6 +85,7 @@ public class QuizServiceImpl implements QuizService {
         List<Quiz> quizzes = quizRepo.findAll();
         List<QuizDto> quizDtos = quizzes.stream()
                 .map(quiz -> this.quizToDto(quiz)).collect(Collectors.toList());
+        logger.info("Get All Quizzes");
         return quizDtos;
     }
 
@@ -87,6 +94,7 @@ public class QuizServiceImpl implements QuizService {
         List<Quiz> quizzes = quizRepo.findQuizByCategoryId(categoryId);
         List<QuizDto> quizDtos = quizzes.stream()
                 .map(quiz -> this.quizToDto(quiz)).collect(Collectors.toList());
+        logger.info("Get Quiz By Category Id");
         return quizDtos;
     }
 
@@ -103,6 +111,7 @@ public class QuizServiceImpl implements QuizService {
         Quiz quiz = quizRepo.findById(quizId)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Quiz not found with id " + quizId));
+        logger.info("Get Quiz by Quiz Id");
         return this.quizToDto(quiz);
     }
 
@@ -127,6 +136,7 @@ public class QuizServiceImpl implements QuizService {
                 Optional<Quiz> existingQuizByTitle = quizRepo
                         .findByTitle(newTitle);
                 if (existingQuizByTitle.isPresent()) {
+                    logger.error("Quiz title already exist");
                     throw new DuplicateResourceException("Quiz with title '"
                             + newTitle + "' already exists.");
                 }
@@ -135,8 +145,10 @@ public class QuizServiceImpl implements QuizService {
             existingQuiz.setDescription(updatedQuiz.getDescription());
             //existingQuiz.setCategory(updatedQuiz.getCategory());
             quizRepo.save(existingQuiz);
+            logger.info("Quiz Updated Successfully");
             return "Quiz Updated Successfully";
         } else {
+            logger.error("Quiz not found");
             throw new ResourceNotFoundException(
                     "Quiz not found with ID " + quizId);
         }
@@ -156,6 +168,7 @@ public class QuizServiceImpl implements QuizService {
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Quiz not found with id " + quizId));
         quizRepo.delete(quiz);
+        logger.info("Quiz deleted successfully");
         return quizId + " deleted successfully";
     }
 

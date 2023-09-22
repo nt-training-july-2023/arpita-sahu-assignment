@@ -7,10 +7,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.nucleusteq.asessmentPlatform.controllers.CategoryController;
 import com.nucleusteq.asessmentPlatform.dto.UserDto;
 import com.nucleusteq.asessmentPlatform.entities.LoginRequest;
 import com.nucleusteq.asessmentPlatform.entities.User;
@@ -44,18 +47,26 @@ public class UserServiceImpl implements UserService {
      */
     @Autowired
     private ModelMapper modelMapper;
+    private Logger logger = LoggerFactory.getLogger(CategoryController.class);
 
     @Override
     public final String registerUser(final UserDto userDto) {
         User user = this.dtoToUser(userDto);
         Optional<User> existingUserByEmail = userRepo
                 .findByEmail(user.getEmail());
+        String regex = "^[A-Za-z0-9+_.-]+@nucleusteq\\.com$";
+        if (!user.getEmail().matches(regex)) {
+            logger.error("Invalid email format");
+            throw new BadCredentialsException("Invalid email format");
+        }
         if (existingUserByEmail.isPresent()) {
+            logger.error("Email address already exists");
             throw new DuplicateEmailException("Email address already exists");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole("user");
         userRepo.save(user);
+        logger.info("User Register successfully");
         return "User Register successfully";
     }
 
@@ -64,6 +75,7 @@ public class UserServiceImpl implements UserService {
         List<User> users = this.userRepo.findAll();
         List<UserDto> userDtos = users.stream()
                 .map(user -> this.userToDto(user)).collect(Collectors.toList());
+        logger.info("Get All Users");
         return userDtos;
     }
 
@@ -73,6 +85,7 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new UserNotFoundException(
                         "user not found with id " + id));
         userRepo.delete(user);
+        logger.info("User deleted successfully");
         return id + " deleted successfully";
     }
 
@@ -83,11 +96,14 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
         if (!passwordEncoder.matches(loginRequest.getPassword(),
                 user.getPassword())) {
+            logger.error("Bad Credentials");
             throw new BadCredentialsException("Invalid password");
         }
         Map<String, String> response = new HashMap<>();
         response.put("Status", "True");
         response.put("Role", user.getRole());
+        response.put("Name", user.getFirstName());
+        logger.info("login successfully");
         return response;
     }
 

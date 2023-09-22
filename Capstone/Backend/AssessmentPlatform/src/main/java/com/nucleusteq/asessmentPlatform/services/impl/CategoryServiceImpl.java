@@ -5,8 +5,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.nucleusteq.asessmentPlatform.controllers.CategoryController;
 import com.nucleusteq.asessmentPlatform.dto.CategoryDto;
 import com.nucleusteq.asessmentPlatform.entities.Category;
 import com.nucleusteq.asessmentPlatform.exception.DuplicateResourceException;
@@ -33,7 +37,7 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Autowired
     private ModelMapper modelMapper;
-
+    private Logger logger = LoggerFactory.getLogger(CategoryController.class);
     /**
      * Adds a new category.
      *
@@ -49,10 +53,12 @@ public class CategoryServiceImpl implements CategoryService {
         Optional<Category> existingCategory = categoryRepo
                 .findByTitle(category.getTitle());
         if (existingCategory.isPresent()) {
+            logger.error("Category with Title already exist");
             throw new DuplicateResourceException("Category with title '"
                     + category.getTitle() + "' already exists.");
         }
         categoryRepo.save(category);
+        logger.info("Category saved in Category Repository.");
         return this.categoryToDto(category);
     }
 
@@ -67,6 +73,7 @@ public class CategoryServiceImpl implements CategoryService {
         List<CategoryDto> categoryDtos = categories.stream()
                 .map(category -> this.categoryToDto(category))
                 .collect(Collectors.toList());
+        logger.info("Get All Category");
         return categoryDtos;
     }
 
@@ -83,6 +90,7 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = categoryRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Category not found with id " + id));
+        logger.info("Get Category by Category Id");
         return this.categoryToDto(category);
     }
 
@@ -104,6 +112,7 @@ public class CategoryServiceImpl implements CategoryService {
         updatedCategory.setTitle(category.getTitle());
         updatedCategory.setDescription(category.getDescription());
         categoryRepo.save(updatedCategory);
+        logger.info("category updated successfully");
         return this.categoryToDto(updatedCategory);
     }
 
@@ -121,6 +130,7 @@ public class CategoryServiceImpl implements CategoryService {
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "category not found with id " + id));
         categoryRepo.delete(category);
+        logger.info("category deleted");
         return id + " deleted successfully";
     }
 

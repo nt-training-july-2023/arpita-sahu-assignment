@@ -2,6 +2,8 @@ package com.nucleusteq.asessmentPlatform.controllers;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,7 @@ public class ResultController {
      */
     @Autowired
     private ResultService resultService;
+    private Logger logger = LoggerFactory.getLogger(CategoryController.class);
 
     /**
      * Adds a new result.
@@ -40,6 +43,7 @@ public class ResultController {
     public final ResponseEntity<String> addResult(
             @RequestBody final ResultDto resultDto) {
         resultService.addResult(resultDto);
+        logger.info("Result Added Successfully.");
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("Result Added Successfully.");
     }
@@ -51,6 +55,7 @@ public class ResultController {
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public final List<ResultDto> getAllResults() {
+        logger.info("Get All Results");
         return resultService.getAllResults();
     }
 
@@ -64,6 +69,7 @@ public class ResultController {
     @RequestMapping(value = "/{email}", method = RequestMethod.GET)
     public final List<ResultDto> getResultByEmail(
             @PathVariable final String email) {
+        logger.info("Get Results by User email");
         return resultService.getResultByEmail(email);
     }
 }

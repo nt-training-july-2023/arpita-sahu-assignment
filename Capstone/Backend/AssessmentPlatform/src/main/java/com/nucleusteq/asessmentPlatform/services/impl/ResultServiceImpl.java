@@ -4,9 +4,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.nucleusteq.asessmentPlatform.controllers.CategoryController;
 import com.nucleusteq.asessmentPlatform.dto.ResultDto;
 import com.nucleusteq.asessmentPlatform.entities.Result;
 import com.nucleusteq.asessmentPlatform.repositories.ResultRepo;
@@ -28,6 +31,7 @@ public class ResultServiceImpl implements ResultService {
      */
     @Autowired
     private ResultRepo resultRepo;
+    private Logger logger = LoggerFactory.getLogger(CategoryController.class);
 
     /**
      * Adds a new result.
@@ -39,6 +43,7 @@ public class ResultServiceImpl implements ResultService {
     public final ResultDto addResult(final ResultDto resultDto) {
         Result result = dtoToResult(resultDto);
         resultRepo.save(result);
+        logger.info("result saved successfully");
         return resultToDto(result);
     }
 
@@ -53,6 +58,7 @@ public class ResultServiceImpl implements ResultService {
         List<ResultDto> resultDtos = results.stream()
                 .map(result -> this.resultToDto(result))
                 .collect(Collectors.toList());
+        logger.info("Get All Results");
         return resultDtos;
     }
 
@@ -69,6 +75,7 @@ public class ResultServiceImpl implements ResultService {
         List<ResultDto> resultDtos = results.stream()
                 .map(result -> this.resultToDto(result))
                 .collect(Collectors.toList());
+        logger.info("Get Result By Email");
         return resultDtos;
     }
 

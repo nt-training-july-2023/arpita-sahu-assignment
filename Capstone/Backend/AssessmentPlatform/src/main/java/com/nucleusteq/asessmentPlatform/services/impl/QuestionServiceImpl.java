@@ -5,8 +5,12 @@ import java.util.List;
 
 import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.nucleusteq.asessmentPlatform.controllers.CategoryController;
 import com.nucleusteq.asessmentPlatform.dto.QuestionDto;
 import com.nucleusteq.asessmentPlatform.entities.Question;
 import com.nucleusteq.asessmentPlatform.entities.Quiz;
@@ -32,6 +36,7 @@ public class QuestionServiceImpl implements QuestionService {
      */
     @Autowired
     private QuestionRepo questionRepo;
+    private Logger logger = LoggerFactory.getLogger(CategoryController.class);
 
     /**
      * Adds a new question.
@@ -46,12 +51,14 @@ public class QuestionServiceImpl implements QuestionService {
         Question question = this.dtoToQues(questionDto);
         if (question == null || question.getQuestion() == null
                 || question.getQuestion().isEmpty()) {
+            logger.error("Question must not be empty");
             throw new BadCredentialsException("Question must not be empty");
         }
         Quiz quiz = new Quiz();
         quiz.setQuizId(questionDto.getQuizId());
         question.setQuiz(quiz);
         questionRepo.save(question);
+        logger.info("Question saved in Question Repository");
         return this.quesToDto(question);
     }
 
@@ -67,6 +74,7 @@ public class QuestionServiceImpl implements QuestionService {
         List<QuestionDto> questionDtos = questions.stream()
                 .map(question -> this.quesToDto(question))
                 .collect(Collectors.toList());
+        logger.info("Get All Questions");
         return questionDtos;
     }
 
@@ -83,6 +91,7 @@ public class QuestionServiceImpl implements QuestionService {
         Question question = questionRepo.findById(quesId)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Question not found with id " + quesId));
+        logger.info("Get Question by Question Id");
         return this.quesToDto(question);
     }
 
@@ -91,6 +100,7 @@ public class QuestionServiceImpl implements QuestionService {
         List<Question> questions = questionRepo.findQuestionByQuizId(quizId);
         List<QuestionDto> quesDtos = questions.stream()
                 .map(ques -> this.quesToDto(ques)).collect(Collectors.toList());
+        logger.info("Get Question by Quiz Id");
         return quesDtos;
     }
 
@@ -115,6 +125,7 @@ public class QuestionServiceImpl implements QuestionService {
         updatedQuestion.setOption4(question.getOption4());
         updatedQuestion.setAnswer(question.getAnswer());
         questionRepo.save(updatedQuestion);
+        logger.info("Question Updated");
         return this.quesToDto(updatedQuestion);
     }
 
@@ -132,6 +143,7 @@ public class QuestionServiceImpl implements QuestionService {
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Question Not found with id " + quesId));
         questionRepo.delete(question);
+        logger.info("Question deleted Successfully");
         return quesId + " deleted Successfully";
     }
 

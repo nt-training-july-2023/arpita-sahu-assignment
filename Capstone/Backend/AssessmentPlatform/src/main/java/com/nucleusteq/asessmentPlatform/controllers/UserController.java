@@ -3,6 +3,8 @@ package com.nucleusteq.asessmentPlatform.controllers;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,7 +30,7 @@ public class UserController {
      */
     @Autowired
     private UserService userService;
-
+    private Logger logger = LoggerFactory.getLogger(CategoryController.class);
     /**
      * Endpoint for registering a new user.
      *
@@ -37,6 +39,7 @@ public class UserController {
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public final String saveUser(@RequestBody final UserDto userDto) {
+        logger.info("User Register Successfully");
         return userService.registerUser(userDto);
     }
 
@@ -47,6 +50,7 @@ public class UserController {
      */
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     public final List<UserDto> getAllUsers() {
+        logger.info("Get All Users");
         return userService.getAllUsers();
     }
 
@@ -58,6 +62,7 @@ public class UserController {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public final String deleteUser(@PathVariable final int id) {
+        logger.info("User deleted Successfully");
         return userService.deleteUser(id);
     }
 
@@ -72,6 +77,7 @@ public class UserController {
     @PostMapping("/login")
     public final Map<String, String> loginUser(
             @RequestBody final LoginRequest loginRequest) {
+        logger.info("login Successfully");
         return userService.loginUser(loginRequest);
     }
 }
