@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import axios from "axios";
 import Swal from "sweetalert2";
+import ServiceURL from "../Service/ServiceURL";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -51,7 +51,7 @@ export default function Login() {
     }
 
     try {
-      const response = await axios.post("http://localhost:8080/api/login", {
+      const response = await ServiceURL.userLogin({
         email,
         password,
       });
@@ -65,6 +65,8 @@ export default function Login() {
       console.log("Login successfully!", response.data);
       localStorage.setItem("isLoggedIn", response.status);
       localStorage.setItem("userRole", response.data.Role);
+      localStorage.setItem("name",response.data.Name);
+      localStorage.setItem('selectedEmail', email);
     } catch (error) {
       if (error.response.data.status === 409) {
         setPasswordError("Wrong Credentials");

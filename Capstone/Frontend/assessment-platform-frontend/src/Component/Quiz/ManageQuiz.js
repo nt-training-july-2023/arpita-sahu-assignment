@@ -4,6 +4,7 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import "./quiz.css";
 import Navbar from "../Navbar/Navbar";
 import NotFound from "../NotFound";
+import Swal from "sweetalert2";
 export default function ManageQuiz() {
   const [quizzes, setQuizzes] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -38,9 +39,21 @@ export default function ManageQuiz() {
 
   const deleteQuiz = async (id) => {
     try {
+      const result = await Swal.fire({
+        title: 'Delete Quiz',
+        text: 'Are you sure you want to delete this Quiz?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it',
+        cancelButtonText: 'No, keep it',
+      });
+      if(result.isConfirmed){
       await axios.delete(`http://localhost:8080/quiz/${id}`);
       console.log("quiz deleted successfully");
       loadQuizzes();
+      }else{
+        console.log("Quiz deletion canceled");
+      }
     } catch (error) {
       console.log("Failed to Delete Quiz" + error);
     }
@@ -61,12 +74,25 @@ export default function ManageQuiz() {
             <div className="quiz-cards">
               {quizzes.map((quiz) => (
                 <div key={quiz.quizId} className="quiz-card">
-                  <h3>{quiz.title}</h3>
-                  <p>{quiz.description}</p>
+                  <h3>Title : {quiz.title}</h3>
+                  <p>Description : {quiz.description}</p>
+                  <p>Quiz Timer : {quiz.quizTimer}</p>
                   {role === "user" ? (
                     <button
-                      className="start-quiz-button"
-                      onClick={() => navigate(`/takeTest/${quiz.quizId}`)}
+                      className="start-quiz-button"                   
+                      onClick={() =>{ 
+                        localStorage.setItem('selectedQuizTitle', quiz.title);
+                        Swal.fire({
+                          title: 'Quiz Instructions',
+                          text: 'Please read the following instructions before starting the quiz:\n\n1. Answer all questions to the best of your ability.\n2. You have a limited time to complete the quiz.\n3. Once started, the quiz cannot be paused or restarted.',
+                          icon: 'info',
+                          confirmButtonText: 'Start Quiz',
+                        }).then((result) => {
+                          if (result.isConfirmed) {
+                            navigate(`/takeTest/${quiz.quizId}`);
+                          }
+                        });
+                      }}
                     >
                       Start Quiz
                     </button>

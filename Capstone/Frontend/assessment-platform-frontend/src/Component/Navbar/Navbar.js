@@ -14,6 +14,10 @@ export default function Navbar() {
     });
    localStorage.removeItem('isLoggedIn');
    localStorage.removeItem('userRole');
+   localStorage.removeItem('name');
+   localStorage.removeItem('selectedEmail');
+   localStorage.removeItem('selectedQuizTitle');
+   localStorage.removeItem('selectedCategoryTitle');
    navigate('/login');
   }
   return (
@@ -27,7 +31,7 @@ export default function Navbar() {
      
       <Link to ="">About</Link>
       <Link to ="/listcategory">Categories</Link>
-      {/* <Link to ="/quiz">Quiz</Link> */}
+      <Link to="/result">Results</Link>
       <button className="logout" onClick={handleLogout}>Logout</button>
     </div>
     

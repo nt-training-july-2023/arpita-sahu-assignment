@@ -4,6 +4,8 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import NotFound from "../NotFound";
 import Navbar from "../Navbar/Navbar";
 import "./question.css";
+import Swal from "sweetalert2";
+
 export default function ManageQuestion() {
   const [questions, setQuestions] = useState([]);
   const { quizId } = useParams();
@@ -26,10 +28,20 @@ export default function ManageQuestion() {
 
   const deleteQuestion = async (id) => {
     try {
+      const result = await Swal.fire({
+        title: 'Delete Question',
+        text: 'Are you sure you want to delete this Question?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it',
+        cancelButtonText: 'No, keep it',
+      });
+      if(result.isConfirmed){
       await axios.delete(`http://localhost:8080/ques/${id}`);
       console.log("Question deleted successfully");
       loadQuestions();
-    } catch (error) {
+    } 
+  }catch (error) {
       console.log("Failed to Delete Question" + error);
     }
   };
@@ -61,7 +73,7 @@ export default function ManageQuestion() {
                       navigate(`/updatequestion/${question.quesId}`)
                     }
                   >
-                    Update
+                    Update Question
                   </button>
                   <button
                     className="button-delete"

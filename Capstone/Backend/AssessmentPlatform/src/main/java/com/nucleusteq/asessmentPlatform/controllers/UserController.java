@@ -23,7 +23,7 @@ import com.nucleusteq.asessmentPlatform.service.UserService;
  */
 @RestController
 @CrossOrigin
-@RequestMapping("/api")
+@RequestMapping("/users")
 public class UserController {
     /**
      * The service responsible for managing user-related operations.
@@ -48,7 +48,7 @@ public class UserController {
      *
      * @return A list of UserDto objects representing all users.
      */
-    @RequestMapping(value = "/users", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public final List<UserDto> getAllUsers() {
         logger.info("Get All Users");
         return userService.getAllUsers();

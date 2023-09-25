@@ -36,8 +36,20 @@
     }
   }
 
-  input[type="radio"]{
+  .question-card input[type="radio"]{
     margin: 0 10px;
   }
-
+  .submitTest {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .submitTest button {
+    width: 70%; 
+  }
+  
+  
+  
+  
+  
   

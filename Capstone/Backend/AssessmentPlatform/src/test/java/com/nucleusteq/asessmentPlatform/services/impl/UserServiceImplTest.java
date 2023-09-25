@@ -71,6 +71,15 @@ public class UserServiceImplTest {
         assertEquals("User Register successfully", result);
 
     }
+    @Test
+    public void testRegisterUserInvalidEmailFormat() {
+        UserDto userDto = new UserDto();
+        userDto.setEmail("arpita@gmail.com");
+        User user = new User();
+        user.setEmail(userDto.getEmail());
+        when(modelMapper.map(userDto, User.class)).thenReturn(user);
+        assertThrows(BadCredentialsException.class, () -> userService.registerUser(userDto));
+    }
 
     @Test
     public void testRegisterUserWithDuplicateEmail() {

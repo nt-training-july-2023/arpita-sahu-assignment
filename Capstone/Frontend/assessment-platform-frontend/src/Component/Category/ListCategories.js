@@ -4,7 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import "./CategoryList.css";
 import Navbar from "../Navbar/Navbar";
 import NotFound from "../NotFound";
-
+import Swal from "sweetalert2";
 function CategoryList() {
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
@@ -20,11 +20,24 @@ function CategoryList() {
   };
 
   const deleteCategory = async (id) => {
-    try {
+    try{
+    const result = await Swal.fire({
+      title: 'Delete Category',
+      text: 'Are you sure you want to delete this category?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it',
+      cancelButtonText: 'No, keep it',
+    });
+
+    if (result.isConfirmed) {
       await axios.delete(`http://localhost:8080/category/${id}`);
-      console.log("category deleted successfully");
+      console.log("Category deleted successfully");
       loadCategories();
-    } catch (error) {
+    } else {
+      console.log("Category deletion canceled");
+    }}
+    catch (error) {
       console.log("An error occured:", error);
     }
   };
@@ -93,9 +106,13 @@ function CategoryList() {
                         <td>
                           <button
                             className="button-quiz"
-                            onClick={() =>
-                              navigate(`/quiz/${category.categoryId}`)
-                            }
+                            onClick={() => {
+                              localStorage.setItem(
+                                "selectedCategoryTitle",
+                                category.title
+                              );
+                              navigate(`/quiz/${category.categoryId}`);
+                            }}
                           >
                             Quizzes
                           </button>

@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import axios from "axios";
 import "./LoginReg.css";
 import Swal from "sweetalert2";
-
+import ServiceURL from "../Service/ServiceURL";
 export default function Signup() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -147,7 +146,7 @@ export default function Signup() {
     }
 
     try {
-      const response = await axios.post("http://localhost:8080/api/register", {
+      const response = await ServiceURL.userRegistration({
         firstName,
         lastName,
         email,

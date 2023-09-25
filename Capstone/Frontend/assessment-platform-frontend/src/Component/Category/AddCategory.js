@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import NotFound from "../NotFound";
 import Swal from "sweetalert2";
 import Navbar from "../Navbar/Navbar";
-
+import ServiceURL from "../Service/ServiceURL";
+import axios from "axios";
 function AddCategory() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [titleError, setTitleError] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
+  const navigate = useNavigate();
   const { id } = useParams();
   const role = localStorage.getItem("userRole");
   useEffect(() => {
     if (id) {
-      axios
-        .get(`http://localhost:8080/category/${id}`)
+        ServiceURL.getCategoryById(id)
         .then((response) => {
           setTitle(response.data.title);
           setDescription(response.data.description);
@@ -62,39 +62,37 @@ function AddCategory() {
     }
 
     try {
+      const category = { title, description };
       if (!id) {
-        try {
-          const response = await axios.post(
-            "http://localhost:8080/category/save",
-            {
-              title,
-              description,
+        ServiceURL.addCategory(category)
+          .then((response) => {
+            console.log(response);
+  
+            if (response.status === 201) {
+              Swal.fire({
+                title: "Success",
+                text: "Category Added Successfully",
+                icon: "success",
+              });
+              console.log("Category added successfully");
+              window.history.back();
+            } else {
+              console.error("Failed to add category");
             }
-          );
-
-          if (response.status === 201) {
-            Swal.fire({
-              title: "Success",
-              text: "Category Added Successfully",
-              icon: "success",
-            });
-            console.log("Category added successfully");
-            window.history.back();
-          } else {
-            console.error("Failed to add category");
-          }
-        } catch (error) {
-          if (error.response && error.response.status === 409) {
-            Swal.fire({
-              icon: "error",
-              title: "Error!",
-              text: "Title already exists",
-            });
-            console.error("Category with the same title already exists");
-          } else {
-            console.error("An error occurred:", error.message);
-          }
-        }
+          })
+          .catch((error) => {
+            if (error.response && error.response.status === 409) {
+              Swal.fire({
+                icon: "error",
+                title: "Error!",
+                text: "Title already exists",
+              });
+              console.error("Category with the same title already exists");
+            } else {
+              console.error("An error occurred:", error.message);
+            }
+          });
+         
       } else {
         const response = await axios.put(
           `http://localhost:8080/category/${id}`,
@@ -108,7 +106,7 @@ function AddCategory() {
           Swal.fire({
             title: "Success",
             text: "Category Updated Successfully",
-            icon: "success",
+            icon: "success"
           });
           console.log("Category updated successfully");
           window.history.back();
@@ -152,7 +150,7 @@ function AddCategory() {
                   <button type="submit">
                     {id ? "Update Category" : "Add Category"}
                   </button>
-                  <button type="button" className="button-cancel">
+                  <button type="button" className="button-cancel" onClick={()=> navigate('/listcategory')}>
                     Cancel
                   </button>
                 </div>

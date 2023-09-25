@@ -7,9 +7,10 @@
 }
 
 .category-card {
-  width: 60%;
+  /* width: 60%; */
   padding: 20px;
-  margin-top: 50px;
+  /* margin-top: 50px; */
+  height: 80vh;
   border: 1px solid #ccc;
   border-radius: 8px;
   background-color: #fff;
@@ -171,12 +172,13 @@ h2 {
 .category-form-card {
   width: 500px;
   padding: 40px;
-  max-height: 80vh;
+  max-height: 75vh;
   overflow-y: auto;
   border: 1px solid #ccc;
   border-radius: 8px;
   background-color: #fff;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  margin-bottom: 30px;
 }
 
 h2 {
@@ -193,6 +195,7 @@ label {
   margin-bottom: 5px;
   color: #2d2455;
   font-weight: 500;
+  display: block; 
 }
 
 textarea {
@@ -200,13 +203,16 @@ textarea {
   height: 150px;
   padding: 12px 20px;
   box-sizing: border-box;
-  border: 2px solid #ccc;
+  border: 1px solid #ccc;
   border-radius: 4px;
   background-color: #f8f8f8;
   border-color: #2d2455;
   resize: none;
 }
 
+label{
+  margin-top: 10px;
+}
 button[type="submit"] {
   padding: 10px 20px;
   background-color: #2d2455;
@@ -220,18 +226,14 @@ button[type="submit"] {
   color: #ff0000;
   margin-top: 5px;
 }
-select {
+.category-form-container input, select {
   width: 100%;
   padding: 12px 20px;
-  margin: 8px 0;
+  margin: 2px 0; 
   border-color: #2d2455;
   box-sizing: border-box;
-  background-color: #f8f8f8;
   border-radius: 4px;
   color: #2d2455;
   font-weight: 500;
-}
-
-select:hover {
-  border-color: #2d2455;
+  border: 1px solid #2d2455;
 }

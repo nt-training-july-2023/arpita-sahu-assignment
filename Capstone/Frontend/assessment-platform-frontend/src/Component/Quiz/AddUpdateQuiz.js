@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import {useParams } from "react-router-dom";
 import NotFound from "../NotFound";
 import Swal from "sweetalert2";
 import Navbar from "../Navbar/Navbar";
@@ -178,7 +178,7 @@ function AddUpdateQuiz() {
                   <button type="submit">
                     {quizId ? "Update Quiz" : "Add Quiz"}
                   </button>
-                  <button type="button" className="button-cancel">
+                  <button type="button" className="button-cancel" onClick={()=> window.history.back()}>
                     Cancel
                   </button>
                 </div>

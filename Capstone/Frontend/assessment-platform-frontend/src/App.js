@@ -13,6 +13,7 @@ import ManageQuiz from "./Component/Quiz/ManageQuiz";
 import ManageQuestion from "./Component/Question/ManageQuestion";
 import AddUpdateQuestion from "./Component/Question/AddUpdateQuestion";
 import TakeTest from "./Component/Question/TakeTest";
+import Result from "./Component/Result/Result";
 
 function App() {
  
@@ -36,6 +37,7 @@ function App() {
           <Route path="/addquestion/:quizId" element={<AddUpdateQuestion/>}/>
           <Route path="/updatequestion/:quesId" element={<AddUpdateQuestion/>}/>
           <Route path="/takeTest/:quizId" element ={<TakeTest/>}/>
+          <Route path="/result" element ={<Result/>}/>
         </Routes>
       </BrowserRouter>
     </div>

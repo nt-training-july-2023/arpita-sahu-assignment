@@ -196,7 +196,7 @@ function AddUpdateQuestion() {
                   <button type="submit">
                     {quizId ? "Add Question" : "Update Question"}
                   </button>
-                  <button type="button" className="button-cancel">
+                  <button type="button" className="button-cancel" onClick={()=> window.history.back()}>
                     Cancel
                   </button>
                 </div>
