@@ -6,20 +6,20 @@ import "./question.css";
 export default function TakeTest() {
   const [questions, setQuestions] = useState([]);
   const [selectedAnswers, setSelectedAnswers] = useState({});
-  const [submitted, setSubmitted] = useState(false);
-  const [score, setScore] = useState(0);
   const { quizId } = useParams();
   const navigate = useNavigate();
   const userName = localStorage.getItem('name');
   const quizTitle=localStorage.getItem('selectedQuizTitle');
   const categoryTitle = localStorage.getItem('selectedCategoryTitle');
   const userEmail = localStorage.getItem('selectedEmail');
+  const [score, setScore]=useState(0);
   const [timeInSeconds, setTimeInSeconds] = useState(0);
 
   useEffect(() => {
     loadQuestions();
     loadQuizTimer();
-  }, []);
+  }, [quizId]);
+
   useEffect(() => {
     if (timeInSeconds > 0) {
       const timerInterval = setInterval(() => {
@@ -27,6 +27,9 @@ export default function TakeTest() {
       }, 1000);
 
       return () => clearInterval(timerInterval);
+    }
+    else{
+      handleSubmit();
     }
     
   }, [timeInSeconds]);
@@ -61,9 +64,22 @@ export default function TakeTest() {
       [questionId]: selectedOption,
     }));
   };
+ const formatDateTime=(dateTime)=> {
+    const year = dateTime.getFullYear();
+    const month = (dateTime.getMonth() + 1).toString().padStart(2, '0'); 
+    const day = dateTime.getDate().toString().padStart(2, '0');
+    const hours = dateTime.getHours();
+    const minutes = dateTime.getMinutes();
+    const seconds = dateTime.getSeconds();
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  }
 
   const handleSubmit = async(e) => {
-    e.preventDefault()
+    if(e){
+    e.preventDefault();
+    }
+    const currentTime = new Date();
+    const formattedTime = formatDateTime(currentTime);
     let obtainedScore = 0;
     questions.forEach((question) => {
       const correctAnswer = question.answer;
@@ -72,8 +88,7 @@ export default function TakeTest() {
         obtainedScore += 1;
       }
     });
-    setScore(obtainedScore);
-    setSubmitted(true);
+    setScore(obtainedScore);  
     try {
       const response = await axios.post("http://localhost:8080/result/save", {
         obtainedMarks: obtainedScore,
@@ -83,6 +98,7 @@ export default function TakeTest() {
         quizTitle:quizTitle,
         categoryTitle:categoryTitle,
         totalNumOfQues: questions.length,
+        dateAndTime:formattedTime,
         numofAttemptedQues: Object.keys(selectedAnswers).length,
       });
      console.log(response);
