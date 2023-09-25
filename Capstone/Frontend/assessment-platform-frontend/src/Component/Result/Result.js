@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import Navbar from '../Navbar/Navbar';
+import DisableBackButton from '../DisableBackButton';
 export default function Result() {
     const[results, setResults]= useState([]);
     const role = localStorage.getItem('userRole');
     const userEmail = localStorage.getItem('selectedEmail');
+
     useEffect( () => {
       if(role === 'user')
         loadResults();
       if(role === 'admin')
       loadAllResult();
     },[role]);
+    
     const loadResults = async () => {
         try {
           const response = await axios.get(
@@ -34,6 +37,7 @@ export default function Result() {
   return (
   <>
     <Navbar/>
+    <DisableBackButton/>
           <div className="category-wrapper-container">
             <div className="category-card">
               <div className="category_wrapper">
@@ -52,7 +56,7 @@ export default function Result() {
                     <th>Total Marks</th>
                     <th>Number of Question Attempted</th>
                     <th>Total Question</th>
-                    <th>Date & Time</th>
+                    <th><center>Date & Time</center></th>
                     </tr>
                   </thead>
                   <tbody>

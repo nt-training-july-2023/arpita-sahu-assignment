@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import "./question.css";
+import Swal from "sweetalert2";
+import DisableBackButton from "../DisableBackButton";
 
 export default function TakeTest() {
   const [questions, setQuestions] = useState([]);
@@ -14,25 +16,28 @@ export default function TakeTest() {
   const userEmail = localStorage.getItem('selectedEmail');
   const [score, setScore]=useState(0);
   const [timeInSeconds, setTimeInSeconds] = useState(0);
+  const [timerEnded, setTimerEnded] = useState(false);
 
   useEffect(() => {
     loadQuestions();
     loadQuizTimer();
   }, [quizId]);
 
-  useEffect(() => {
-    if (timeInSeconds > 0) {
-      const timerInterval = setInterval(() => {
+  
+    const handleCountdown = () => {
+      if (timeInSeconds > 0) {
         setTimeInSeconds((prevTime) => prevTime - 1);
-      }, 1000);
+      } else if(!timerEnded){
+        setTimerEnded(true);
+        showAutoSubmitMessage();
+      }
+    };
 
-      return () => clearInterval(timerInterval);
-    }
-    else{
-      handleSubmit();
-    }
-    
-  }, [timeInSeconds]);
+    useEffect(() => {
+      const countdownInterval = setInterval(handleCountdown, 1000);
+      return () => clearInterval(countdownInterval);
+    }, [timeInSeconds, timerEnded]);
+
 
   const loadQuizTimer = async () => {
     try {
@@ -73,6 +78,31 @@ export default function TakeTest() {
     const seconds = dateTime.getSeconds();
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   }
+  const handleManualSubmit = async (e) => {
+    e.preventDefault();
+    const result = await Swal.fire({
+      title: 'Submit Answers',
+      text: 'Are you sure you want to submit your answers?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, submit',
+      cancelButtonText: 'No, cancel',
+    });
+    if (result.isConfirmed) {
+      handleSubmit();
+    }
+  };
+  const showAutoSubmitMessage = () => {
+    Swal.fire({
+      text: 'Time has ended. The test will be submitted automatically.',
+      icon: 'info',
+      timer: 1000, 
+      timerProgressBar: true,
+      showConfirmButton: false,
+    }).then(() => {
+      handleSubmit();
+    });
+  };
 
   const handleSubmit = async(e) => {
     if(e){
@@ -110,6 +140,7 @@ export default function TakeTest() {
 
   return (
     <div>
+      <DisableBackButton/>
       <h1>Take Test</h1>
       <div className="quiz-timer">
         Time Left: {Math.floor(timeInSeconds / 60)}:{(timeInSeconds % 60).toString().padStart(2, "0")}
@@ -150,7 +181,7 @@ export default function TakeTest() {
             </div>
           ))}
           <div className="submitTest">
-          <button type="submit">Submit Answers</button>
+          <button type="submit" onClick={handleManualSubmit}>Submit Answers</button>
           </div>
         </form>
       ) : (
