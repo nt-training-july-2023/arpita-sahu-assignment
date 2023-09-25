@@ -28,6 +28,7 @@ export default function TakeTest() {
 
       return () => clearInterval(timerInterval);
     }
+    
   }, [timeInSeconds]);
 
   const loadQuizTimer = async () => {
@@ -62,7 +63,7 @@ export default function TakeTest() {
   };
 
   const handleSubmit = async(e) => {
-    e.preventDefault();
+    e.preventDefault()
     let obtainedScore = 0;
     questions.forEach((question) => {
       const correctAnswer = question.answer;
