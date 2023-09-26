@@ -81,7 +81,7 @@ function AddCategory() {
             }
           })
           .catch((error) => {
-            if (error.response && error.response.status === 409) {
+            if (error.response && error.response.status === 302) {
               Swal.fire({
                 icon: "error",
                 title: "Error!",
@@ -89,6 +89,7 @@ function AddCategory() {
               });
               console.error("Category with the same title already exists");
             } else {
+              console.log(error.response);
               console.error("An error occurred:", error.message);
             }
           });

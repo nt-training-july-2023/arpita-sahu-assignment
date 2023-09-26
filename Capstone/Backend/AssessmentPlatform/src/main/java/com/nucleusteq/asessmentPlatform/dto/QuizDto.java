@@ -1,6 +1,9 @@
 package com.nucleusteq.asessmentPlatform.dto;
 
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,21 +27,25 @@ public class QuizDto {
     /**
      * The title of the quiz.
      */
+    @NotBlank(message = "Quiz title is required")
     private String title;
 
     /**
      * A brief description of the quiz.
      */
+    @NotBlank(message = "Quiz description is required")
     private String description;
 
     /**
      * The timer duration in seconds for the quiz.
      */
+    @Min(value = 1, message = "Quiz Timer must be a positive integer")
     private int quizTimer;
 
     /**
      * The DTO representing the associated category.
      */
+    @NotNull(message = "Category is required")
     private CategoryDto category;
 
     /**

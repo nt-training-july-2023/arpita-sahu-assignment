@@ -18,7 +18,8 @@ import com.nucleusteq.asessmentPlatform.dto.UserDto;
 import com.nucleusteq.asessmentPlatform.entities.LoginRequest;
 import com.nucleusteq.asessmentPlatform.entities.User;
 import com.nucleusteq.asessmentPlatform.exception.BadCredentialsException;
-import com.nucleusteq.asessmentPlatform.exception.DuplicateEmailException;
+import com.nucleusteq.asessmentPlatform.exception.DuplicateResourceException;
+import com.nucleusteq.asessmentPlatform.exception.ResourceNotFoundException;
 import com.nucleusteq.asessmentPlatform.exception.UserNotFoundException;
 import com.nucleusteq.asessmentPlatform.repositories.UserRepo;
 import com.nucleusteq.asessmentPlatform.service.UserService;
@@ -61,7 +62,7 @@ public class UserServiceImpl implements UserService {
         }
         if (existingUserByEmail.isPresent()) {
             logger.error("Email address already exists");
-            throw new DuplicateEmailException("Email address already exists");
+            throw new DuplicateResourceException("Email address already exists");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole("user");
@@ -93,7 +94,7 @@ public class UserServiceImpl implements UserService {
     public final Map<String, String> loginUser(
             final LoginRequest loginRequest) {
         User user = userRepo.findByEmail(loginRequest.getEmail())
-                .orElseThrow(() -> new UserNotFoundException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
         if (!passwordEncoder.matches(loginRequest.getPassword(),
                 user.getPassword())) {
             logger.error("Bad Credentials");

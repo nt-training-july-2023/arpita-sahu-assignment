@@ -17,6 +17,7 @@ import com.nucleusteq.asessmentPlatform.entities.Quiz;
 import com.nucleusteq.asessmentPlatform.exception.BadCredentialsException;
 import com.nucleusteq.asessmentPlatform.exception.ResourceNotFoundException;
 import com.nucleusteq.asessmentPlatform.repositories.QuestionRepo;
+import com.nucleusteq.asessmentPlatform.repositories.QuizRepo;
 import com.nucleusteq.asessmentPlatform.service.QuestionService;
 
 /**
@@ -36,6 +37,8 @@ public class QuestionServiceImpl implements QuestionService {
      */
     @Autowired
     private QuestionRepo questionRepo;
+    @Autowired
+    private QuizRepo quizRepo;
     private Logger logger = LoggerFactory.getLogger(CategoryController.class);
 
     /**
@@ -48,7 +51,9 @@ public class QuestionServiceImpl implements QuestionService {
      */
     @Override
     public final QuestionDto addQuestion(final QuestionDto questionDto) {
-        Question question = this.dtoToQues(questionDto);
+        quizRepo.findById(questionDto.getQuizId()).orElseThrow(
+                () -> new ResourceNotFoundException("Quiz Id not found"));
+        Question question = this.dtoToQues(questionDto);       
         if (question == null || question.getQuestion() == null
                 || question.getQuestion().isEmpty()) {
             logger.error("Question must not be empty");

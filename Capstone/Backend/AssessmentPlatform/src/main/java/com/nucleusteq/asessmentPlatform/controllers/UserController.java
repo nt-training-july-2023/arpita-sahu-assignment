@@ -18,6 +18,8 @@ import com.nucleusteq.asessmentPlatform.dto.UserDto;
 import com.nucleusteq.asessmentPlatform.entities.LoginRequest;
 import com.nucleusteq.asessmentPlatform.service.UserService;
 
+import jakarta.validation.Valid;
+
 /**
  * Controller class that handles user-related operations.
  */
@@ -38,7 +40,7 @@ public class UserController {
      * @return A message indicating the result of the registration operation.
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public final String saveUser(@RequestBody final UserDto userDto) {
+    public final String saveUser(@RequestBody @Valid final UserDto userDto) {
         logger.info("User Register Successfully");
         return userService.registerUser(userDto);
     }
@@ -76,8 +78,9 @@ public class UserController {
      */
     @PostMapping("/login")
     public final Map<String, String> loginUser(
-            @RequestBody final LoginRequest loginRequest) {
+            @RequestBody @Valid final LoginRequest loginRequest) {
         logger.info("login Successfully");
         return userService.loginUser(loginRequest);
     }
 }
+

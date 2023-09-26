@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nucleusteq.asessmentPlatform.dto.ResultDto;
 import com.nucleusteq.asessmentPlatform.service.ResultService;
 
+import jakarta.validation.Valid;
+
 /**
  * Controller class for managing results.
  */
@@ -41,7 +43,7 @@ public class ResultController {
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public final ResponseEntity<String> addResult(
-            @RequestBody final ResultDto resultDto) {
+            @RequestBody @Valid final ResultDto resultDto) {
         resultService.addResult(resultDto);
         logger.info("Result Added Successfully.");
         return ResponseEntity.status(HttpStatus.CREATED)

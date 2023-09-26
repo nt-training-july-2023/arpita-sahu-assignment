@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * exception is annotated with {@link ResponseStatus} to indicate a HTTP 409
  * Conflict status when thrown.
  */
-@ResponseStatus(HttpStatus.CONFLICT)
+@ResponseStatus(HttpStatus.UNAUTHORIZED)
 public final class BadCredentialsException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 

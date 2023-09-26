@@ -15,8 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nucleusteq.asessmentPlatform.dto.QuizDto;
-import com.nucleusteq.asessmentPlatform.exception.DuplicateResourceException;
 import com.nucleusteq.asessmentPlatform.service.QuizService;
+
+import jakarta.validation.Valid;
 
 
 /**
@@ -43,17 +44,21 @@ public class QuizController {
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public final ResponseEntity<String> addQuiz(
-            @RequestBody final QuizDto quizDto) {
-        try {
-            quizService.addQuiz(quizDto);
-            logger.info("Quiz Added Successfully");
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body("Quiz Added Successfully.");
-        } catch (DuplicateResourceException ex) {
-            logger.error("Quiz already exist");
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body("Quiz already exist");
-        }
+            @RequestBody @Valid final QuizDto quizDto) {
+             quizService.addQuiz(quizDto);
+             return ResponseEntity.status(HttpStatus.CREATED)
+                   .body("Quiz Added Successfully.");
+          
+//        try {
+//            quizService.addQuiz(quizDto);
+//            logger.info("Quiz Added Successfully");
+//            return ResponseEntity.status(HttpStatus.CREATED)
+//                    .body("Quiz Added Successfully.");
+//        } catch (DuplicateResourceException ex) {
+//            logger.error("Quiz already exist");
+//            return ResponseEntity.status(HttpStatus.CONFLICT)
+//                    .body("Quiz already exist");
+//        }
     }
 
     /**
@@ -106,19 +111,23 @@ public class QuizController {
      */
     @RequestMapping(value = "/{quizId}", method = RequestMethod.PUT)
     public final ResponseEntity<String> updateQuiz(
-            @PathVariable final int quizId,
+            @PathVariable @Valid final int quizId,
             @RequestBody final QuizDto quizDto) {
-        try {
-            quizService.updateQuiz(quizDto, quizId);
-            logger.info("Quiz Updated Successfully.");
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body("Quiz Updated Successfully.");
-        } catch (DuplicateResourceException ex) {
-            logger.error("Quiz already exist");
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body("Quiz already exist");
-        }
+//        try {
+//            quizService.updateQuiz(quizDto, quizId);
+//            logger.info("Quiz Updated Successfully.");
+//            return ResponseEntity.status(HttpStatus.OK)
+//                    .body("Quiz Updated Successfully.");
+//        } catch (DuplicateResourceException ex) {
+//            logger.error("Quiz already exist");
+//            return ResponseEntity.status(HttpStatus.CONFLICT)
+//                    .body("Quiz already exist");
+//        }
         // return quizService.updateQuiz(quizDto, quizId);
+        quizService.updateQuiz(quizDto, quizId);
+        logger.info("Quiz Updated Successfully.");
+        return ResponseEntity.status(HttpStatus.OK)
+                .body("Quiz Updated Successfully.");
     }
 
     /**

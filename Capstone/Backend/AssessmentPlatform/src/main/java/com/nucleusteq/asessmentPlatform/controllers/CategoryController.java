@@ -14,9 +14,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nucleusteq.asessmentPlatform.dto.CategoryDto;
-import com.nucleusteq.asessmentPlatform.exception.DuplicateResourceException;
-import com.nucleusteq.asessmentPlatform.exception.ResourceNotFoundException;
 import com.nucleusteq.asessmentPlatform.service.CategoryService;
+
+import jakarta.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 /**
@@ -46,17 +47,21 @@ public class CategoryController {
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public final ResponseEntity<String> saveCategory(
-            @RequestBody final CategoryDto categoryDto) {
-        try {
+            @RequestBody @Valid final CategoryDto categoryDto) {
             categoryService.addCategory(categoryDto);
             logger.info("Category Added Successfully");
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body("category added successfully.");
-        } catch (DuplicateResourceException ex) {
-            logger.error("category already exist");
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body("category already exist");
-        }
+//        try {
+//            categoryService.addCategory(categoryDto);
+//            logger.info("Category Added Successfully");
+//            return ResponseEntity.status(HttpStatus.CREATED)
+//                    .body("category added successfully.");
+//        } catch (DuplicateResourceException ex) {
+//            logger.error("category already exist");
+//            return ResponseEntity.status(HttpStatus.CONFLICT)
+//                    .body("category already exist");
+//        }
     }
 
     /**
@@ -76,21 +81,24 @@ public class CategoryController {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public final ResponseEntity<?> getCategoryById(@PathVariable final int id) {
-        try {
-            CategoryDto categoryDto = categoryService.getCategoryById(id);
-            logger.info("Get category by id");
-            return ResponseEntity.ok(categoryDto);
-        } catch (ResourceNotFoundException e) {
-            String error = e.getMessage();
-            logger.error("category not found");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
-        } catch (Exception e) {
-            String errorMessage =
-                    "An error occurred while processing your request.";
-            logger.error(errorMessage);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(errorMessage);
-        }
+//        try {
+//            CategoryDto categoryDto = categoryService.getCategoryById(id);
+//            logger.info("Get category by id");
+//            return ResponseEntity.ok(categoryDto);
+//        } catch (ResourceNotFoundException e) {
+//            String error = e.getMessage();
+//            logger.error("category not found");
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+//        } catch (Exception e) {
+//            String errorMessage =
+//                    "An error occurred while processing your request.";
+//            logger.error(errorMessage);
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body(errorMessage);
+//        }
+        CategoryDto categoryDto = categoryService.getCategoryById(id);
+        logger.info("Get category by id");
+        return ResponseEntity.ok(categoryDto);
     }
 
     /**
@@ -103,17 +111,21 @@ public class CategoryController {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public final ResponseEntity<String> updateCategory(
-            @RequestBody final CategoryDto category,
+            @RequestBody @Valid final CategoryDto category,
             @PathVariable final int id) {
-        logger.info("Category updated");
-        try {
-            categoryService.updateCategory(category, id);
-            logger.info("category updated");
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body("Category Updated Successfully.");
-        }catch (ResourceNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("category not found");
-        }
+//        logger.info("Category updated");
+//        try {
+//            categoryService.updateCategory(category, id);
+//            logger.info("category updated");
+//            return ResponseEntity.status(HttpStatus.OK)
+//                    .body("Category Updated Successfully.");
+//        }catch (ResourceNotFoundException e) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("category not found");
+//        }
+        categoryService.updateCategory(category, id);
+        logger.info("category updated");
+        return ResponseEntity.status(HttpStatus.OK)
+                .body("Category Updated Successfully.");
         
     }
 

@@ -68,14 +68,28 @@ export default function Login() {
       localStorage.setItem("name",response.data.Name);
       localStorage.setItem('selectedEmail', email);
     } catch (error) {
-      if (error.response.data.status === 401) {
-        setPasswordError("Wrong Credentials");
+      if(error.response.status >=400 && error.response.status<=404){
         Swal.fire({
           icon: "error",
           title: "Error!",
           text: "Wrong Credentials",
         });
       }
+      // if (error.response.status === 404 || error.response.status === 401) {
+      //   setPasswordError("Invalid Password");
+      //   Swal.fire({
+      //     icon: "error",
+      //     title: "Error!",
+      //     text: "Wrong Password",
+      //   });
+      // }else if(error.response.status === 400){
+      //   Swal.fire({
+      //     icon: "error",
+      //     title: "Error!",
+      //     text: "Wrong Email Format",
+      //   });
+      //   console.log("User Not found", error)
+      // }
       console.error("Login failed:", error);
     }
   };

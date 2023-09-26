@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.nucleusteq.asessmentPlatform.dto.QuestionDto;
-import com.nucleusteq.asessmentPlatform.exception.BadCredentialsException;
 import com.nucleusteq.asessmentPlatform.service.QuestionService;
+
+import jakarta.validation.Valid;
 
 /**
  * Controller for managing questions.
@@ -42,17 +43,21 @@ public class QuestionController {
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public final ResponseEntity<String> addQuestion(
-            @RequestBody final QuestionDto questionDto) {
-        try {
-            questionService.addQuestion(questionDto);
-            logger.info("Question Added Successfully");
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body("Question Added Successfully.");
-        } catch (BadCredentialsException ex) {
-            logger.error("Question already exist");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Question must not be empty");
-        }
+            @RequestBody @Valid final QuestionDto questionDto) {
+//        try {
+//            questionService.addQuestion(questionDto);
+//            logger.info("Question Added Successfully");
+//            return ResponseEntity.status(HttpStatus.CREATED)
+//                    .body("Question Added Successfully.");
+//        } catch (BadCredentialsException ex) {
+//            logger.error("Question already exist");
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+//                    .body("Question must not be empty");
+//        }
+        questionService.addQuestion(questionDto);
+        logger.info("Question Added Successfully");
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body("Question Added Successfully.");
     }
 
     /**
@@ -105,18 +110,22 @@ public class QuestionController {
      */
     @RequestMapping(value = "/{quesId}", method = RequestMethod.PUT)
     public final ResponseEntity<String> updateQuestion(
-            @RequestBody final QuestionDto questionDto,
+            @RequestBody @Valid final QuestionDto questionDto,
             @PathVariable final int quesId) {
-        try {
-            questionService.updateQuestion(questionDto, quesId);
-            logger.info("Question Updated Successfully.");
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body("Question Updated Successfully.");
-        } catch (BadCredentialsException ex) {
-            logger.error("An error occurred");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("An error occurred.");
-        }
+//        try {
+//            questionService.updateQuestion(questionDto, quesId);
+//            logger.info("Question Updated Successfully.");
+//            return ResponseEntity.status(HttpStatus.OK)
+//                    .body("Question Updated Successfully.");
+//        } catch (BadCredentialsException ex) {
+//            logger.error("An error occurred");
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+//                    .body("An error occurred.");
+//        }
+        questionService.updateQuestion(questionDto, quesId);
+        logger.info("Question Updated Successfully.");
+        return ResponseEntity.status(HttpStatus.OK)
+                .body("Question Updated Successfully.");
     }
 
     /**

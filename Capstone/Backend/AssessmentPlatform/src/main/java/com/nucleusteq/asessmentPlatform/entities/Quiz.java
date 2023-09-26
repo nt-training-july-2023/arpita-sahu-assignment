@@ -14,6 +14,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -38,16 +40,19 @@ public class Quiz {
      * The title of the quiz.
      */
     @Column(name = "quiz_title", nullable = false, unique = true)
+    @NotBlank(message = "Quiz title is required")
     private String title;
 
     /**
      * The description of the quiz.
      */
     @Column(name = "quiz_description")
+    @NotBlank(message = "Quiz description is required")
     private String description;
     /**
      * The timer of the quiz.
      */
+    @Min(value = 1, message = "Quiz Timer must be a positive integer")
     private int quizTimer;
 
     /**

@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -34,36 +35,42 @@ public class Question {
      * The content of the question.
      */
     @Column(name = "question_Name", nullable = false)
+    @NotBlank(message = "Question is required")
     private String question;
 
     /**
      * The first answer option for the question.
      */
     @Column(nullable = false)
+    @NotBlank(message = "Option1 is required")
     private String option1;
 
     /**
      * The second answer option for the question.
      */
     @Column(nullable = false)
+    @NotBlank(message = "Option2 is required")
     private String option2;
 
     /**
      * The third answer option for the question.
      */
     @Column(nullable = false)
+    @NotBlank(message = "Option3 is required")
     private String option3;
 
     /**
      * The fourth answer option for the question.
      */
     @Column(nullable = false)
+    @NotBlank(message = "Option4 is required")
     private String option4;
 
     /**
      * The correct answer to the question.
      */
     @Column(nullable = false)
+    @NotBlank(message = "Answer is required")
     private String answer;
 
     /**

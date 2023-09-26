@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.hibernate.query.sqm.mutation.internal.temptable.UpdateExecutionDelegate;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -91,6 +92,9 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public final List<QuizDto> getQuizByCategoryId(final int categoryId) {
+         categoryRepo.findById(categoryId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Catgeory not found with id " + categoryId));
         List<Quiz> quizzes = quizRepo.findQuizByCategoryId(categoryId);
         List<QuizDto> quizDtos = quizzes.stream()
                 .map(quiz -> this.quizToDto(quiz)).collect(Collectors.toList());
@@ -143,6 +147,7 @@ public class QuizServiceImpl implements QuizService {
             }
             existingQuiz.setTitle(newTitle);
             existingQuiz.setDescription(updatedQuiz.getDescription());
+            existingQuiz.setQuizTimer(updatedQuiz.getQuizTimer());
             //existingQuiz.setCategory(updatedQuiz.getCategory());
             quizRepo.save(existingQuiz);
             logger.info("Quiz Updated Successfully");

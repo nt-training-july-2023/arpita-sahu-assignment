@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -36,12 +37,14 @@ public class Category {
      * The title of the category.
      */
     @Column(name = "category_title", nullable = false)
+    @NotBlank(message = "Category title is required")
     private String title;
 
     /**
      * The description of the category.
      */
     @Column(name = "category_description", nullable = false)
+    @NotBlank(message = "Category description is required")
     private String description;
     /**
      * ArrayList for the quiz.
