@@ -102,11 +102,19 @@ public class CategoryController {
      * @return The updated CategoryDto.
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public final CategoryDto updateCategory(
+    public final ResponseEntity<String> updateCategory(
             @RequestBody final CategoryDto category,
             @PathVariable final int id) {
         logger.info("Category updated");
-        return categoryService.updateCategory(category, id);
+        try {
+            categoryService.updateCategory(category, id);
+            logger.info("category updated");
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body("Category Updated Successfully.");
+        }catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("category not found");
+        }
+        
     }
 
     /**

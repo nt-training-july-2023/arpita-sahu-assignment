@@ -68,7 +68,7 @@ export default function Login() {
       localStorage.setItem("name",response.data.Name);
       localStorage.setItem('selectedEmail', email);
     } catch (error) {
-      if (error.response.data.status === 409) {
+      if (error.response.data.status === 401) {
         setPasswordError("Wrong Credentials");
         Swal.fire({
           icon: "error",

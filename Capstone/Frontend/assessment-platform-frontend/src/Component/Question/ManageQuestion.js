@@ -13,7 +13,7 @@ export default function ManageQuestion() {
   const navigate = useNavigate();
   useEffect(() => {
     loadQuestions();
-  });
+  },[]);
 
   const loadQuestions = async () => {
     try {

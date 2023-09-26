@@ -117,11 +117,10 @@ class CategoryControllerTest {
         CategoryDto categoryDto = new CategoryDto();
         when(categoryService.updateCategory(categoryDto, categoryId))
                 .thenReturn(categoryDto);
-
-        CategoryDto result = categoryController.updateCategory(categoryDto,
+        ResponseEntity<String> response = categoryController.updateCategory(categoryDto,
                 categoryId);
-
-        assertEquals(categoryDto, result);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("Category Updated Successfully.", response.getBody());
     }
 
     @Test
@@ -129,9 +128,7 @@ class CategoryControllerTest {
         int categoryId = 1;
         when(categoryService.deleteCategory(categoryId))
                 .thenReturn("Category deleted successfully");
-
         String result = categoryController.deleteCategory(categoryId);
-
         assertEquals("Category deleted successfully", result);
     }
 }
