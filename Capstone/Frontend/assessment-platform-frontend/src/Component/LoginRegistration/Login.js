@@ -62,7 +62,6 @@ export default function Login() {
       });
       if (response.data.Role === "admin") navigate("/adminDashboard");
       if (response.data.Role === "user") navigate("/userDashboard");
-      console.log("Login successfully!", response.data);
       localStorage.setItem("isLoggedIn", response.status);
       localStorage.setItem("userRole", response.data.Role);
       localStorage.setItem("name",response.data.Name);

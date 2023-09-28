@@ -31,7 +31,10 @@ public class ResultController {
      */
     @Autowired
     private ResultService resultService;
-    private Logger logger = LoggerFactory.getLogger(CategoryController.class);
+    /**
+     * The logger instance for logging messages related to ResultController.
+     */
+    private Logger logger = LoggerFactory.getLogger(ResultController.class);
 
     /**
      * Adds a new result.

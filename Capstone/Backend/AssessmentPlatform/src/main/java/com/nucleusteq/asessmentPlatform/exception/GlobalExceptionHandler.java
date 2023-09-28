@@ -10,11 +10,23 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+/**
+ * GlobalExceptionHandler is a Spring framework controller advice class that
+ * handles exceptions globally for the application.
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    /**
+     * Handles ResourceNotFoundException and returns an appropriate response.
+     *
+     * @param ex The ResourceNotFoundException to be handled.
+     * @return A ResponseEntity containing the error response for
+     *         ResourceNotFoundException.
+     */
     @ExceptionHandler(ResourceNotFoundException.class)
-    public final ResponseEntity<ApiErrorResponse> resourceNotFoundExceptionHandler(
+    public final ResponseEntity<ApiErrorResponse>
+                   resourceNotFoundExceptionHandler(
             final ResourceNotFoundException ex) {
         String message = ex.getMessage();
         HttpStatus statusCode = HttpStatus.NOT_FOUND;
@@ -23,8 +35,16 @@ public class GlobalExceptionHandler {
                 HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Handles DuplicateResourceException and returns an appropriate response.
+     *
+     * @param ex The DuplicateResourceException to be handled.
+     * @return A ResponseEntity containing the error response for
+     *         DuplicateResourceException.
+     */
     @ExceptionHandler(DuplicateResourceException.class)
-    public final ResponseEntity<ApiErrorResponse> DuplicateResourceExceptionHandler(
+    public final ResponseEntity<ApiErrorResponse>
+                      duplicateResourceExceptionHandler(
             final DuplicateResourceException ex) {
         String message = ex.getMessage();
         HttpStatus statusCode = HttpStatus.FOUND;
@@ -34,8 +54,16 @@ public class GlobalExceptionHandler {
 
     }
 
+    /**
+     * Handles BadCredentialsException and returns an appropriate response.
+     *
+     * @param ex The BadCredentialsException to be handled.
+     * @return A ResponseEntity containing the error response for
+     *         BadCredentialsException.
+     */
+
     @ExceptionHandler(BadCredentialsException.class)
-    public final ResponseEntity<ApiErrorResponse> BadCredentialExceptionHandler(
+    public final ResponseEntity<ApiErrorResponse> badCredentialExceptionHandler(
             final BadCredentialsException ex) {
         String message = ex.getMessage();
         HttpStatus statusCode = HttpStatus.UNAUTHORIZED;
@@ -44,8 +72,17 @@ public class GlobalExceptionHandler {
                 HttpStatus.UNAUTHORIZED);
     }
 
+    /**
+     * Handles MethodArgumentNotValidException and returns an appropriate
+     * response.
+     *
+     * @param ex The MethodArgumentNotValidException to be handled.
+     * @return A ResponseEntity containing the error response for
+     *         MethodArgumentNotValidException.
+     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public final ResponseEntity<Map<String, String>> methodArgumentNotValidExceptionHandler(
+    public final ResponseEntity<Map<String, String>>
+                   methodArgumentNotValidExceptionHandler(
             final MethodArgumentNotValidException ex) {
         Map<String, String> response = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {

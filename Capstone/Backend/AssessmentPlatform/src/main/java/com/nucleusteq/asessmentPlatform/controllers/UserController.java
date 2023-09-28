@@ -32,7 +32,11 @@ public class UserController {
      */
     @Autowired
     private UserService userService;
-    private Logger logger = LoggerFactory.getLogger(CategoryController.class);
+    /**
+     * The logger instance for logging messages related to UserController.
+     */
+    private Logger logger = LoggerFactory.getLogger(UserController.class);
+
     /**
      * Endpoint for registering a new user.
      *
@@ -83,4 +87,3 @@ public class UserController {
         return userService.loginUser(loginRequest);
     }
 }
-

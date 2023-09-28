@@ -42,17 +42,6 @@ class QuestionControllerTest {
     }
 
     @Test
-    public void testAddQuestionBadRequest() {
-        QuestionDto questionDto = new QuestionDto();
-        when(questionService.addQuestion(questionDto)).thenThrow(
-                new BadCredentialsException("Question must not be empty"));
-        ResponseEntity<String> response = questionController
-                .addQuestion(questionDto);
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertEquals("Question must not be empty", response.getBody());
-    }
-
-    @Test
     public void testGetAllQuestion() {
         List<QuestionDto> expectedQuestions = new ArrayList<>();
         when(questionService.getAllQuestions()).thenReturn(expectedQuestions);
@@ -94,18 +83,6 @@ class QuestionControllerTest {
 
     }
 
-
-    @Test
-    public void testUpdatedBadRequest() {
-        int quesId = 1;
-        QuestionDto questionDto = new QuestionDto();
-        when(questionService.updateQuestion(questionDto, quesId))
-                .thenThrow(new BadCredentialsException("An error occurred."));
-        ResponseEntity<String> response = questionController
-                .updateQuestion(questionDto, quesId);
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertEquals("An error occurred.", response.getBody());
-    }
     
     @Test
     public void testDeleteQuestion() {

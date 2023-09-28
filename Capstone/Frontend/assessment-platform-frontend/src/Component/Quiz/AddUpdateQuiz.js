@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import {useParams } from "react-router-dom";
 import NotFound from "../NotFound";
 import Swal from "sweetalert2";
 import Navbar from "../Navbar/Navbar";
+import ServiceURL from "../Service/ServiceURL";
 
 function AddUpdateQuiz() {
   const [title, setTitle] = useState("");
@@ -17,13 +17,11 @@ function AddUpdateQuiz() {
 
   useEffect(() => {
     if (quizId) {
-      axios
-        .get(`http://localhost:8080/quiz/${quizId}`)
+      ServiceURL.getQuizByQuizId(quizId)
         .then((response) => {
           setTitle(response.data.title);
           setDescription(response.data.description);
           setQuizTimer(response.data.quizTimer);
-          console.log(response);
         })
         .catch((error) => {
           console.error("An error occurred:", error);
@@ -80,59 +78,39 @@ function AddUpdateQuiz() {
     };
 
     try {
+      const quizItem ={title, description, quizTimer, category: categoryObject}
       if (!quizId) {
-        const response = await axios.post("http://localhost:8080/quiz/add", {
-          title,
-          description,
-          quizTimer,
-          category: categoryObject,
-        });
-        console.log(response);
+        await ServiceURL.addQuiz(quizItem).then((response)=>{
         if (response.status === 201) {
           Swal.fire({
             title: "Success",
             text: "Quiz Added Successfully",
             icon: "success",
           });
-          console.log("Quiz added Successfully");
           window.history.back();
-        } else {
-          console.error("Failed to add Quiz");
         }
-      } else {
-        const response = await axios.put(
-          `http://localhost:8080/quiz/${quizId}`,
-          {
-            title,
-            description,
-            quizTimer,
-            category: categoryObject,
-          }
-        );
-        console.log(response);
+      }) 
+     }  else {
+      await ServiceURL.updateQuiz(quizId,quizItem).then((response)=>{
         if (response.status === 200) {
           Swal.fire({
             title: "Success",
             text: "Quiz Updated Successfully",
             icon: "success",
           });
-          console.log("Quiz Updated Successfully");
           window.history.back();
-        } else {
-          console.log("Failed to Update Category");
-        }
-      }
-    } catch (error) {
-      if (error.response && error.response.status === 409) {
+        } 
+       })
+       }
+     } catch (error) {
+      if (error.response && error.response.status === 302) {
         Swal.fire({
           icon: "error",
           title: "Error!",
           text: "Title already exists",
         });
         console.error("Quiz with the same title already exists");
-      } else {
-        console.error("An error occurred:", error.message);
-      }
+      } 
       console.error("An error occurred:", error);
     }
   };

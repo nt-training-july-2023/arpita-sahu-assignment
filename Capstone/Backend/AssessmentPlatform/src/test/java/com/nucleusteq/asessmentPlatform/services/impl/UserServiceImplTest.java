@@ -4,7 +4,7 @@ import com.nucleusteq.asessmentPlatform.dto.UserDto;
 import com.nucleusteq.asessmentPlatform.entities.LoginRequest;
 import com.nucleusteq.asessmentPlatform.entities.User;
 import com.nucleusteq.asessmentPlatform.exception.BadCredentialsException;
-import com.nucleusteq.asessmentPlatform.exception.DuplicateEmailException;
+import com.nucleusteq.asessmentPlatform.exception.DuplicateResourceException;
 import com.nucleusteq.asessmentPlatform.exception.UserNotFoundException;
 import com.nucleusteq.asessmentPlatform.repositories.UserRepo;
 import org.junit.jupiter.api.BeforeEach;
@@ -71,15 +71,6 @@ public class UserServiceImplTest {
         assertEquals("User Register successfully", result);
 
     }
-    @Test
-    public void testRegisterUserInvalidEmailFormat() {
-        UserDto userDto = new UserDto();
-        userDto.setEmail("arpita@gmail.com");
-        User user = new User();
-        user.setEmail(userDto.getEmail());
-        when(modelMapper.map(userDto, User.class)).thenReturn(user);
-        assertThrows(BadCredentialsException.class, () -> userService.registerUser(userDto));
-    }
 
     @Test
     public void testRegisterUserWithDuplicateEmail() {
@@ -90,7 +81,7 @@ public class UserServiceImplTest {
         when(modelMapper.map(userDto, User.class)).thenReturn(user);
         when(userRepo.findByEmail(user.getEmail()))
                 .thenReturn(Optional.of(user));
-       DuplicateEmailException exception= assertThrows(DuplicateEmailException.class,
+       DuplicateResourceException exception= assertThrows(DuplicateResourceException.class,
                 () -> userService.registerUser(userDto));
        assertEquals("Email address already exists", exception.getMessage());
         

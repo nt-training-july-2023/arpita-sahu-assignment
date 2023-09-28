@@ -78,4 +78,3 @@ public class ResultDto {
     @NotBlank(message = "Date and Time is required")
     private String dateAndTime;
 }
-

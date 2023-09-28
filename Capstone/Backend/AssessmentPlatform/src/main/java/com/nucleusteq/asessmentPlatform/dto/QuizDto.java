@@ -1,6 +1,5 @@
 package com.nucleusteq.asessmentPlatform.dto;
 
-
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -56,8 +55,8 @@ public class QuizDto {
      */
     public final CategoryDto getCategory() {
         if (category != null) {
-        return new CategoryDto(category.getCategoryId(), category.getTitle(),
-                category.getDescription());
+            return new CategoryDto(category.getCategoryId(),
+                    category.getTitle(), category.getDescription());
         }
         return null;
     }
@@ -92,8 +91,8 @@ public class QuizDto {
         this.description = qDescription;
         this.quizTimer = qTimer;
         if (cat != null) {
-        this.category = new CategoryDto(cat.getCategoryId(), cat.getTitle(),
-                cat.getDescription());
+            this.category = new CategoryDto(cat.getCategoryId(), cat.getTitle(),
+                    cat.getDescription());
         } else {
             this.category = null;
         }

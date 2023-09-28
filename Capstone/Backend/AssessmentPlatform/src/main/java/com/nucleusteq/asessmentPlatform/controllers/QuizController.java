@@ -19,7 +19,6 @@ import com.nucleusteq.asessmentPlatform.service.QuizService;
 
 import jakarta.validation.Valid;
 
-
 /**
  * Controller class for managing quizzes.
  */
@@ -33,7 +32,10 @@ public class QuizController {
      */
     @Autowired
     private QuizService quizService;
-    private Logger logger = LoggerFactory.getLogger(CategoryController.class);
+    /**
+     * The logger instance for logging messages related to QuizController.
+     */
+    private Logger logger = LoggerFactory.getLogger(QuizController.class);
 
     /**
      * Create a new quiz.
@@ -45,20 +47,9 @@ public class QuizController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public final ResponseEntity<String> addQuiz(
             @RequestBody @Valid final QuizDto quizDto) {
-             quizService.addQuiz(quizDto);
-             return ResponseEntity.status(HttpStatus.CREATED)
-                   .body("Quiz Added Successfully.");
-          
-//        try {
-//            quizService.addQuiz(quizDto);
-//            logger.info("Quiz Added Successfully");
-//            return ResponseEntity.status(HttpStatus.CREATED)
-//                    .body("Quiz Added Successfully.");
-//        } catch (DuplicateResourceException ex) {
-//            logger.error("Quiz already exist");
-//            return ResponseEntity.status(HttpStatus.CONFLICT)
-//                    .body("Quiz already exist");
-//        }
+        quizService.addQuiz(quizDto);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body("Quiz Added Successfully.");
     }
 
     /**
@@ -107,23 +98,12 @@ public class QuizController {
      *
      * @param quizId  The ID of the quiz to update.
      * @param quizDto The DTO representing the updated quiz.
-     * @return The updated QuizDto.
+     * @return A ResponseEntity containing the successfully updating the quiz.
      */
     @RequestMapping(value = "/{quizId}", method = RequestMethod.PUT)
     public final ResponseEntity<String> updateQuiz(
             @PathVariable @Valid final int quizId,
             @RequestBody final QuizDto quizDto) {
-//        try {
-//            quizService.updateQuiz(quizDto, quizId);
-//            logger.info("Quiz Updated Successfully.");
-//            return ResponseEntity.status(HttpStatus.OK)
-//                    .body("Quiz Updated Successfully.");
-//        } catch (DuplicateResourceException ex) {
-//            logger.error("Quiz already exist");
-//            return ResponseEntity.status(HttpStatus.CONFLICT)
-//                    .body("Quiz already exist");
-//        }
-        // return quizService.updateQuiz(quizDto, quizId);
         quizService.updateQuiz(quizDto, quizId);
         logger.info("Quiz Updated Successfully.");
         return ResponseEntity.status(HttpStatus.OK)

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios';
 import Navbar from '../Navbar/Navbar';
 import DisableBackButton from '../DisableBackButton';
+import ServiceURL from '../Service/ServiceURL';
 export default function Result() {
     const[results, setResults]= useState([]);
     const role = localStorage.getItem('userRole');
@@ -16,9 +16,7 @@ export default function Result() {
     
     const loadResults = async () => {
         try {
-          const response = await axios.get(
-            `http://localhost:8080/result/${userEmail}`
-          );
+          const response = await ServiceURL.getResultByUserEmail(userEmail);
           setResults(response.data);
         } catch (error) {
           console.error("Error loading results:", error);
@@ -26,9 +24,7 @@ export default function Result() {
       };
     const loadAllResult = async () =>{
       try{
-        const response = await axios.get(
-          'http://localhost:8080/result/'
-        );
+        const response = await ServiceURL.getResults();
         setResults(response.data);
       }catch(error){
         console.error("Error loading results:", error);

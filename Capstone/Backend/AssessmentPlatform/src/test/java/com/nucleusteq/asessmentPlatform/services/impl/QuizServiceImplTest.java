@@ -100,6 +100,8 @@ class QuizServiceImplTest {
     @Test
     public void testGetQuizByCategoryId() {
         int categoryId = 1;
+        Category category = new Category();
+        category.setCategoryId(categoryId);
         List<Quiz> ListQuizzes = new ArrayList<>();
         Quiz quiz1 = new Quiz();
         quiz1.setQuizId(1);
@@ -111,11 +113,20 @@ class QuizServiceImplTest {
         quizDto.setCategory(new CategoryDto());
         ListQuizzes.add(quiz1);
         when(modelMapper.map(quiz1, QuizDto.class)).thenReturn(quizDto);
+        when(categoryRepo.findById(categoryId)).thenReturn(Optional.of(category));
         when(quizRepo.findQuizByCategoryId(categoryId)).thenReturn(ListQuizzes);
         List<QuizDto> quizDtos = quizService.getQuizByCategoryId(categoryId);
         assertNotNull(quizDtos);
         assertEquals(1, quizDtos.size());
         assertEquals("Quiz 1", quizDtos.get(0).getTitle());
+    }
+    @Test
+    public void testGetQuizByCategoryIdCategoryNotFound() {
+        int categoryId = 1;
+        when(categoryRepo.findById(categoryId)).thenReturn(Optional.empty());
+        assertThrows(ResourceNotFoundException.class, () -> {
+            quizService.getQuizByCategoryId(categoryId);
+        });
     }
 
     @Test

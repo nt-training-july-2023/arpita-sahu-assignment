@@ -1,7 +1,6 @@
 package com.nucleusteq.asessmentPlatform.dto;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -70,6 +69,27 @@ class QuestionDtoTest {
         assertEquals("d", questionDto.getOption4());
         assertEquals("a", questionDto.getAnswer());
         assertEquals(1, questionDto.getQuizId());
+    }
+    
+    @Test
+    public void testIsAnswerValid() {
+        questionDto.setOption1("Option1");
+        questionDto.setOption2("Option2");
+        questionDto.setOption3("Option3");
+        questionDto.setOption4("Option4");
+        questionDto.setAnswer("Option2");
+        boolean isValid =  questionDto.isAnswerValid();
+        assertTrue(isValid);
+    }
+    @Test
+    public void testIsAnswerNotValid() {
+        questionDto.setOption1("Option1");
+        questionDto.setOption2("Option2");
+        questionDto.setOption3("Option3");
+        questionDto.setOption4("Option4");
+        questionDto.setAnswer("Option5");
+        boolean isValid =  questionDto.isAnswerValid();
+        assertFalse(isValid);
     }
 
 

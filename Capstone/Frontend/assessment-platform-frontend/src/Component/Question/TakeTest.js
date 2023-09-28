@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import "./question.css";
 import Swal from "sweetalert2";
 import DisableBackButton from "../DisableBackButton";
+import ServiceURL from "../Service/ServiceURL";
 
 export default function TakeTest() {
   const [questions, setQuestions] = useState([]);
@@ -22,7 +22,6 @@ export default function TakeTest() {
     loadQuestions();
     loadQuizTimer();
   }, [quizId]);
-
   
     const handleCountdown = () => {
       if (timeInSeconds > 0) {
@@ -41,7 +40,7 @@ export default function TakeTest() {
 
   const loadQuizTimer = async () => {
     try {
-      const result = await axios.get(`http://localhost:8080/quiz/${quizId}`);
+      const result = ServiceURL.getQuizByQuizId(quizId);
       // const timerInMinutes = result.data.quizTimer;
       const timerInMinutes=1;
       const timerInSeconds = timerInMinutes * 60;
@@ -53,9 +52,7 @@ export default function TakeTest() {
   
   const loadQuestions = async () => {
     try {
-      const result = await axios.get(
-        `http://localhost:8080/ques/quiz/${quizId}`
-      );
+      const result = await ServiceURL.getQuestionByQuizId(quizId);
       setQuestions(result.data);
     } catch (error) {
       console.error("Error loading questions:", error);
@@ -120,7 +117,7 @@ export default function TakeTest() {
     });
     setScore(obtainedScore);  
     try {
-      const response = await axios.post("http://localhost:8080/result/save", {
+      const resultItem ={
         obtainedMarks: obtainedScore,
         totalMarks:questions.length,
         userName:userName,
@@ -130,8 +127,9 @@ export default function TakeTest() {
         totalNumOfQues: questions.length,
         dateAndTime:formattedTime,
         numofAttemptedQues: Object.keys(selectedAnswers).length,
-      });
-     console.log(response);
+      }
+     await ServiceURL.addResult(resultItem).then((response)=>{
+      })
     } catch (error) {
       console.error("Error submitting quiz results:", error);
     }
@@ -185,7 +183,7 @@ export default function TakeTest() {
           </div>
         </form>
       ) : (
-        <p>Loading questions...</p>
+        <p>Question not available...</p>
       )}
     </div>
   );

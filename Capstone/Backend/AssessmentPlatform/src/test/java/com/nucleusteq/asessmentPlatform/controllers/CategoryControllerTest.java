@@ -1,8 +1,6 @@
 package com.nucleusteq.asessmentPlatform.controllers;
 
 import com.nucleusteq.asessmentPlatform.dto.CategoryDto;
-import com.nucleusteq.asessmentPlatform.exception.DuplicateResourceException;
-import com.nucleusteq.asessmentPlatform.exception.ResourceNotFoundException;
 import com.nucleusteq.asessmentPlatform.service.CategoryService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,18 +42,6 @@ class CategoryControllerTest {
         assertEquals("category added successfully.", response.getBody());
     }
 
-    @Test
-    public void testSaveCategoryDuplicateException() {
-        CategoryDto categoryDto = new CategoryDto();
-        doThrow(new DuplicateResourceException("Category already exists"))
-                .when(categoryService).addCategory(categoryDto);
-
-        ResponseEntity<String> response = categoryController
-                .saveCategory(categoryDto);
-
-        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
-        assertEquals("category already exist", response.getBody());
-    }
 
     @Test
     public void testGetCategories() {
@@ -81,35 +67,6 @@ class CategoryControllerTest {
         assertEquals(categoryDto, response.getBody());
     }
 
-    @Test
-    void getCategoryById_ExceptionThrown_ReturnsInternalServerErrorResponse()
-            throws ResourceNotFoundException {
-        int categoryId = 1;
-        when(categoryService.getCategoryById(categoryId))
-                .thenThrow(new RuntimeException("Runtime exception"));
-
-        ResponseEntity<?> response = categoryController
-                .getCategoryById(categoryId);
-
-        verify(categoryService, times(1)).getCategoryById(categoryId);
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,
-                response.getStatusCode());
-        assertEquals("An error occurred while processing your request.",
-                response.getBody());
-    }
-
-    @Test
-    public void testGetCategoryByIdNotFound() {
-        int categoryId = 1;
-        when(categoryService.getCategoryById(categoryId))
-                .thenThrow(new ResourceNotFoundException("Category not found"));
-
-        ResponseEntity<?> response = categoryController
-                .getCategoryById(categoryId);
-
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-        assertEquals("Category not found", response.getBody());
-    }
 
     @Test
     public void testUpdateCategory() {

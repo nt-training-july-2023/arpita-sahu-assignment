@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import NotFound from "../NotFound";
 import Swal from "sweetalert2";
 import Navbar from "../Navbar/Navbar";
+import ServiceURL from "../Service/ServiceURL";
 
 function AddUpdateQuestion() {
   const [formData, setFormData] = useState({
@@ -22,8 +22,7 @@ function AddUpdateQuestion() {
 
   useEffect(() => {
     if (quesId) {
-      axios
-        .get(`http://localhost:8080/ques/${quesId}`)
+      ServiceURL.getQuestionByQuestionId(quesId)
         .then((response) => {
           setFormData({
             ...formData,
@@ -34,7 +33,6 @@ function AddUpdateQuestion() {
             option4: response.data.option4,
             answer: response.data.answer,
           });
-          console.log(response);
         })
         .catch((error) => {
           console.error("An error occurred:", error);
@@ -76,39 +74,29 @@ function AddUpdateQuestion() {
       };
 
       if (quizId) {
-        const response = await axios.post(
-          "http://localhost:8080/ques/save",
-          requestData
-        );
-        console.log(response);
+       await ServiceURL.addQuestion(requestData).then((response) =>{
         if (response.status === 201) {
           Swal.fire({
             title: "Success",
             text: "Question Added Successfully",
             icon: "success",
           });
-          console.log("Question added Successfully");
           navigate(`/manage-questions/${quizId}`);
         } else {
           console.error("Failed to add Question");
         }
+       })
       } else {
-        const response = await axios.put(
-          `http://localhost:8080/ques/${quesId}`,
-          requestData
-        );
-        console.log(response);
+        await ServiceURL.updateQuestion(quesId, requestData).then((response)=>{
         if (response.status === 200) {
           Swal.fire({
             title: "Success",
             text: "Question Updated Successfully",
             icon: "success",
           });
-          console.log("Question Updated Successfully");
           window.history.back();
-        } else {
-          console.log("Failed to Update Question");
-        }
+        } 
+      })
       }
     } catch (error) {
       console.error("An error  occurred:", error);

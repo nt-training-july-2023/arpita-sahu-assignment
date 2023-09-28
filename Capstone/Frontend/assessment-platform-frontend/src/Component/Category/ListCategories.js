@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import "./CategoryList.css";
 import Navbar from "../Navbar/Navbar";
 import NotFound from "../NotFound";
 import Swal from "sweetalert2";
+import ServiceURL from "../Service/ServiceURL";
 function CategoryList() {
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ function CategoryList() {
   }, []);
 
   const loadCategories = async () => {
-    const result = await axios.get("http://localhost:8080/category/");
+    const result = await ServiceURL.getCategories();
     setCategories(result.data);
   };
 
@@ -31,7 +31,7 @@ function CategoryList() {
     });
 
     if (result.isConfirmed) {
-      await axios.delete(`http://localhost:8080/category/${id}`);
+      await ServiceURL.deleteCategory(id);
       console.log("Category deleted successfully");
       loadCategories();
     } else {

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import NotFound from "../NotFound";
 import Navbar from "../Navbar/Navbar";
 import "./question.css";
 import Swal from "sweetalert2";
+import ServiceURL from "../Service/ServiceURL";
 
 export default function ManageQuestion() {
   const [questions, setQuestions] = useState([]);
@@ -17,9 +17,7 @@ export default function ManageQuestion() {
 
   const loadQuestions = async () => {
     try {
-      const result = await axios.get(
-        `http://localhost:8080/ques/quiz/${quizId}`
-      );
+      const result = await ServiceURL.getQuestionByQuizId(quizId);
       setQuestions(result.data);
     } catch (error) {
       console.error("Error loading questions:", error);
@@ -37,12 +35,11 @@ export default function ManageQuestion() {
         cancelButtonText: 'No, keep it',
       });
       if(result.isConfirmed){
-      await axios.delete(`http://localhost:8080/ques/${id}`);
-      console.log("Question deleted successfully");
+      await ServiceURL.deleteQuestion(id);
       loadQuestions();
     } 
   }catch (error) {
-      console.log("Failed to Delete Question" + error);
+      console.error("Failed to Delete Question" + error);
     }
   };
 

@@ -56,16 +56,21 @@ public class QuestionDto {
      */
     @NotBlank(message = "Answer is required")
     private String answer;
+
     /**
-     * The ID of the quiz to which this question belongs.
+     * Checks if the provided answer is valid by comparing it to a set of
+     * options.
+     * @return true if the answer is valid (matches one of the options), false
+     *         otherwise.
      */
     @AssertTrue(message = "Answer must be one of the provided options")
-    private boolean isAnswerValid() {
+    final boolean isAnswerValid() {
         return answer != null
                 && (answer.equals(option1) || answer.equals(option2)
                         || answer.equals(option3) || answer.equals(option4));
     }
-    
-    
+    /**
+     * The ID of the quiz to which this question belongs.
+     */
     private int quizId;
 }

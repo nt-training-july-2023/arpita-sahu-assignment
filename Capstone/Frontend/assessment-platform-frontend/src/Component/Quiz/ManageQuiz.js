@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import "./quiz.css";
 import Navbar from "../Navbar/Navbar";
 import NotFound from "../NotFound";
 import Swal from "sweetalert2";
+import ServiceURL from "../Service/ServiceURL";
 export default function ManageQuiz() {
   const [quizzes, setQuizzes] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -17,9 +17,7 @@ export default function ManageQuiz() {
   }, []);
   const loadQuizzes = async () => {
     try {
-      const result = await axios.get(
-        `http://localhost:8080/quiz/category/${categoryId}`
-      );
+      const result = await ServiceURL.getQuizByCategoryId(categoryId);
       setQuizzes(result.data);
     } catch (error) {
       console.error("Error loading quizzes:", error);
@@ -28,9 +26,7 @@ export default function ManageQuiz() {
 
   const loadCategory = async () => {
     try {
-      const category = await axios.get(
-        `http://localhost:8080/category/${categoryId}`
-      );
+      const category = await ServiceURL.getCategoryById(categoryId);
       setCategories(category.data);
     } catch (error) {
       console.error("Error loading category:", error);
@@ -48,14 +44,11 @@ export default function ManageQuiz() {
         cancelButtonText: 'No, keep it',
       });
       if(result.isConfirmed){
-      await axios.delete(`http://localhost:8080/quiz/${id}`);
-      console.log("quiz deleted successfully");
+      await ServiceURL.deleteQuiz(id);
       loadQuizzes();
-      }else{
-        console.log("Quiz deletion canceled");
       }
     } catch (error) {
-      console.log("Failed to Delete Quiz" + error);
+      console.error("Failed to Delete Quiz" + error);
     }
   };
 

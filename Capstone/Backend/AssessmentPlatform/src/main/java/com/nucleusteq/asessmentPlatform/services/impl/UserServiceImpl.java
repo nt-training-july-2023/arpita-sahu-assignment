@@ -12,8 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import com.nucleusteq.asessmentPlatform.controllers.CategoryController;
 import com.nucleusteq.asessmentPlatform.dto.UserDto;
 import com.nucleusteq.asessmentPlatform.entities.LoginRequest;
 import com.nucleusteq.asessmentPlatform.entities.User;
@@ -27,6 +25,7 @@ import com.nucleusteq.asessmentPlatform.service.UserService;
 /**
  * Implementation of the {@link UserService} interface for managing user-related
  * operations.
+ *  It uses a logger to log messages related to its functionality.
  */
 @Service
 public class UserServiceImpl implements UserService {
@@ -48,21 +47,21 @@ public class UserServiceImpl implements UserService {
      */
     @Autowired
     private ModelMapper modelMapper;
-    private Logger logger = LoggerFactory.getLogger(CategoryController.class);
+
+    /**
+     * The logger instance for logging messages related to UserServiceImpl.
+     */
+    private Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Override
     public final String registerUser(final UserDto userDto) {
         User user = this.dtoToUser(userDto);
         Optional<User> existingUserByEmail = userRepo
                 .findByEmail(user.getEmail());
-        String regex = "^[A-Za-z0-9+_.-]+@nucleusteq\\.com$";
-        if (!user.getEmail().matches(regex)) {
-            logger.error("Invalid email format");
-            throw new BadCredentialsException("Invalid email format");
-        }
         if (existingUserByEmail.isPresent()) {
             logger.error("Email address already exists");
-            throw new DuplicateResourceException("Email address already exists");
+            throw new DuplicateResourceException(
+                    "Email address already exists");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole("user");
@@ -93,8 +92,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public final Map<String, String> loginUser(
             final LoginRequest loginRequest) {
-        User user = userRepo.findByEmail(loginRequest.getEmail())
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        User user = userRepo.findByEmail(loginRequest.getEmail()).orElseThrow(
+                () -> new ResourceNotFoundException("User not found"));
         if (!passwordEncoder.matches(loginRequest.getPassword(),
                 user.getPassword())) {
             logger.error("Bad Credentials");

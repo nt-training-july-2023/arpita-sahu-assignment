@@ -21,6 +21,7 @@ import com.nucleusteq.asessmentPlatform.entities.Quiz;
 import com.nucleusteq.asessmentPlatform.exception.BadCredentialsException;
 import com.nucleusteq.asessmentPlatform.exception.ResourceNotFoundException;
 import com.nucleusteq.asessmentPlatform.repositories.QuestionRepo;
+import com.nucleusteq.asessmentPlatform.repositories.QuizRepo;
 
 class QuestionServiceImplTest {
 
@@ -29,6 +30,9 @@ class QuestionServiceImplTest {
 
     @Mock
     private QuestionRepo questionRepo;
+    
+    @Mock
+    private QuizRepo quizRepo;
 
     @InjectMocks
     private QuestionServiceImpl questionService;
@@ -63,6 +67,7 @@ class QuestionServiceImplTest {
         question.setQuiz(quiz);
         when(modelMapper.map(question, QuestionDto.class)).thenReturn(questionDto);
         when(modelMapper.map(questionDto, Question.class)).thenReturn(question);
+        when(quizRepo.findById(questionDto.getQuizId())).thenReturn(Optional.of(quiz));
         when(questionRepo.save(question)).thenReturn(question);
         QuestionDto resultDto = questionService.addQuestion(questionDto);
         assertEquals(resultDto, questionDto);
@@ -70,12 +75,30 @@ class QuestionServiceImplTest {
         assertEquals(resultDto.getQuestion(), questionDto.getQuestion());
 
     }
+    
+    @Test
+    public void testAddQuestionQuizNotFound() {
+        QuestionDto questionDto = new QuestionDto();
+        questionDto.setQuizId(1); 
+        when(quizRepo.findById(questionDto.getQuizId())).thenReturn(Optional.empty());
+        assertThrows(ResourceNotFoundException.class, () -> {
+            questionService.addQuestion(questionDto);
+        });
+    }
 
     @Test
     public void testAddQuestion_EmptyQuestion() {
         QuestionDto questionDto = new QuestionDto();
         questionDto.setQuestion("");
         questionDto.setQuizId(1);
+        Question question = new Question();
+        question.setQuestion(questionDto.getQuestion());
+        Quiz quiz = new Quiz();
+        quiz.setQuizId(questionDto.getQuizId());
+        question.setQuiz(quiz);
+        when(modelMapper.map(question, QuestionDto.class)).thenReturn(questionDto);
+        when(modelMapper.map(questionDto, Question.class)).thenReturn(question);
+        when(quizRepo.findById(questionDto.getQuizId())).thenReturn(Optional.of(quiz));
         BadCredentialsException exception = assertThrows(
                 BadCredentialsException.class,
                 () -> questionService.addQuestion(questionDto));

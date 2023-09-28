@@ -17,6 +17,10 @@ import lombok.Setter;
 @AllArgsConstructor
 public class LoginRequest {
     /**
+     * The minimum length required for a user's password.
+     */
+    private static final int MIN_PASSWORD_LENGTH = 6;
+    /**
      * The email address of the user for login.
      */
     @NotBlank(message = "Email is required")
@@ -28,6 +32,7 @@ public class LoginRequest {
      * The password of the user for login.
      */
     @NotBlank(message = "Password is required")
-    @Size(min=6, message = "Password must be atleast 6 characters long")
+    @Size(min = MIN_PASSWORD_LENGTH,
+    message = "Password must be atleast 6 characters long")
     private String password;
 }

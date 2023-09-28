@@ -31,7 +31,10 @@ public class QuestionController {
      */
     @Autowired
     private QuestionService questionService;
-    private Logger logger = LoggerFactory.getLogger(CategoryController.class);
+    /**
+     * The logger instance for logging messages related to QuestionController.
+     */
+    private Logger logger = LoggerFactory.getLogger(QuestionController.class);
 
     /**
      * Adds a new question.
@@ -44,16 +47,6 @@ public class QuestionController {
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public final ResponseEntity<String> addQuestion(
             @RequestBody @Valid final QuestionDto questionDto) {
-//        try {
-//            questionService.addQuestion(questionDto);
-//            logger.info("Question Added Successfully");
-//            return ResponseEntity.status(HttpStatus.CREATED)
-//                    .body("Question Added Successfully.");
-//        } catch (BadCredentialsException ex) {
-//            logger.error("Question already exist");
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-//                    .body("Question must not be empty");
-//        }
         questionService.addQuestion(questionDto);
         logger.info("Question Added Successfully");
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -112,16 +105,6 @@ public class QuestionController {
     public final ResponseEntity<String> updateQuestion(
             @RequestBody @Valid final QuestionDto questionDto,
             @PathVariable final int quesId) {
-//        try {
-//            questionService.updateQuestion(questionDto, quesId);
-//            logger.info("Question Updated Successfully.");
-//            return ResponseEntity.status(HttpStatus.OK)
-//                    .body("Question Updated Successfully.");
-//        } catch (BadCredentialsException ex) {
-//            logger.error("An error occurred");
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-//                    .body("An error occurred.");
-//        }
         questionService.updateQuestion(questionDto, quesId);
         logger.info("Question Updated Successfully.");
         return ResponseEntity.status(HttpStatus.OK)

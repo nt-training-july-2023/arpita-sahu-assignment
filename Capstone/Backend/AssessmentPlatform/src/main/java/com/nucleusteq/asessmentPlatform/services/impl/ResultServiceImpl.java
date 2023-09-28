@@ -8,14 +8,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.nucleusteq.asessmentPlatform.controllers.CategoryController;
 import com.nucleusteq.asessmentPlatform.dto.ResultDto;
 import com.nucleusteq.asessmentPlatform.entities.Result;
 import com.nucleusteq.asessmentPlatform.repositories.ResultRepo;
 import com.nucleusteq.asessmentPlatform.service.ResultService;
+
 /**
  * Service class for managing results.
+ * It uses a logger to log messages related to its functionality.
  */
 @Service
 public class ResultServiceImpl implements ResultService {
@@ -31,12 +31,15 @@ public class ResultServiceImpl implements ResultService {
      */
     @Autowired
     private ResultRepo resultRepo;
-    private Logger logger = LoggerFactory.getLogger(CategoryController.class);
+    /**
+     * The logger instance for logging messages related to ResultServiceImpl.
+     */
+    private Logger logger = LoggerFactory.getLogger(ResultServiceImpl.class);
 
     /**
      * Adds a new result.
-     * @param resultDto The ResultDto object containing the
-     * result data to be added.
+     * @param resultDto The ResultDto object containing the result data to be
+     *                  added.
      * @return The ResultDto object representing the added result.
      */
     @Override
@@ -64,10 +67,9 @@ public class ResultServiceImpl implements ResultService {
 
     /**
      * Retrieves a list of results for a given email.
-     * @param email The email address for which
-     * results are to be retrieved.
-     * @return A list of ResultDto objects representing
-     * results for the given email.
+     * @param email The email address for which results are to be retrieved.
+     * @return A list of ResultDto objects representing results for the given
+     *         email.
      */
     @Override
     public final List<ResultDto> getResultByEmail(final String email) {

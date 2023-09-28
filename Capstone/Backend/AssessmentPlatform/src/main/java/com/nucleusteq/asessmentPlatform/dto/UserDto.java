@@ -18,6 +18,15 @@ import lombok.Setter;
 public class UserDto {
 
     /**
+     * The minimum length required for a user's password.
+     */
+    private static final int MIN_PASSWORD_LENGTH = 6;
+    /**
+     * The length required for a user's phone number (number of digits).
+     */
+    private static final int PHONE_NUMBER_LENGTH = 10;
+
+    /**
      * The unique identifier of the user.
      */
     private int userId;
@@ -38,25 +47,28 @@ public class UserDto {
      * The email address of the user.
      */
     @NotBlank(message = "Email is required")
-    @Pattern(regexp = "^[a-zA-Z0-9+_.-]+@nucleusteq\\.com$",
-    message = "Email domain must be @nucleusteq.com")
+    @Pattern(regexp = "^[a-z][a-zA-Z0-9]*@nucleusteq\\.com$",
+    message = "Email must start with a small character "
+            + "and shouldn't contain [.-_]")
     private String email;
 
     /**
      * The password of the user.
      */
 
-    @NotBlank(message="Password is required")
-    @Size(min=6, message = "Password must be atleast 6 characters long")
+    @NotBlank(message = "Password is required")
+    @Size(min = MIN_PASSWORD_LENGTH,
+    message = "Password must be atleast 6 characters long")
     private String password;
 
     /**
      * The phone number of the user.
      */
 
-    @Size(min=10, message = "Phone Number must be 10 digit")
+    @Size(min = PHONE_NUMBER_LENGTH, message = "Phone Number must be 10 digit")
     @NotBlank(message = "Phone Number is required")
-    @Pattern(regexp = "^[0-9]*$", message = "Phone Number must contain only numeric characters")
+    @Pattern(regexp = "^[0-9]*$",
+    message = "Phone Number must contain only numeric characters")
     private String phoneNumber;
 
     /**

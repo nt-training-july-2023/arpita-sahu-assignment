@@ -3,15 +3,11 @@ package com.nucleusteq.asessmentPlatform.services.impl;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import org.hibernate.query.sqm.mutation.internal.temptable.UpdateExecutionDelegate;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.nucleusteq.asessmentPlatform.controllers.CategoryController;
 import com.nucleusteq.asessmentPlatform.dto.CategoryDto;
 import com.nucleusteq.asessmentPlatform.dto.QuizDto;
 import com.nucleusteq.asessmentPlatform.entities.Category;
@@ -25,6 +21,7 @@ import com.nucleusteq.asessmentPlatform.service.QuizService;
 
 /**
  * Service implementation for managing quizzes.
+ * It uses a logger to log messages related to its functionality.
  */
 @Service
 public class QuizServiceImpl implements QuizService {
@@ -47,7 +44,12 @@ public class QuizServiceImpl implements QuizService {
      */
     @Autowired
     private QuizRepo quizRepo;
-    private Logger logger = LoggerFactory.getLogger(CategoryController.class);
+
+    /**
+     * The logger instance for logging messages related to QuizServiceImpl.
+     */
+    private Logger logger = LoggerFactory.getLogger(QuizServiceImpl.class);
+
     /**
      * Create a new quiz.
      *
@@ -92,7 +94,7 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public final List<QuizDto> getQuizByCategoryId(final int categoryId) {
-         categoryRepo.findById(categoryId)
+        categoryRepo.findById(categoryId)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Catgeory not found with id " + categoryId));
         List<Quiz> quizzes = quizRepo.findQuizByCategoryId(categoryId);
@@ -148,7 +150,7 @@ public class QuizServiceImpl implements QuizService {
             existingQuiz.setTitle(newTitle);
             existingQuiz.setDescription(updatedQuiz.getDescription());
             existingQuiz.setQuizTimer(updatedQuiz.getQuizTimer());
-            //existingQuiz.setCategory(updatedQuiz.getCategory());
+            // existingQuiz.setCategory(updatedQuiz.getCategory());
             quizRepo.save(existingQuiz);
             logger.info("Quiz Updated Successfully");
             return "Quiz Updated Successfully";

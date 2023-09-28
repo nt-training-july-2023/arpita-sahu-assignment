@@ -2,15 +2,12 @@ package com.nucleusteq.asessmentPlatform.services.impl;
 
 import java.util.List;
 
-
 import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.nucleusteq.asessmentPlatform.controllers.CategoryController;
 import com.nucleusteq.asessmentPlatform.dto.QuestionDto;
 import com.nucleusteq.asessmentPlatform.entities.Question;
 import com.nucleusteq.asessmentPlatform.entities.Quiz;
@@ -22,6 +19,7 @@ import com.nucleusteq.asessmentPlatform.service.QuestionService;
 
 /**
  * Service implementation for managing questions.
+ * It uses a logger to log messages related to its functionality.
  */
 
 @Service
@@ -37,9 +35,17 @@ public class QuestionServiceImpl implements QuestionService {
      */
     @Autowired
     private QuestionRepo questionRepo;
+    /**
+     * This is quiz Repository object that is for calling the repository
+     * methods.
+     */
     @Autowired
     private QuizRepo quizRepo;
-    private Logger logger = LoggerFactory.getLogger(CategoryController.class);
+
+    /**
+     * The logger instance for logging messages related to QuestionServiceImpl.
+     */
+    private Logger logger = LoggerFactory.getLogger(QuestionServiceImpl.class);
 
     /**
      * Adds a new question.
@@ -53,7 +59,7 @@ public class QuestionServiceImpl implements QuestionService {
     public final QuestionDto addQuestion(final QuestionDto questionDto) {
         quizRepo.findById(questionDto.getQuizId()).orElseThrow(
                 () -> new ResourceNotFoundException("Quiz Id not found"));
-        Question question = this.dtoToQues(questionDto);       
+        Question question = this.dtoToQues(questionDto);
         if (question == null || question.getQuestion() == null
                 || question.getQuestion().isEmpty()) {
             logger.error("Question must not be empty");

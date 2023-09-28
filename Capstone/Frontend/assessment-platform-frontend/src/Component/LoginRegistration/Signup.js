@@ -158,7 +158,6 @@ export default function Signup() {
         text: "Registration Successful",
         icon: "success",
       });
-      console.log("Registration successful!", response.data);
     } catch (error) {
       Swal.fire({
         icon: "error",

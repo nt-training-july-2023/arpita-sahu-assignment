@@ -2,7 +2,6 @@ package com.nucleusteq.asessmentPlatform.controllers;
 
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +19,7 @@ import jakarta.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 /**
  * Controller class that handles CRUD operations for managing categories.
  */
@@ -33,6 +33,9 @@ public class CategoryController {
      */
     @Autowired
     private CategoryService categoryService;
+    /**
+     * The logger instance for logging messages related to CategoryController.
+     */
     private Logger logger = LoggerFactory.getLogger(CategoryController.class);
 
     /**
@@ -41,27 +44,15 @@ public class CategoryController {
      * @param categoryDto The CategoryDto object containing category information
      *                    to be added.
      * @return A ResponseEntity with a success status (201 Created) and a
-     *         success message if the category is added successfully. If a
-     *         DuplicateResourceException is thrown, it returns a ResponseEntity
-     *         with a conflict status (409 Conflict) and an error message.
+     *         success message if the category is added successfully.
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public final ResponseEntity<String> saveCategory(
             @RequestBody @Valid final CategoryDto categoryDto) {
-            categoryService.addCategory(categoryDto);
-            logger.info("Category Added Successfully");
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body("category added successfully.");
-//        try {
-//            categoryService.addCategory(categoryDto);
-//            logger.info("Category Added Successfully");
-//            return ResponseEntity.status(HttpStatus.CREATED)
-//                    .body("category added successfully.");
-//        } catch (DuplicateResourceException ex) {
-//            logger.error("category already exist");
-//            return ResponseEntity.status(HttpStatus.CONFLICT)
-//                    .body("category already exist");
-//        }
+        categoryService.addCategory(categoryDto);
+        logger.info("Category Added Successfully");
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body("category added successfully.");
     }
 
     /**
@@ -81,21 +72,6 @@ public class CategoryController {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public final ResponseEntity<?> getCategoryById(@PathVariable final int id) {
-//        try {
-//            CategoryDto categoryDto = categoryService.getCategoryById(id);
-//            logger.info("Get category by id");
-//            return ResponseEntity.ok(categoryDto);
-//        } catch (ResourceNotFoundException e) {
-//            String error = e.getMessage();
-//            logger.error("category not found");
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
-//        } catch (Exception e) {
-//            String errorMessage =
-//                    "An error occurred while processing your request.";
-//            logger.error(errorMessage);
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .body(errorMessage);
-//        }
         CategoryDto categoryDto = categoryService.getCategoryById(id);
         logger.info("Get category by id");
         return ResponseEntity.ok(categoryDto);
@@ -113,20 +89,11 @@ public class CategoryController {
     public final ResponseEntity<String> updateCategory(
             @RequestBody @Valid final CategoryDto category,
             @PathVariable final int id) {
-//        logger.info("Category updated");
-//        try {
-//            categoryService.updateCategory(category, id);
-//            logger.info("category updated");
-//            return ResponseEntity.status(HttpStatus.OK)
-//                    .body("Category Updated Successfully.");
-//        }catch (ResourceNotFoundException e) {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("category not found");
-//        }
         categoryService.updateCategory(category, id);
         logger.info("category updated");
         return ResponseEntity.status(HttpStatus.OK)
                 .body("Category Updated Successfully.");
-        
+
     }
 
     /**

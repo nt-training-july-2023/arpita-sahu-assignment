@@ -9,8 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.nucleusteq.asessmentPlatform.controllers.CategoryController;
 import com.nucleusteq.asessmentPlatform.dto.CategoryDto;
 import com.nucleusteq.asessmentPlatform.entities.Category;
 import com.nucleusteq.asessmentPlatform.exception.DuplicateResourceException;
@@ -21,6 +19,7 @@ import com.nucleusteq.asessmentPlatform.service.CategoryService;
 /**
  * Implementation of the {@link CategoryService} interface for managing
  * category-related operations.
+ * It uses a logger to log messages related to its functionality.
  */
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -37,7 +36,11 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Autowired
     private ModelMapper modelMapper;
-    private Logger logger = LoggerFactory.getLogger(CategoryController.class);
+    /**
+     * The logger instance for logging messages related to CategoryServiceImpl.
+     */
+    private Logger logger = LoggerFactory.getLogger(CategoryServiceImpl.class);
+
     /**
      * Adds a new category.
      *
