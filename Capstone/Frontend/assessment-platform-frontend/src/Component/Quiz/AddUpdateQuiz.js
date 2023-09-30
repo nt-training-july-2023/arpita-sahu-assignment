@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import {useParams } from "react-router-dom";
 import NotFound from "../NotFound";
-import Swal from "sweetalert2";
 import Navbar from "../Navbar/Navbar";
 import ServiceURL from "../Service/ServiceURL";
+import SweetAlertService from "../SweetAlert/SweetAlertService";
 
 function AddUpdateQuiz() {
   const [title, setTitle] = useState("");
@@ -82,36 +82,22 @@ function AddUpdateQuiz() {
       if (!quizId) {
         await ServiceURL.addQuiz(quizItem).then((response)=>{
         if (response.status === 201) {
-          Swal.fire({
-            title: "Success",
-            text: "Quiz Added Successfully",
-            icon: "success",
-          });
+          SweetAlertService.showNotificationAlert("Success", "Quiz Added Successfully","success");
           window.history.back();
         }
       }) 
      }  else {
       await ServiceURL.updateQuiz(quizId,quizItem).then((response)=>{
         if (response.status === 200) {
-          Swal.fire({
-            title: "Success",
-            text: "Quiz Updated Successfully",
-            icon: "success",
-          });
+          SweetAlertService("Success","Quiz Updated Successfully","success");
           window.history.back();
         } 
        })
        }
      } catch (error) {
       if (error.response && error.response.status === 302) {
-        Swal.fire({
-          icon: "error",
-          title: "Error!",
-          text: "Title already exists",
-        });
-        console.error("Quiz with the same title already exists");
+        SweetAlertService.showNotificationAlert("Error!","Title already exists","error");
       } 
-      console.error("An error occurred:", error);
     }
   };
 

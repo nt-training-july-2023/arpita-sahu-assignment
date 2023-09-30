@@ -1,17 +1,13 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../Navbar/Navbar.css";
-import Swal from "sweetalert2";
+import SweetAlertService from "../SweetAlert/SweetAlertService";
 export default function Navbar() {
   const navigate = useNavigate();
   const role = localStorage.getItem('userRole');
 
   const handleLogout =()=>{
-    Swal.fire({
-      title: "Success",
-      text: "Logout Successfully!",
-      icon: "success"
-    });
+   SweetAlertService.showNotificationAlert("Success","Logout Successfully!","success");
    localStorage.removeItem('isLoggedIn');
    localStorage.removeItem('userRole');
    localStorage.removeItem('name');
@@ -22,7 +18,7 @@ export default function Navbar() {
   }
   return (
     <div className="topnav" id="myTopnav">
-      <Link to ="">Assessment Platform</Link> 
+      <Link>Assessment Platform</Link> 
       {role === 'admin'?  <Link to ="/adminDashboard">
         Home
       </Link>:  <Link to ="/userDashboard">

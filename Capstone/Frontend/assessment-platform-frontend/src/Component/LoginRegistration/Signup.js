@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./LoginReg.css";
-import Swal from "sweetalert2";
 import ServiceURL from "../Service/ServiceURL";
+import SweetAlertService from "../SweetAlert/SweetAlertService";
 export default function Signup() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -153,18 +153,9 @@ export default function Signup() {
         password,
         phoneNumber,
       });
-      Swal.fire({
-        title: "Success",
-        text: "Registration Successful",
-        icon: "success",
-      });
+      SweetAlertService.showNotificationAlert("Success","Registration Successful","success");
     } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Error!",
-        text: "Registration failed",
-      });
-      console.error("Registration failed:", error);
+      SweetAlertService.showNotificationAlert("Error!","Registration failed","error")
     }
     navigate("/Login");
   };

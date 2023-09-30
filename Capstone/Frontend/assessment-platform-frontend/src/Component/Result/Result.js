@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Navbar from '../Navbar/Navbar';
 import DisableBackButton from '../DisableBackButton';
 import ServiceURL from '../Service/ServiceURL';
+
 export default function Result() {
     const[results, setResults]= useState([]);
     const role = localStorage.getItem('userRole');

@@ -3,8 +3,9 @@ import { useNavigate, Link } from "react-router-dom";
 import "./CategoryList.css";
 import Navbar from "../Navbar/Navbar";
 import NotFound from "../NotFound";
-import Swal from "sweetalert2";
 import ServiceURL from "../Service/ServiceURL";
+import SweetAlertService from "../SweetAlert/SweetAlertService";
+
 function CategoryList() {
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
@@ -21,21 +22,11 @@ function CategoryList() {
 
   const deleteCategory = async (id) => {
     try{
-    const result = await Swal.fire({
-      title: 'Delete Category',
-      text: 'Are you sure you want to delete this category?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Yes, delete it',
-      cancelButtonText: 'No, keep it',
-    });
-
+    const result = await SweetAlertService.showDeleteNotificationAlert
+    ('Delete Category','Are you sure you want to delete this category?');
     if (result.isConfirmed) {
       await ServiceURL.deleteCategory(id);
-      console.log("Category deleted successfully");
       loadCategories();
-    } else {
-      console.log("Category deletion canceled");
     }}
     catch (error) {
       console.log("An error occured:", error);

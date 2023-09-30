@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import NotFound from "../NotFound";
-import Swal from "sweetalert2";
 import Navbar from "../Navbar/Navbar";
 import ServiceURL from "../Service/ServiceURL";
+import SweetAlertService from "../SweetAlert/SweetAlertService";
 function AddCategory() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -59,47 +59,27 @@ function AddCategory() {
     if (!validateCategory()) {
       return;
     }
-
     try {
       const category = { title, description };
       if (!id) {
          ServiceURL.addCategory(category)
           .then((response) => {
             if (response.status === 201) {
-              Swal.fire({
-                title: "Success",
-                text: "Category Added Successfully",
-                icon: "success",
-              });
+              SweetAlertService.showNotificationAlert("Success","Category Added Successfully", "success");
               window.history.back();
-            } else {
-              console.error("Failed to add category");
-            }
+            } 
             })
         .catch((error) => {
             if (error.response && error.response.status === 302) {
-              Swal.fire({
-                icon: "error",
-                title: "Error!",
-                text: "Title already exists",
-              });
-              console.error("Category with the same title already exists");
-            } else {
-              console.error("An error occurred:", error.message);
-            }
+              SweetAlertService.showNotificationAlert("Error!","Title already exists","error");
+            } 
           });
       } else {
         await ServiceURL.updateCategory(id, category).then((response) => {
           if (response.status === 200) {
-            Swal.fire({
-              title: "Success",
-              text: "Category Updated Successfully",
-              icon: "success",
-            });
+            SweetAlertService.showNotificationAlert("Success","Category Updated Successfully","success");
             window.history.back();
-          } else {
-            console.error("Failed to update category");
-          }
+          } 
         });
       }
     } catch (error) {

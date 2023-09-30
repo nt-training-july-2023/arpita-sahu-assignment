@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import "./question.css";
-import Swal from "sweetalert2";
 import DisableBackButton from "../DisableBackButton";
 import ServiceURL from "../Service/ServiceURL";
+import SweetAlertService from "../SweetAlert/SweetAlertService";
 
 export default function TakeTest() {
   const [questions, setQuestions] = useState([]);
@@ -77,28 +76,13 @@ export default function TakeTest() {
   }
   const handleManualSubmit = async (e) => {
     e.preventDefault();
-    const result = await Swal.fire({
-      title: 'Submit Answers',
-      text: 'Are you sure you want to submit your answers?',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonText: 'Yes, submit',
-      cancelButtonText: 'No, cancel',
-    });
+    const result = await SweetAlertService.showManualSubmitAlert();
     if (result.isConfirmed) {
       handleSubmit();
     }
   };
   const showAutoSubmitMessage = () => {
-    Swal.fire({
-      text: 'Time has ended. The test will be submitted automatically.',
-      icon: 'info',
-      timer: 1000, 
-      timerProgressBar: true,
-      showConfirmButton: false,
-    }).then(() => {
-      handleSubmit();
-    });
+    SweetAlertService.showAutoSubmitAlert(handleSubmit);
   };
 
   const handleSubmit = async(e) => {
@@ -128,8 +112,7 @@ export default function TakeTest() {
         dateAndTime:formattedTime,
         numofAttemptedQues: Object.keys(selectedAnswers).length,
       }
-     await ServiceURL.addResult(resultItem).then((response)=>{
-      })
+     await ServiceURL.addResult(resultItem);
     } catch (error) {
       console.error("Error submitting quiz results:", error);
     }
@@ -138,12 +121,13 @@ export default function TakeTest() {
 
   return (
     <div>
+       {questions.length > 0 ? (<>
       <DisableBackButton/>
       <h1>Take Test</h1>
       <div className="quiz-timer">
         Time Left: {Math.floor(timeInSeconds / 60)}:{(timeInSeconds % 60).toString().padStart(2, "0")}
       </div>
-      {questions.length > 0 ? (
+     
         <form onSubmit={handleSubmit}>       
           {questions.map((question, index) => (
             <div className="question-card" key={index}>
@@ -182,8 +166,12 @@ export default function TakeTest() {
           <button type="submit" onClick={handleManualSubmit}>Submit Answers</button>
           </div>
         </form>
+        </>
       ) : (
+        <>
         <p>Question not available...</p>
+        <button className="button start-quiz-button" onClick={()=>window.history.back()}>Back</button>
+        </>
       )}
     </div>
   );

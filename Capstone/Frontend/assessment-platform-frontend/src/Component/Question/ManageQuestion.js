@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import NotFound from "../NotFound";
 import Navbar from "../Navbar/Navbar";
-import "./question.css";
-import Swal from "sweetalert2";
 import ServiceURL from "../Service/ServiceURL";
+import "./question.css";
+import SweetAlertService from "../SweetAlert/SweetAlertService";
 
 export default function ManageQuestion() {
   const [questions, setQuestions] = useState([]);
@@ -26,14 +26,8 @@ export default function ManageQuestion() {
 
   const deleteQuestion = async (id) => {
     try {
-      const result = await Swal.fire({
-        title: 'Delete Question',
-        text: 'Are you sure you want to delete this Question?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, delete it',
-        cancelButtonText: 'No, keep it',
-      });
+      const result = await SweetAlertService.showDeleteNotificationAlert
+      ('Delete Question','Are you sure you want to delete this Question?');
       if(result.isConfirmed){
       await ServiceURL.deleteQuestion(id);
       loadQuestions();

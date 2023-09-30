@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import Swal from "sweetalert2";
 import ServiceURL from "../Service/ServiceURL";
+import SweetAlertService from "../SweetAlert/SweetAlertService";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -55,11 +55,7 @@ export default function Login() {
         email,
         password,
       });
-      Swal.fire({
-        title: "Success",
-        text: "Login Successful",
-        icon: "success",
-      });
+      SweetAlertService.showNotificationAlert("Success","Login Successful","success")
       if (response.data.Role === "admin") navigate("/adminDashboard");
       if (response.data.Role === "user") navigate("/userDashboard");
       localStorage.setItem("isLoggedIn", response.status);
@@ -68,28 +64,13 @@ export default function Login() {
       localStorage.setItem('selectedEmail', email);
     } catch (error) {
       if(error.response.status >=400 && error.response.status<=404){
-        Swal.fire({
-          icon: "error",
-          title: "Error!",
-          text: "Wrong Credentials",
-        });
+        SweetAlertService.showNotificationAlert("Error!", "Wrong Credentials","error");
       }
       // if (error.response.status === 404 || error.response.status === 401) {
       //   setPasswordError("Invalid Password");
-      //   Swal.fire({
-      //     icon: "error",
-      //     title: "Error!",
-      //     text: "Wrong Password",
-      //   });
+      //   SweetAlertService.showNotificationAlert("Error!","Wrong Password","error");
       // }else if(error.response.status === 400){
-      //   Swal.fire({
-      //     icon: "error",
-      //     title: "Error!",
-      //     text: "Wrong Email Format",
-      //   });
-      //   console.log("User Not found", error)
-      // }
-      console.error("Login failed:", error);
+      //  SweetAlertService.showNotificationAlert("Error!","Wrong Email Format","error");
     }
   };
 

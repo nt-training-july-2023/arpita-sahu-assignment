@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import NotFound from "../NotFound";
-import Swal from "sweetalert2";
 import Navbar from "../Navbar/Navbar";
 import ServiceURL from "../Service/ServiceURL";
+import SweetAlertService from "../SweetAlert/SweetAlertService";
 
 function AddUpdateQuestion() {
   const [formData, setFormData] = useState({
@@ -76,24 +76,14 @@ function AddUpdateQuestion() {
       if (quizId) {
        await ServiceURL.addQuestion(requestData).then((response) =>{
         if (response.status === 201) {
-          Swal.fire({
-            title: "Success",
-            text: "Question Added Successfully",
-            icon: "success",
-          });
+          SweetAlertService.showNotificationAlert("Success","Question Added Successfully","success");
           navigate(`/manage-questions/${quizId}`);
-        } else {
-          console.error("Failed to add Question");
-        }
+        } 
        })
       } else {
         await ServiceURL.updateQuestion(quesId, requestData).then((response)=>{
         if (response.status === 200) {
-          Swal.fire({
-            title: "Success",
-            text: "Question Updated Successfully",
-            icon: "success",
-          });
+          SweetAlertService.showNotificationAlert("Success","Question Updated Successfully","success");
           window.history.back();
         } 
       })

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect} from 'react';
 
 function DisableBackButton() {
 
@@ -9,4 +9,4 @@ function DisableBackButton() {
     }
     });
   }
-export default DisableBackButton;
+export default DisableBackButton();
