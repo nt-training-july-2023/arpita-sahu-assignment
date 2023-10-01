@@ -26,7 +26,6 @@ class QuizDtoTest {
         quizDto.setTitle("Quiz1");
         quizDto.setDescription("Quiz1 based on category Java");
         quizDto.setQuizTimer(45);
-        
 
         assertEquals(1, quizDto.getQuizId());
         assertEquals("Quiz1", quizDto.getTitle());

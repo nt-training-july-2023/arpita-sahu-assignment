@@ -56,8 +56,9 @@ export default function Login() {
         password,
       });
       SweetAlertService.showNotificationAlert("Success","Login Successful","success")
-      if (response.data.Role === "admin") navigate("/adminDashboard");
-      if (response.data.Role === "user") navigate("/userDashboard");
+      // if (response.data.Role === "admin") navigate("/adminDashboard");
+      // if (response.data.Role === "user") navigate("/userDashboard");
+      navigate('/listcategory')
       localStorage.setItem("isLoggedIn", response.status);
       localStorage.setItem("userRole", response.data.Role);
       localStorage.setItem("name",response.data.Name);

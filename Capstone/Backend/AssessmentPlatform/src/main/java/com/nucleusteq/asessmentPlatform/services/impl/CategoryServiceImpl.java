@@ -16,6 +16,10 @@ import com.nucleusteq.asessmentPlatform.exception.ResourceNotFoundException;
 import com.nucleusteq.asessmentPlatform.repositories.CategoryRepo;
 import com.nucleusteq.asessmentPlatform.service.CategoryService;
 
+import ValidationMessage.ErrorMessage;
+import ValidationMessage.LoggerMessage;
+import ValidationMessage.Message;
+
 /**
  * Implementation of the {@link CategoryService} interface for managing
  * category-related operations.
@@ -56,12 +60,14 @@ public class CategoryServiceImpl implements CategoryService {
         Optional<Category> existingCategory = categoryRepo
                 .findByTitle(category.getTitle());
         if (existingCategory.isPresent()) {
-            logger.error("Category with Title already exist");
-            throw new DuplicateResourceException("Category with title '"
-                    + category.getTitle() + "' already exists.");
+            logger.error(LoggerMessage.CATEGORY_TITLE_EXIST);
+            throw new DuplicateResourceException(
+                    ErrorMessage.CATEGORY_ALREADY_EXISTS_PREFIX
+                            + category.getTitle()
+                            + ErrorMessage.CATEGORY_ALREADY_EXISTS_SUFFIX);
         }
         categoryRepo.save(category);
-        logger.info("Category saved in Category Repository.");
+        logger.info(LoggerMessage.CATEGORY_SAVED_IN_REPOSITORY);
         return this.categoryToDto(category);
     }
 
@@ -76,7 +82,7 @@ public class CategoryServiceImpl implements CategoryService {
         List<CategoryDto> categoryDtos = categories.stream()
                 .map(category -> this.categoryToDto(category))
                 .collect(Collectors.toList());
-        logger.info("Get All Category");
+        logger.info(LoggerMessage.GET_CATEGORY);
         return categoryDtos;
     }
 
@@ -92,8 +98,8 @@ public class CategoryServiceImpl implements CategoryService {
     public final CategoryDto getCategoryById(final int id) {
         Category category = categoryRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
-                        "Category not found with id " + id));
-        logger.info("Get Category by Category Id");
+                        ErrorMessage.CATEGORY_ID_NOT_FOUND + id));
+        logger.info(LoggerMessage.GET_CATEGORY_BY_ID);
         return this.categoryToDto(category);
     }
 
@@ -111,11 +117,11 @@ public class CategoryServiceImpl implements CategoryService {
     public final CategoryDto updateCategory(final CategoryDto category,
             final int id) {
         Category updatedCategory = categoryRepo.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("category not found"));
+                () -> new ResourceNotFoundException(ErrorMessage.CATEGORY_NOT_FOUND));
         updatedCategory.setTitle(category.getTitle());
         updatedCategory.setDescription(category.getDescription());
         categoryRepo.save(updatedCategory);
-        logger.info("category updated successfully");
+        logger.info(LoggerMessage.UPDATE_CATEGORY);
         return this.categoryToDto(updatedCategory);
     }
 
@@ -125,16 +131,16 @@ public class CategoryServiceImpl implements CategoryService {
      * @param id The ID of the category to delete.
      * @return A success message indicating the deletion.
      * @throws ResourceNotFoundException If the category with the specified ID
-     *                                   is not found.
+     * is not found.
      */
     @Override
     public final String deleteCategory(final int id) {
         Category category = categoryRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
-                        "category not found with id " + id));
+                        ErrorMessage.CATEGORY_ID_NOT_FOUND + id));
         categoryRepo.delete(category);
-        logger.info("category deleted");
-        return id + " deleted successfully";
+        logger.info(LoggerMessage.DELETE_CATEGORY);
+        return id + Message.DELETE_CATEGORY ;
     }
 
     /**

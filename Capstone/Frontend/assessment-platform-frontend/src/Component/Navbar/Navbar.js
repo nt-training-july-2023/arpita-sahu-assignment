@@ -18,14 +18,12 @@ export default function Navbar() {
   }
   return (
     <div className="topnav" id="myTopnav">
-      <Link>Assessment Platform</Link> 
+      {/* <Link>Assessment Platform</Link> 
       {role === 'admin'?  <Link to ="/adminDashboard">
         Home
       </Link>:  <Link to ="/userDashboard">
         Home
-      </Link>}
-     
-      <Link to ="">About</Link>
+      </Link>}     */}
       <Link to ="/listcategory">Categories</Link>
       <Link to="/result">Results</Link>
       <button className="logout" onClick={handleLogout}>Logout</button>

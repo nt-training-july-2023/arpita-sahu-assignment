@@ -94,7 +94,7 @@ class QuizServiceImplTest {
         BadCredentialsException exception = assertThrows(BadCredentialsException.class, () -> {
             quizService.addQuiz(quizDto);
         });
-        assertEquals("Category not exist", exception.getMessage());
+        assertEquals("category not found", exception.getMessage());
     }
     
     @Test
@@ -181,7 +181,7 @@ class QuizServiceImplTest {
         when(quizRepo.save(any(Quiz.class))).thenReturn(existingQuiz);
         String result = quizService.updateQuiz(updatedQuizDto, quizId);
 
-        assertEquals("Quiz Updated Successfully", result);
+        assertEquals("Quiz Updated Successfully.", result);
         assertEquals("Existing Quiz Title", existingQuiz.getTitle());
         assertEquals("Existing Quiz Description", existingQuiz.getDescription());
     }
@@ -253,7 +253,7 @@ class QuizServiceImplTest {
                 ResourceNotFoundException.class,
                 () -> quizService.deleteQuiz(quizIdToDelete));
 
-        assertEquals("Quiz not found with id " + quizIdToDelete,
+        assertEquals("Quiz not found with ID " + quizIdToDelete,
                 exception.getMessage());
     }
 

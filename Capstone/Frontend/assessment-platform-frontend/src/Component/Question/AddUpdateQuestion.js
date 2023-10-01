@@ -75,7 +75,7 @@ function AddUpdateQuestion() {
 
       if (quizId) {
        await ServiceURL.addQuestion(requestData).then((response) =>{
-        if (response.status === 201) {
+        if (response.status === 200) {
           SweetAlertService.showNotificationAlert("Success","Question Added Successfully","success");
           navigate(`/manage-questions/${quizId}`);
         } 

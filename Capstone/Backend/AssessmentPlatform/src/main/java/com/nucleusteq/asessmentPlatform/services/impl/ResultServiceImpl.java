@@ -13,6 +13,8 @@ import com.nucleusteq.asessmentPlatform.entities.Result;
 import com.nucleusteq.asessmentPlatform.repositories.ResultRepo;
 import com.nucleusteq.asessmentPlatform.service.ResultService;
 
+import ValidationMessage.LoggerMessage;
+
 /**
  * Service class for managing results.
  * It uses a logger to log messages related to its functionality.
@@ -46,7 +48,7 @@ public class ResultServiceImpl implements ResultService {
     public final ResultDto addResult(final ResultDto resultDto) {
         Result result = dtoToResult(resultDto);
         resultRepo.save(result);
-        logger.info("result saved successfully");
+        logger.info(LoggerMessage.SAVE_RESULT);
         return resultToDto(result);
     }
 
@@ -61,7 +63,7 @@ public class ResultServiceImpl implements ResultService {
         List<ResultDto> resultDtos = results.stream()
                 .map(result -> this.resultToDto(result))
                 .collect(Collectors.toList());
-        logger.info("Get All Results");
+        logger.info(LoggerMessage.GET_RESULT);
         return resultDtos;
     }
 
@@ -77,7 +79,7 @@ public class ResultServiceImpl implements ResultService {
         List<ResultDto> resultDtos = results.stream()
                 .map(result -> this.resultToDto(result))
                 .collect(Collectors.toList());
-        logger.info("Get Result By Email");
+        logger.info(LoggerMessage.GET_RESULT_BY_EMAIL);
         return resultDtos;
     }
 

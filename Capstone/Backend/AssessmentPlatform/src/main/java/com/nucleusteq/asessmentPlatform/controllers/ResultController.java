@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nucleusteq.asessmentPlatform.dto.ResultDto;
+import com.nucleusteq.asessmentPlatform.exception.ApiErrorResponse;
 import com.nucleusteq.asessmentPlatform.service.ResultService;
 
+import ValidationMessage.LoggerMessage;
+import ValidationMessage.Message;
 import jakarta.validation.Valid;
 
 /**
@@ -45,12 +47,12 @@ public class ResultController {
      *         (Created) on successful addition.
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public final ResponseEntity<String> addResult(
+    public final ApiErrorResponse addResult(
             @RequestBody @Valid final ResultDto resultDto) {
         resultService.addResult(resultDto);
-        logger.info("Result Added Successfully.");
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body("Result Added Successfully.");
+        logger.info(LoggerMessage.SAVE_RESULT);
+        return new ApiErrorResponse(Message.SAVE_RESULT, 
+                HttpStatus.OK.value());
     }
 
     /**
@@ -60,7 +62,7 @@ public class ResultController {
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public final List<ResultDto> getAllResults() {
-        logger.info("Get All Results");
+        logger.info(LoggerMessage.GET_RESULT);
         return resultService.getAllResults();
     }
 
@@ -74,7 +76,7 @@ public class ResultController {
     @RequestMapping(value = "/{email}", method = RequestMethod.GET)
     public final List<ResultDto> getResultByEmail(
             @PathVariable final String email) {
-        logger.info("Get Results by User email");
+        logger.info(LoggerMessage.GET_RESULT_BY_EMAIL);
         return resultService.getResultByEmail(email);
     }
 }

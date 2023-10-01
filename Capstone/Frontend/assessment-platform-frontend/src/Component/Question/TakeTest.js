@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import DisableBackButton from "../DisableBackButton";
 import ServiceURL from "../Service/ServiceURL";
 import SweetAlertService from "../SweetAlert/SweetAlertService";
+import NotFound from "../NotFound";
 
 export default function TakeTest() {
   const [questions, setQuestions] = useState([]);
@@ -16,6 +17,7 @@ export default function TakeTest() {
   const [score, setScore]=useState(0);
   const [timeInSeconds, setTimeInSeconds] = useState(0);
   const [timerEnded, setTimerEnded] = useState(false);
+  const role = localStorage.getItem('userRole');
 
   useEffect(() => {
     loadQuestions();
@@ -121,6 +123,7 @@ export default function TakeTest() {
 
   return (
     <div>
+      {role === 'user' ? <>
        {questions.length > 0 ? (<>
       <DisableBackButton/>
       <h1>Take Test</h1>
@@ -172,7 +175,8 @@ export default function TakeTest() {
         <p>Question not available...</p>
         <button className="button start-quiz-button" onClick={()=>window.history.back()}>Back</button>
         </>
-      )}
+      )} </>: <NotFound/>
+      }
     </div>
   );
 }

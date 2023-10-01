@@ -1,6 +1,5 @@
 package com.nucleusteq.asessmentPlatform.exception;
 
-import org.springframework.http.HttpStatus;
 
 /**
  * The `ApiErrorResponse` class represents an error response in the API. It
@@ -9,21 +8,20 @@ import org.springframework.http.HttpStatus;
 public class ApiErrorResponse {
 
     /**
-     * The HTTP status code of the error response.
-     */
-    private HttpStatus status;
-
-    /**
      * The error message associated with the error response.
      */
     private String message;
+    /**
+     * The HTTP status code of the error response.
+     */
+    private Integer status;
 
     /**
      * Gets the HTTP status code of the error response.
      *
      * @return The HTTP status code.
      */
-    public final HttpStatus getStatus() {
+    public final Integer getStatus() {
         return status;
     }
 
@@ -32,7 +30,7 @@ public class ApiErrorResponse {
      *
      * @param errorStatus The HTTP status code to set.
      */
-    public final void setStatus(final HttpStatus errorStatus) {
+    public final void setStatus(final Integer errorStatus) {
         this.status = errorStatus;
     }
 
@@ -61,12 +59,12 @@ public class ApiErrorResponse {
      * @param errorStatus  The HTTP status code for the error response.
      * @param errorMessage The error message describing the error.
      */
-    public ApiErrorResponse(final HttpStatus errorStatus,
-            final String errorMessage) {
+    public ApiErrorResponse(final String errorMessage, 
+            final Integer errorStatus) {
         super();
-        this.status = errorStatus;
         this.message = errorMessage;
-    }
+        this.status = errorStatus;
+}
 
     /**
      * Constructs an empty `ApiErrorResponse` object. This constructor is

@@ -35,21 +35,18 @@ public class Question {
      * The content of the question.
      */
     @Column(name = "question_Name", nullable = false)
-    @NotBlank(message = "Question is required")
     private String question;
 
     /**
      * The first answer option for the question.
      */
     @Column(nullable = false)
-    @NotBlank(message = "Option1 is required")
     private String option1;
 
     /**
      * The second answer option for the question.
      */
     @Column(nullable = false)
-    @NotBlank(message = "Option2 is required")
     private String option2;
 
     /**
@@ -63,14 +60,12 @@ public class Question {
      * The fourth answer option for the question.
      */
     @Column(nullable = false)
-    @NotBlank(message = "Option4 is required")
     private String option4;
 
     /**
      * The correct answer to the question.
      */
     @Column(nullable = false)
-    @NotBlank(message = "Answer is required")
     private String answer;
 
     /**

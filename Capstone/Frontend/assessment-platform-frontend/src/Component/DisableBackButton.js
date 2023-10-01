@@ -9,4 +9,4 @@ function DisableBackButton() {
     }
     });
   }
-export default DisableBackButton();
+export default DisableBackButton;

@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nucleusteq.asessmentPlatform.dto.CategoryDto;
+import com.nucleusteq.asessmentPlatform.exception.ApiErrorResponse;
 import com.nucleusteq.asessmentPlatform.service.CategoryService;
 
+import ValidationMessage.LoggerMessage;
+import ValidationMessage.Message;
 import jakarta.validation.Valid;
 
 import org.slf4j.Logger;
@@ -47,12 +50,12 @@ public class CategoryController {
      *         success message if the category is added successfully.
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public final ResponseEntity<String> saveCategory(
+    public final ApiErrorResponse saveCategory(
             @RequestBody @Valid final CategoryDto categoryDto) {
         categoryService.addCategory(categoryDto);
-        logger.info("Category Added Successfully");
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body("category added successfully.");
+        logger.info(LoggerMessage.SAVE_CATEGORY);
+        return new ApiErrorResponse(Message.SAVE_CATEGORY, 
+                HttpStatus.OK.value());
     }
 
     /**
@@ -61,6 +64,7 @@ public class CategoryController {
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public final List<CategoryDto> getCategories() {
+        logger.info(LoggerMessage.GET_CATEGORY);
         return categoryService.getAllCategories();
     }
 
@@ -73,7 +77,7 @@ public class CategoryController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public final ResponseEntity<?> getCategoryById(@PathVariable final int id) {
         CategoryDto categoryDto = categoryService.getCategoryById(id);
-        logger.info("Get category by id");
+        logger.info(LoggerMessage.GET_CATEGORY_BY_ID);
         return ResponseEntity.ok(categoryDto);
     }
 
@@ -86,13 +90,13 @@ public class CategoryController {
      * @return The updated CategoryDto.
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public final ResponseEntity<String> updateCategory(
+    public final ApiErrorResponse updateCategory(
             @RequestBody @Valid final CategoryDto category,
             @PathVariable final int id) {
         categoryService.updateCategory(category, id);
-        logger.info("category updated");
-        return ResponseEntity.status(HttpStatus.OK)
-                .body("Category Updated Successfully.");
+        logger.info(LoggerMessage.UPDATE_CATEGORY);
+        return new ApiErrorResponse(Message.UPDATE_CATEGORY, 
+                HttpStatus.OK.value());
 
     }
 
@@ -104,7 +108,7 @@ public class CategoryController {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public final String deleteCategory(@PathVariable final int id) {
-        logger.info("category deleted");
+        logger.info(LoggerMessage.DELETE_CATEGORY);
         return categoryService.deleteCategory(id);
     }
 

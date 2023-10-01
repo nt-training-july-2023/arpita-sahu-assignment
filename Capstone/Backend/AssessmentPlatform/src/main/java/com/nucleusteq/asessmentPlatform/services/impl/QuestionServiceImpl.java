@@ -17,6 +17,10 @@ import com.nucleusteq.asessmentPlatform.repositories.QuestionRepo;
 import com.nucleusteq.asessmentPlatform.repositories.QuizRepo;
 import com.nucleusteq.asessmentPlatform.service.QuestionService;
 
+import ValidationMessage.ErrorMessage;
+import ValidationMessage.LoggerMessage;
+import ValidationMessage.Message;
+
 /**
  * Service implementation for managing questions.
  * It uses a logger to log messages related to its functionality.
@@ -58,18 +62,18 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public final QuestionDto addQuestion(final QuestionDto questionDto) {
         quizRepo.findById(questionDto.getQuizId()).orElseThrow(
-                () -> new ResourceNotFoundException("Quiz Id not found"));
+                () -> new ResourceNotFoundException(ErrorMessage.QUIZ_NOT_FOUND));
         Question question = this.dtoToQues(questionDto);
         if (question == null || question.getQuestion() == null
                 || question.getQuestion().isEmpty()) {
-            logger.error("Question must not be empty");
-            throw new BadCredentialsException("Question must not be empty");
+            logger.error(LoggerMessage.QUESTION_EMPTY);
+            throw new BadCredentialsException(ErrorMessage.QUESTION_EMPTY);
         }
         Quiz quiz = new Quiz();
         quiz.setQuizId(questionDto.getQuizId());
         question.setQuiz(quiz);
         questionRepo.save(question);
-        logger.info("Question saved in Question Repository");
+        logger.info(LoggerMessage.QUESTION_SAVED_IN_REPOSITORY);
         return this.quesToDto(question);
     }
 
@@ -85,7 +89,7 @@ public class QuestionServiceImpl implements QuestionService {
         List<QuestionDto> questionDtos = questions.stream()
                 .map(question -> this.quesToDto(question))
                 .collect(Collectors.toList());
-        logger.info("Get All Questions");
+        logger.info(LoggerMessage.GET_QUESTION);
         return questionDtos;
     }
 
@@ -101,8 +105,8 @@ public class QuestionServiceImpl implements QuestionService {
     public final QuestionDto getQuestionById(final int quesId) {
         Question question = questionRepo.findById(quesId)
                 .orElseThrow(() -> new ResourceNotFoundException(
-                        "Question not found with id " + quesId));
-        logger.info("Get Question by Question Id");
+                        ErrorMessage.QUESTIONID_NOT_FOUND + quesId));
+        logger.info(LoggerMessage.GET_QUESTIONS_BY_ID);
         return this.quesToDto(question);
     }
 
@@ -111,7 +115,7 @@ public class QuestionServiceImpl implements QuestionService {
         List<Question> questions = questionRepo.findQuestionByQuizId(quizId);
         List<QuestionDto> quesDtos = questions.stream()
                 .map(ques -> this.quesToDto(ques)).collect(Collectors.toList());
-        logger.info("Get Question by Quiz Id");
+        logger.info(LoggerMessage.GET_QUESTIONS_BY_QUIZID);
         return quesDtos;
     }
 
@@ -128,7 +132,7 @@ public class QuestionServiceImpl implements QuestionService {
     public final QuestionDto updateQuestion(final QuestionDto question,
             final int quesId) {
         Question updatedQuestion = questionRepo.findById(quesId).orElseThrow(
-                () -> new ResourceNotFoundException("Question Not Found."));
+                () -> new ResourceNotFoundException(ErrorMessage.QUESTION_NOT_FOUND));
         updatedQuestion.setQuestion(question.getQuestion());
         updatedQuestion.setOption1(question.getOption1());
         updatedQuestion.setOption2(question.getOption2());
@@ -136,7 +140,7 @@ public class QuestionServiceImpl implements QuestionService {
         updatedQuestion.setOption4(question.getOption4());
         updatedQuestion.setAnswer(question.getAnswer());
         questionRepo.save(updatedQuestion);
-        logger.info("Question Updated");
+        logger.info(LoggerMessage.UPDATE_QUESTION);
         return this.quesToDto(updatedQuestion);
     }
 
@@ -152,10 +156,10 @@ public class QuestionServiceImpl implements QuestionService {
     public final String deleteQuestion(final int quesId) {
         Question question = questionRepo.findById(quesId)
                 .orElseThrow(() -> new ResourceNotFoundException(
-                        "Question Not found with id " + quesId));
+                        ErrorMessage.QUESTIONID_NOT_FOUND + quesId));
         questionRepo.delete(question);
-        logger.info("Question deleted Successfully");
-        return quesId + " deleted Successfully";
+        logger.info(LoggerMessage.DELETE_QUESTION);
+        return quesId + Message.DELETE_QUESTION;
     }
 
     /**

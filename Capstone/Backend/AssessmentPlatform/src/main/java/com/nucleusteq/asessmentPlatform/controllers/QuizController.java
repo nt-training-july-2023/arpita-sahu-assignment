@@ -15,8 +15,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nucleusteq.asessmentPlatform.dto.QuizDto;
+import com.nucleusteq.asessmentPlatform.exception.ApiErrorResponse;
 import com.nucleusteq.asessmentPlatform.service.QuizService;
 
+import ValidationMessage.LoggerMessage;
+import ValidationMessage.Message;
 import jakarta.validation.Valid;
 
 /**
@@ -45,11 +48,12 @@ public class QuizController {
      *         201 (Created).
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public final ResponseEntity<String> addQuiz(
+    public final ApiErrorResponse addQuiz(
             @RequestBody @Valid final QuizDto quizDto) {
         quizService.addQuiz(quizDto);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body("Quiz Added Successfully.");
+        logger.info(LoggerMessage.SAVE_QUIZ);
+        return new ApiErrorResponse(Message.SAVE_QUIZ, 
+                HttpStatus.OK.value());
     }
 
     /**
@@ -59,7 +63,7 @@ public class QuizController {
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public final List<QuizDto> getQuizzes() {
-        logger.info("Get All Quizzes");
+        logger.info(LoggerMessage.GET_QUIZ);
         return quizService.getAllQuiz();
     }
 
@@ -73,7 +77,7 @@ public class QuizController {
     @RequestMapping(value = "/{quizId}", method = RequestMethod.GET)
     public final ResponseEntity<QuizDto> getQuizById(
             @PathVariable final int quizId) {
-        logger.info("Get Quiz By Quiz Id");
+        logger.info(LoggerMessage.GET_QUIZ_BY_ID);
         return new ResponseEntity<QuizDto>(quizService.getQuizById(quizId),
                 HttpStatus.OK);
     }
@@ -89,7 +93,7 @@ public class QuizController {
     @RequestMapping(value = "category/{categoryId}", method = RequestMethod.GET)
     public final List<QuizDto> getQuizByCategoryId(
             @PathVariable final int categoryId) {
-        logger.info("Get Quiz By Category Id");
+        logger.info(LoggerMessage.GET_QUIZ_BY_CATEGORYID);
         return quizService.getQuizByCategoryId(categoryId);
     }
 
@@ -101,13 +105,13 @@ public class QuizController {
      * @return A ResponseEntity containing the successfully updating the quiz.
      */
     @RequestMapping(value = "/{quizId}", method = RequestMethod.PUT)
-    public final ResponseEntity<String> updateQuiz(
+    public final ApiErrorResponse updateQuiz(
             @PathVariable @Valid final int quizId,
             @RequestBody final QuizDto quizDto) {
         quizService.updateQuiz(quizDto, quizId);
-        logger.info("Quiz Updated Successfully.");
-        return ResponseEntity.status(HttpStatus.OK)
-                .body("Quiz Updated Successfully.");
+        logger.info(LoggerMessage.UPDATE_QUIZ);
+        return new ApiErrorResponse(Message.UPDATE_QUIZ, 
+                HttpStatus.OK.value());
     }
 
     /**
@@ -118,7 +122,7 @@ public class QuizController {
      */
     @RequestMapping(value = "/{quizId}", method = RequestMethod.DELETE)
     public final String deleteCategory(@PathVariable final int quizId) {
-        logger.info("Quiz deleted Sucessfully");
+        logger.info(LoggerMessage.DELETE_QUIZ);
         return quizService.deleteQuiz(quizId);
     }
 

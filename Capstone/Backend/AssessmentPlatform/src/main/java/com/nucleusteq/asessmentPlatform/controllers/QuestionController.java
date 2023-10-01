@@ -14,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.nucleusteq.asessmentPlatform.dto.QuestionDto;
+import com.nucleusteq.asessmentPlatform.exception.ApiErrorResponse;
 import com.nucleusteq.asessmentPlatform.service.QuestionService;
 
+import ValidationMessage.LoggerMessage;
+import ValidationMessage.Message;
 import jakarta.validation.Valid;
 
 /**
@@ -45,12 +48,12 @@ public class QuestionController {
      *         successfully.
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public final ResponseEntity<String> addQuestion(
+    public final ApiErrorResponse addQuestion(
             @RequestBody @Valid final QuestionDto questionDto) {
         questionService.addQuestion(questionDto);
-        logger.info("Question Added Successfully");
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body("Question Added Successfully.");
+        logger.info(LoggerMessage.SAVE_QUESTION);
+        return new ApiErrorResponse(Message.SAVE_QUESTION, 
+                HttpStatus.OK.value());
     }
 
     /**
@@ -60,7 +63,7 @@ public class QuestionController {
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public final List<QuestionDto> getQuestions() {
-        logger.info("Get All Questions");
+        logger.info(LoggerMessage.GET_QUESTION);
         return questionService.getAllQuestions();
     }
 
@@ -74,7 +77,7 @@ public class QuestionController {
     @RequestMapping(value = "/{quesId}", method = RequestMethod.GET)
     public final ResponseEntity<QuestionDto> getQuestionById(
             @PathVariable final int quesId) {
-        logger.info("Get Question by Question Id");
+        logger.info(LoggerMessage.GET_QUESTIONS_BY_ID);
         return new ResponseEntity<QuestionDto>(
                 questionService.getQuestionById(quesId), HttpStatus.OK);
     }
@@ -89,7 +92,7 @@ public class QuestionController {
     @RequestMapping(value = "quiz/{quizId}", method = RequestMethod.GET)
     public final List<QuestionDto> getQuestionByQuiId(
             @PathVariable final int quizId) {
-        logger.info("Get Question by Quiz Id");
+        logger.info(LoggerMessage.GET_QUESTIONS_BY_QUIZID);
         return questionService.getQuestionsByQuizId(quizId);
     }
 
@@ -102,13 +105,13 @@ public class QuestionController {
      *         updated successfully.
      */
     @RequestMapping(value = "/{quesId}", method = RequestMethod.PUT)
-    public final ResponseEntity<String> updateQuestion(
+    public final ApiErrorResponse updateQuestion(
             @RequestBody @Valid final QuestionDto questionDto,
             @PathVariable final int quesId) {
         questionService.updateQuestion(questionDto, quesId);
-        logger.info("Question Updated Successfully.");
-        return ResponseEntity.status(HttpStatus.OK)
-                .body("Question Updated Successfully.");
+        logger.info(LoggerMessage.UPDATE_QUESTION);
+        return new ApiErrorResponse(Message.UPDATE_QUESTION, 
+                HttpStatus.OK.value());
     }
 
     /**
@@ -120,7 +123,7 @@ public class QuestionController {
     @RequestMapping(value = "/{quesId}", method = RequestMethod.DELETE)
     public final String deleteQuestion(@PathVariable final int quesId) {
         questionService.deleteQuestion(quesId);
-        logger.info("Question deleted");
-        return "Question deleted Successfully";
+        logger.info(LoggerMessage.DELETE_QUESTION);
+        return Message.DELETE_QUESTION;
     }
 }

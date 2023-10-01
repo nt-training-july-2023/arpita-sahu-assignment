@@ -19,6 +19,10 @@ import com.nucleusteq.asessmentPlatform.repositories.CategoryRepo;
 import com.nucleusteq.asessmentPlatform.repositories.QuizRepo;
 import com.nucleusteq.asessmentPlatform.service.QuizService;
 
+import ValidationMessage.ErrorMessage;
+import ValidationMessage.LoggerMessage;
+import ValidationMessage.Message;
+
 /**
  * Service implementation for managing quizzes.
  * It uses a logger to log messages related to its functionality.
@@ -63,17 +67,17 @@ public class QuizServiceImpl implements QuizService {
         Quiz quiz = this.dtoToQuiz(quizDto);
         Optional<Quiz> existingQuiz = quizRepo.findByTitle(quiz.getTitle());
         if (existingQuiz.isPresent()) {
-            logger.error("Quiz Title already exist");
-            throw new DuplicateResourceException("Quiz with title '"
-                    + quiz.getTitle() + "' already exists.");
+            logger.error(LoggerMessage.QUIZ_TITLE_EXIST);
+            throw new DuplicateResourceException(ErrorMessage.QUIZ_ALREADY_EXISTS_PREFIX
+                    + quiz.getTitle() + ErrorMessage.QUIZ_ALREADY_EXISTS_SUFFIX );
         }
         if (categoryRepo.findById(quiz.getCategory().getCategoryId())
                 .isPresent()) {
-            logger.info("Quiz saved successfully");
+            logger.info(LoggerMessage.SAVE_QUIZ);
             quizRepo.save(quiz);
         } else {
-            logger.error("category not exist");
-            throw new BadCredentialsException("Category not exist");
+            logger.error(LoggerMessage.CATEGORY_NOT_FOUND);
+            throw new BadCredentialsException(ErrorMessage.CATEGORY_NOT_FOUND);
         }
         return this.quizToDto(quiz);
     }
@@ -88,7 +92,7 @@ public class QuizServiceImpl implements QuizService {
         List<Quiz> quizzes = quizRepo.findAll();
         List<QuizDto> quizDtos = quizzes.stream()
                 .map(quiz -> this.quizToDto(quiz)).collect(Collectors.toList());
-        logger.info("Get All Quizzes");
+        logger.info(LoggerMessage.GET_QUIZ);
         return quizDtos;
     }
 
@@ -100,7 +104,7 @@ public class QuizServiceImpl implements QuizService {
         List<Quiz> quizzes = quizRepo.findQuizByCategoryId(categoryId);
         List<QuizDto> quizDtos = quizzes.stream()
                 .map(quiz -> this.quizToDto(quiz)).collect(Collectors.toList());
-        logger.info("Get Quiz By Category Id");
+        logger.info(LoggerMessage.GET_QUIZ_BY_CATEGORYID);
         return quizDtos;
     }
 
@@ -117,7 +121,7 @@ public class QuizServiceImpl implements QuizService {
         Quiz quiz = quizRepo.findById(quizId)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Quiz not found with id " + quizId));
-        logger.info("Get Quiz by Quiz Id");
+        logger.info(LoggerMessage.GET_QUIZ_BY_ID);
         return this.quizToDto(quiz);
     }
 
@@ -142,9 +146,9 @@ public class QuizServiceImpl implements QuizService {
                 Optional<Quiz> existingQuizByTitle = quizRepo
                         .findByTitle(newTitle);
                 if (existingQuizByTitle.isPresent()) {
-                    logger.error("Quiz title already exist");
-                    throw new DuplicateResourceException("Quiz with title '"
-                            + newTitle + "' already exists.");
+                    logger.error(LoggerMessage.QUIZ_TITLE_EXIST);
+                    throw new DuplicateResourceException(ErrorMessage.QUIZ_ALREADY_EXISTS_PREFIX
+                            + newTitle + ErrorMessage.QUIZ_ALREADY_EXISTS_SUFFIX);
                 }
             }
             existingQuiz.setTitle(newTitle);
@@ -152,12 +156,12 @@ public class QuizServiceImpl implements QuizService {
             existingQuiz.setQuizTimer(updatedQuiz.getQuizTimer());
             // existingQuiz.setCategory(updatedQuiz.getCategory());
             quizRepo.save(existingQuiz);
-            logger.info("Quiz Updated Successfully");
-            return "Quiz Updated Successfully";
+            logger.info(LoggerMessage.UPDATE_QUIZ);
+            return Message.UPDATE_QUIZ;
         } else {
-            logger.error("Quiz not found");
+            logger.error(LoggerMessage.QUIZ_NOT_FOUND);
             throw new ResourceNotFoundException(
-                    "Quiz not found with ID " + quizId);
+                    ErrorMessage.QUIZID_NOT_FOUND + quizId);
         }
     }
 
@@ -173,10 +177,10 @@ public class QuizServiceImpl implements QuizService {
     public final String deleteQuiz(final int quizId) {
         Quiz quiz = quizRepo.findById(quizId)
                 .orElseThrow(() -> new ResourceNotFoundException(
-                        "Quiz not found with id " + quizId));
+                        ErrorMessage.QUIZID_NOT_FOUND + quizId));
         quizRepo.delete(quiz);
-        logger.info("Quiz deleted successfully");
-        return quizId + " deleted successfully";
+        logger.info(LoggerMessage.DELETE_QUIZ);
+        return quizId + Message.DELETE_QUIZ;
     }
 
     /**

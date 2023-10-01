@@ -22,6 +22,10 @@ import com.nucleusteq.asessmentPlatform.exception.UserNotFoundException;
 import com.nucleusteq.asessmentPlatform.repositories.UserRepo;
 import com.nucleusteq.asessmentPlatform.service.UserService;
 
+import ValidationMessage.ErrorMessage;
+import ValidationMessage.LoggerMessage;
+import ValidationMessage.Message;
+
 /**
  * Implementation of the {@link UserService} interface for managing user-related
  * operations.
@@ -59,15 +63,15 @@ public class UserServiceImpl implements UserService {
         Optional<User> existingUserByEmail = userRepo
                 .findByEmail(user.getEmail());
         if (existingUserByEmail.isPresent()) {
-            logger.error("Email address already exists");
+            logger.error(ErrorMessage.EMAIL_ALREADY_EXIST);
             throw new DuplicateResourceException(
-                    "Email address already exists");
+                    ErrorMessage.EMAIL_ALREADY_EXIST);
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole("user");
         userRepo.save(user);
-        logger.info("User Register successfully");
-        return "User Register successfully";
+        logger.info(Message.REGISTER_USER);
+        return Message.REGISTER_USER;
     }
 
     @Override
@@ -75,7 +79,7 @@ public class UserServiceImpl implements UserService {
         List<User> users = this.userRepo.findAll();
         List<UserDto> userDtos = users.stream()
                 .map(user -> this.userToDto(user)).collect(Collectors.toList());
-        logger.info("Get All Users");
+        logger.info(LoggerMessage.GET_USER);
         return userDtos;
     }
 
@@ -83,27 +87,27 @@ public class UserServiceImpl implements UserService {
     public final String deleteUser(final int id) {
         User user = userRepo.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(
-                        "user not found with id " + id));
+                        ErrorMessage.USERID_NOT_FOUND + id));
         userRepo.delete(user);
-        logger.info("User deleted successfully");
-        return id + " deleted successfully";
+        logger.info(LoggerMessage.DELETE_USER);
+        return id + Message.DELETE_USER;
     }
 
     @Override
     public final Map<String, String> loginUser(
             final LoginRequest loginRequest) {
         User user = userRepo.findByEmail(loginRequest.getEmail()).orElseThrow(
-                () -> new ResourceNotFoundException("User not found"));
+                () -> new ResourceNotFoundException(ErrorMessage.USER_NOT_FOUND));
         if (!passwordEncoder.matches(loginRequest.getPassword(),
                 user.getPassword())) {
-            logger.error("Bad Credentials");
-            throw new BadCredentialsException("Invalid password");
+            logger.error(LoggerMessage.BAD_CREDENTIAL);
+            throw new BadCredentialsException(ErrorMessage.INVALID_PASSWORD);
         }
         Map<String, String> response = new HashMap<>();
         response.put("Status", "True");
         response.put("Role", user.getRole());
         response.put("Name", user.getFirstName());
-        logger.info("login successfully");
+        logger.info(LoggerMessage.LOGIN_SUCCESS);
         return response;
     }
 

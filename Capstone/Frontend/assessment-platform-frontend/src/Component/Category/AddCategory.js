@@ -64,7 +64,7 @@ function AddCategory() {
       if (!id) {
          ServiceURL.addCategory(category)
           .then((response) => {
-            if (response.status === 201) {
+            if (response.status === 200) {
               SweetAlertService.showNotificationAlert("Success","Category Added Successfully", "success");
               window.history.back();
             } 

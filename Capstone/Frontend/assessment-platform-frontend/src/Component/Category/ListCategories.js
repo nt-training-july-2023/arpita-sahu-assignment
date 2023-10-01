@@ -10,6 +10,7 @@ function CategoryList() {
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
   const role = localStorage.getItem("userRole");
+  const userName = localStorage.getItem("name");
 
   useEffect(() => {
     loadCategories();
@@ -38,7 +39,8 @@ function CategoryList() {
       {role === "admin" || role === "user" ? (
         <>
           <Navbar />
-          <div className="category-wrapper-container">
+          <h3>Welcome! {userName}</h3>
+          <div className="category-wrapper-container">           
             <div className="category-card">
               <div className="category_wrapper">
                 <h2 className="cat_head">Category List</h2>

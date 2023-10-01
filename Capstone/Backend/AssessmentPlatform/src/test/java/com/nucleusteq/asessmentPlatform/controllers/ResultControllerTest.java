@@ -12,8 +12,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import com.nucleusteq.asessmentPlatform.dto.ResultDto;
+import com.nucleusteq.asessmentPlatform.exception.ApiErrorResponse;
 import com.nucleusteq.asessmentPlatform.service.ResultService;
 
 class ResultControllerTest {
@@ -33,9 +33,9 @@ class ResultControllerTest {
     public void testAddResult() {
         ResultDto resultDto = new ResultDto();
         when(resultService.addResult(resultDto)).thenReturn(resultDto);
-        ResponseEntity<String> response = resultController.addResult(resultDto);
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals("Result Added Successfully.", response.getBody());
+        ApiErrorResponse response = resultController.addResult(resultDto);
+        assertEquals(HttpStatus.OK.value(), response.getStatus());
+        assertEquals("Result Added Successfully.", response.getMessage());
     }
 
     @Test

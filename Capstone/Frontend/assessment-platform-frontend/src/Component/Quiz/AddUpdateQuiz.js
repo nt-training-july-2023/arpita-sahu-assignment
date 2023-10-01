@@ -81,7 +81,7 @@ function AddUpdateQuiz() {
       const quizItem ={title, description, quizTimer, category: categoryObject}
       if (!quizId) {
         await ServiceURL.addQuiz(quizItem).then((response)=>{
-        if (response.status === 201) {
+        if (response.status === 200) {
           SweetAlertService.showNotificationAlert("Success", "Quiz Added Successfully","success");
           window.history.back();
         }
@@ -89,7 +89,7 @@ function AddUpdateQuiz() {
      }  else {
       await ServiceURL.updateQuiz(quizId,quizItem).then((response)=>{
         if (response.status === 200) {
-          SweetAlertService("Success","Quiz Updated Successfully","success");
+          SweetAlertService.showNotificationAlert("Success","Quiz Updated Successfully","success");
           window.history.back();
         } 
        })

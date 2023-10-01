@@ -19,9 +19,11 @@ class CategoryDtoTest {
         assertEquals(0, categoryDto.getCategoryId());
         assertEquals(null, categoryDto.getTitle());
         assertEquals(null, categoryDto.getDescription());
+        
         categoryDto.setCategoryId(1);
         categoryDto.setTitle("GK");
         categoryDto.setDescription("GK Description");
+        
         assertEquals(1, categoryDto.getCategoryId());
         assertEquals("GK", categoryDto.getTitle());
         assertEquals("GK Description", categoryDto.getDescription());

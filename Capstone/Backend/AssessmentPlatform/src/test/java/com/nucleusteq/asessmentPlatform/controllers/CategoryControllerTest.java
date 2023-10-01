@@ -1,6 +1,7 @@
 package com.nucleusteq.asessmentPlatform.controllers;
 
 import com.nucleusteq.asessmentPlatform.dto.CategoryDto;
+import com.nucleusteq.asessmentPlatform.exception.ApiErrorResponse;
 import com.nucleusteq.asessmentPlatform.service.CategoryService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,12 +35,14 @@ class CategoryControllerTest {
         categoryDto.setCategoryId(1);
         categoryDto.setTitle("Java");
         categoryDto.setDescription("Java mcq");
+        
         when(categoryService.addCategory(any(CategoryDto.class)))
                 .thenReturn(categoryDto);
-        ResponseEntity<String> response = categoryController
+        ApiErrorResponse response = categoryController
                 .saveCategory(categoryDto);
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals("category added successfully.", response.getBody());
+        
+        assertEquals(HttpStatus.OK.value(), response.getStatus());
+        assertEquals("category added successfully.", response.getMessage());
     }
 
 
@@ -74,10 +77,10 @@ class CategoryControllerTest {
         CategoryDto categoryDto = new CategoryDto();
         when(categoryService.updateCategory(categoryDto, categoryId))
                 .thenReturn(categoryDto);
-        ResponseEntity<String> response = categoryController.updateCategory(categoryDto,
+        ApiErrorResponse response = categoryController.updateCategory(categoryDto,
                 categoryId);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("Category Updated Successfully.", response.getBody());
+        assertEquals(HttpStatus.OK.value(), response.getStatus());
+        assertEquals("Category Updated Successfully.", response.getMessage());
     }
 
     @Test

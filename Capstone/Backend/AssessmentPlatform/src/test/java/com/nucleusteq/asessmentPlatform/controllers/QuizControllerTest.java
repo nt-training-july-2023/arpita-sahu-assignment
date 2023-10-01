@@ -14,7 +14,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import com.nucleusteq.asessmentPlatform.dto.QuizDto;
-import com.nucleusteq.asessmentPlatform.exception.DuplicateResourceException;
+import com.nucleusteq.asessmentPlatform.exception.ApiErrorResponse;
 import com.nucleusteq.asessmentPlatform.service.QuizService;
 
 class QuizControllerTest {
@@ -34,22 +34,12 @@ class QuizControllerTest {
     public void testAddQuiz() {
         QuizDto quizDto = new QuizDto();
         when(quizService.addQuiz(quizDto)).thenReturn(quizDto);
-        ResponseEntity<String> response = quizController.addQuiz(quizDto);
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals("Quiz Added Successfully.", response.getBody());
+        ApiErrorResponse response = quizController.addQuiz(quizDto);
+        assertEquals(HttpStatus.OK.value(), response.getStatus());
+        assertEquals("Quiz Added Successfully.", response.getMessage());
 
     }
-
-//    @Test
-//    void testAddQuizConflict() {
-//        QuizDto quizDto = new QuizDto();
-//        when(quizService.addQuiz(quizDto)).thenThrow(
-//                new DuplicateResourceException("Quiz already exist"));
-//        ResponseEntity<String> response = quizController.addQuiz(quizDto);
-//        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
-//        assertEquals("Quiz already exist", response.getBody());
-//    }
-
+    
     @Test
     public void testGetQuizzes() {
         List<QuizDto> quizDtoList = new ArrayList<>();
@@ -74,24 +64,12 @@ class QuizControllerTest {
         QuizDto quizDto = new QuizDto();
         when(quizService.updateQuiz(quizDto, quizId))
                 .thenReturn("Updated Successfully");
-        ResponseEntity<String> result = quizController.updateQuiz(quizId,
+        ApiErrorResponse result = quizController.updateQuiz(quizId,
                 quizDto);
-        assertEquals(HttpStatus.OK, result.getStatusCode());
-        assertEquals("Quiz Updated Successfully.", result.getBody());
+        assertEquals(HttpStatus.OK.value(), result.getStatus());
+        assertEquals("Quiz Updated Successfully.", result.getMessage());
     }
-
-//    @Test
-//    public void testUpdatedConflict() {
-//        int quizId = 1;
-//        QuizDto quizDto = new QuizDto();
-//        when(quizService.updateQuiz(quizDto, quizId)).thenThrow(
-//                new DuplicateResourceException("Quiz already exist"));
-//        ResponseEntity<String> response = quizController.updateQuiz(quizId,
-//                quizDto);
-//        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
-//        assertEquals("Quiz already exist", response.getBody());
-//    }
-
+    
     @Test
     public void testDeleteQuiz() {
         int quizId = 1;

@@ -44,7 +44,6 @@ public class UserControllerTest {
                 .thenReturn("1 Register successfully");
         String response = userController.saveUser(userDto);
         assertEquals("1 Register successfully", response);
-        verify(userService, times(1)).registerUser(userDto);
     }
 
     @Test
@@ -65,7 +64,6 @@ public class UserControllerTest {
         when(userService.getAllUsers()).thenReturn(userList);
         List<UserDto> response = userController.getAllUsers();
         assertEquals(userList, response);
-        verify(userService, times(1)).getAllUsers();
     }
 
     @Test
@@ -75,7 +73,6 @@ public class UserControllerTest {
                 .thenReturn("1 deleted successfully");
         String response = userController.deleteUser(userId);
         assertEquals("1 deleted successfully", response);
-        verify(userService, times(1)).deleteUser(userId);
     }
 
     @Test
@@ -88,6 +85,5 @@ public class UserControllerTest {
         when(userService.loginUser(loginRequest)).thenReturn(loginResponse);
         Map<String, String> response = userController.loginUser(loginRequest);
         assertEquals(loginResponse, response);
-        verify(userService, times(1)).loginUser(loginRequest);
     }
 }

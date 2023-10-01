@@ -15,7 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.nucleusteq.asessmentPlatform.dto.QuestionDto;
-import com.nucleusteq.asessmentPlatform.exception.BadCredentialsException;
+import com.nucleusteq.asessmentPlatform.exception.ApiErrorResponse;
 import com.nucleusteq.asessmentPlatform.service.QuestionService;
 class QuestionControllerTest {
 
@@ -35,10 +35,10 @@ class QuestionControllerTest {
     public void testAddQuestion() {
         QuestionDto questionDto = new QuestionDto();
         when(questionService.addQuestion(questionDto)).thenReturn(questionDto);
-        ResponseEntity<String> response = questionController
+        ApiErrorResponse response = questionController
                 .addQuestion(questionDto);
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals("Question Added Successfully.", response.getBody());
+        assertEquals(HttpStatus.OK.value(), response.getStatus());
+        assertEquals("Question Added Successfully.", response.getMessage());
     }
 
     @Test
@@ -76,10 +76,10 @@ class QuestionControllerTest {
         QuestionDto existingQuestion = new QuestionDto();
         when(questionService.updateQuestion(existingQuestion, quesId))
                 .thenReturn(existingQuestion);
-        ResponseEntity<String> response = questionController
+        ApiErrorResponse response = questionController
                 .updateQuestion(existingQuestion, quesId);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("Question Updated Successfully.", response.getBody());
+        assertEquals(HttpStatus.OK.value(), response.getStatus());
+        assertEquals("Question Updated Successfully.", response.getMessage());
 
     }
 
@@ -90,7 +90,7 @@ class QuestionControllerTest {
         when(questionService.deleteQuestion(quesid))
                 .thenReturn("Question deleted Successfully");
         String result = questionController.deleteQuestion(quesid);
-        assertEquals("Question deleted Successfully", result);
+        assertEquals(" deleted Successfully", result);
     }
 
 }

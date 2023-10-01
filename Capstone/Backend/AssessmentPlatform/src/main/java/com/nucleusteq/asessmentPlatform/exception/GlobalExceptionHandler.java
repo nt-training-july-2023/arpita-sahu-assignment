@@ -29,8 +29,8 @@ public class GlobalExceptionHandler {
                    resourceNotFoundExceptionHandler(
             final ResourceNotFoundException ex) {
         String message = ex.getMessage();
-        HttpStatus statusCode = HttpStatus.NOT_FOUND;
-        ApiErrorResponse response = new ApiErrorResponse(statusCode, message);
+        Integer statusCode = HttpStatus.NOT_FOUND.value();
+        ApiErrorResponse response = new ApiErrorResponse(message, statusCode);
         return new ResponseEntity<ApiErrorResponse>(response,
                 HttpStatus.NOT_FOUND);
     }
@@ -47,16 +47,14 @@ public class GlobalExceptionHandler {
                       duplicateResourceExceptionHandler(
             final DuplicateResourceException ex) {
         String message = ex.getMessage();
-        HttpStatus statusCode = HttpStatus.FOUND;
-        ApiErrorResponse response = new ApiErrorResponse(statusCode, message);
-
+        Integer statusCode = HttpStatus.FOUND.value();
+        ApiErrorResponse response = new ApiErrorResponse(message, statusCode);
         return new ResponseEntity<ApiErrorResponse>(response, HttpStatus.FOUND);
 
     }
 
     /**
      * Handles BadCredentialsException and returns an appropriate response.
-     *
      * @param ex The BadCredentialsException to be handled.
      * @return A ResponseEntity containing the error response for
      *         BadCredentialsException.
@@ -66,8 +64,8 @@ public class GlobalExceptionHandler {
     public final ResponseEntity<ApiErrorResponse> badCredentialExceptionHandler(
             final BadCredentialsException ex) {
         String message = ex.getMessage();
-        HttpStatus statusCode = HttpStatus.UNAUTHORIZED;
-        ApiErrorResponse response = new ApiErrorResponse(statusCode, message);
+        Integer statusCode = HttpStatus.UNAUTHORIZED.value();
+        ApiErrorResponse response = new ApiErrorResponse(message, statusCode);
         return new ResponseEntity<ApiErrorResponse>(response,
                 HttpStatus.UNAUTHORIZED);
     }
@@ -89,6 +87,7 @@ public class GlobalExceptionHandler {
             String fieldName = ((FieldError) error).getField();
             String message = error.getDefaultMessage();
             response.put(fieldName, message);
+            response.put("statusCode", "400");
         });
         return new ResponseEntity<Map<String, String>>(response,
                 HttpStatus.BAD_REQUEST);

@@ -18,6 +18,7 @@ import com.nucleusteq.asessmentPlatform.dto.UserDto;
 import com.nucleusteq.asessmentPlatform.entities.LoginRequest;
 import com.nucleusteq.asessmentPlatform.service.UserService;
 
+import ValidationMessage.LoggerMessage;
 import jakarta.validation.Valid;
 
 /**
@@ -45,7 +46,7 @@ public class UserController {
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public final String saveUser(@RequestBody @Valid final UserDto userDto) {
-        logger.info("User Register Successfully");
+        logger.info(LoggerMessage.SAVE_USER);
         return userService.registerUser(userDto);
     }
 
@@ -56,7 +57,7 @@ public class UserController {
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public final List<UserDto> getAllUsers() {
-        logger.info("Get All Users");
+        logger.info(LoggerMessage.GET_USER);
         return userService.getAllUsers();
     }
 
@@ -68,7 +69,7 @@ public class UserController {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public final String deleteUser(@PathVariable final int id) {
-        logger.info("User deleted Successfully");
+        logger.info(LoggerMessage.DELETE_USER);
         return userService.deleteUser(id);
     }
 
@@ -83,7 +84,7 @@ public class UserController {
     @PostMapping("/login")
     public final Map<String, String> loginUser(
             @RequestBody @Valid final LoginRequest loginRequest) {
-        logger.info("login Successfully");
+        logger.info(LoggerMessage.LOGIN_SUCCESS);
         return userService.loginUser(loginRequest);
     }
 }

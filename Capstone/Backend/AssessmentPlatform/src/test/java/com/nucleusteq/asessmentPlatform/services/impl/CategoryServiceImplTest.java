@@ -108,7 +108,7 @@ class CategoryServiceImplTest {
         ResourceNotFoundException exception = assertThrows(
                 ResourceNotFoundException.class,
                 () -> categoryService.getCategoryById(categoryId));
-        assertEquals("Category not found with id " + categoryId,
+        assertEquals("category not found with id " + categoryId,
                 exception.getMessage());
     }
 
