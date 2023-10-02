@@ -39,7 +39,7 @@ function CategoryList() {
       {role === "admin" || role === "user" ? (
         <>
           <Navbar />
-          <h3>Welcome! {userName}</h3>
+          <h2 className="cat_head">Welcome! {userName}</h2>
           <div className="category-wrapper-container">           
             <div className="category-card">
               <div className="category_wrapper">

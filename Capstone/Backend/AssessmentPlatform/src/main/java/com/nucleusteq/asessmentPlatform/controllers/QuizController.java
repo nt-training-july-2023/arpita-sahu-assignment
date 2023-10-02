@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nucleusteq.asessmentPlatform.dto.ApiResponse;
 import com.nucleusteq.asessmentPlatform.dto.QuizDto;
-import com.nucleusteq.asessmentPlatform.exception.ApiErrorResponse;
 import com.nucleusteq.asessmentPlatform.service.QuizService;
 
 import ValidationMessage.LoggerMessage;
@@ -48,11 +48,11 @@ public class QuizController {
      *         201 (Created).
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public final ApiErrorResponse addQuiz(
+    public final ApiResponse addQuiz(
             @RequestBody @Valid final QuizDto quizDto) {
         quizService.addQuiz(quizDto);
         logger.info(LoggerMessage.SAVE_QUIZ);
-        return new ApiErrorResponse(Message.SAVE_QUIZ, 
+        return new ApiResponse(Message.SAVE_QUIZ, 
                 HttpStatus.OK.value());
     }
 
@@ -105,12 +105,12 @@ public class QuizController {
      * @return A ResponseEntity containing the successfully updating the quiz.
      */
     @RequestMapping(value = "/{quizId}", method = RequestMethod.PUT)
-    public final ApiErrorResponse updateQuiz(
+    public final ApiResponse updateQuiz(
             @PathVariable @Valid final int quizId,
             @RequestBody final QuizDto quizDto) {
         quizService.updateQuiz(quizDto, quizId);
         logger.info(LoggerMessage.UPDATE_QUIZ);
-        return new ApiErrorResponse(Message.UPDATE_QUIZ, 
+        return new ApiResponse(Message.UPDATE_QUIZ, 
                 HttpStatus.OK.value());
     }
 
@@ -121,9 +121,10 @@ public class QuizController {
      * @return A message indicating the successful deletion of the quiz.
      */
     @RequestMapping(value = "/{quizId}", method = RequestMethod.DELETE)
-    public final String deleteCategory(@PathVariable final int quizId) {
+    public final ApiResponse deleteQuiz(@PathVariable final int quizId) {
         logger.info(LoggerMessage.DELETE_QUIZ);
-        return quizService.deleteQuiz(quizId);
+        quizService.deleteQuiz(quizId);
+        return new ApiResponse(Message.DELETE_QUIZ, HttpStatus.OK.value());
     }
 
 }

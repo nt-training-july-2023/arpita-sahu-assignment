@@ -154,10 +154,10 @@ export default function Signup() {
         phoneNumber,
       });
       SweetAlertService.showNotificationAlert("Success","Registration Successful","success");
+      navigate("/Login");
     } catch (error) {
-      SweetAlertService.showNotificationAlert("Error!","Registration failed","error")
+      SweetAlertService.showNotificationAlert("Error!","Enter Valid Email in the format of [a-z][a-zA-Z0-9]","error")
     }
-    navigate("/Login");
   };
 
   return (

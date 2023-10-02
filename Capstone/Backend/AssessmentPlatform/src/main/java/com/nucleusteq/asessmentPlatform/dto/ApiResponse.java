@@ -1,11 +1,11 @@
-package com.nucleusteq.asessmentPlatform.exception;
+package com.nucleusteq.asessmentPlatform.dto;
 
 
 /**
  * The `ApiErrorResponse` class represents an error response in the API. It
  * includes the HTTP status code and a message describing the error.
  */
-public class ApiErrorResponse {
+public class ApiResponse {
 
     /**
      * The error message associated with the error response.
@@ -59,7 +59,7 @@ public class ApiErrorResponse {
      * @param errorStatus  The HTTP status code for the error response.
      * @param errorMessage The error message describing the error.
      */
-    public ApiErrorResponse(final String errorMessage, 
+    public ApiResponse(final String errorMessage, 
             final Integer errorStatus) {
         super();
         this.message = errorMessage;
@@ -70,7 +70,7 @@ public class ApiErrorResponse {
      * Constructs an empty `ApiErrorResponse` object. This constructor is
      * provided for convenience.
      **/
-    public ApiErrorResponse() {
+    public ApiResponse() {
         super();
     }
 }

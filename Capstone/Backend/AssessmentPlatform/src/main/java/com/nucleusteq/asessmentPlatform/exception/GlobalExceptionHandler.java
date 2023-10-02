@@ -10,6 +10,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.nucleusteq.asessmentPlatform.dto.ApiResponse;
+
 /**
  * GlobalExceptionHandler is a Spring framework controller advice class that
  * handles exceptions globally for the application.
@@ -25,13 +27,13 @@ public class GlobalExceptionHandler {
      *         ResourceNotFoundException.
      */
     @ExceptionHandler(ResourceNotFoundException.class)
-    public final ResponseEntity<ApiErrorResponse>
+    public final ResponseEntity<ApiResponse>
                    resourceNotFoundExceptionHandler(
             final ResourceNotFoundException ex) {
         String message = ex.getMessage();
         Integer statusCode = HttpStatus.NOT_FOUND.value();
-        ApiErrorResponse response = new ApiErrorResponse(message, statusCode);
-        return new ResponseEntity<ApiErrorResponse>(response,
+        ApiResponse response = new ApiResponse(message, statusCode);
+        return new ResponseEntity<ApiResponse>(response,
                 HttpStatus.NOT_FOUND);
     }
 
@@ -43,13 +45,13 @@ public class GlobalExceptionHandler {
      *         DuplicateResourceException.
      */
     @ExceptionHandler(DuplicateResourceException.class)
-    public final ResponseEntity<ApiErrorResponse>
+    public final ResponseEntity<ApiResponse>
                       duplicateResourceExceptionHandler(
             final DuplicateResourceException ex) {
         String message = ex.getMessage();
         Integer statusCode = HttpStatus.FOUND.value();
-        ApiErrorResponse response = new ApiErrorResponse(message, statusCode);
-        return new ResponseEntity<ApiErrorResponse>(response, HttpStatus.FOUND);
+        ApiResponse response = new ApiResponse(message, statusCode);
+        return new ResponseEntity<ApiResponse>(response, HttpStatus.FOUND);
 
     }
 
@@ -61,12 +63,12 @@ public class GlobalExceptionHandler {
      */
 
     @ExceptionHandler(BadCredentialsException.class)
-    public final ResponseEntity<ApiErrorResponse> badCredentialExceptionHandler(
+    public final ResponseEntity<ApiResponse> badCredentialExceptionHandler(
             final BadCredentialsException ex) {
         String message = ex.getMessage();
         Integer statusCode = HttpStatus.UNAUTHORIZED.value();
-        ApiErrorResponse response = new ApiErrorResponse(message, statusCode);
-        return new ResponseEntity<ApiErrorResponse>(response,
+        ApiResponse response = new ApiResponse(message, statusCode);
+        return new ResponseEntity<ApiResponse>(response,
                 HttpStatus.UNAUTHORIZED);
     }
 

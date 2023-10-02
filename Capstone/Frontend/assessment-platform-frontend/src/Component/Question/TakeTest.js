@@ -4,6 +4,7 @@ import DisableBackButton from "../DisableBackButton";
 import ServiceURL from "../Service/ServiceURL";
 import SweetAlertService from "../SweetAlert/SweetAlertService";
 import NotFound from "../NotFound";
+import Swal from "sweetalert2";
 
 export default function TakeTest() {
   const [questions, setQuestions] = useState([]);
@@ -120,6 +121,7 @@ export default function TakeTest() {
     }
     navigate('/result');
   };
+
 
   return (
     <div>

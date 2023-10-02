@@ -6,6 +6,8 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,11 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nucleusteq.asessmentPlatform.dto.ApiResponse;
 import com.nucleusteq.asessmentPlatform.dto.UserDto;
 import com.nucleusteq.asessmentPlatform.entities.LoginRequest;
 import com.nucleusteq.asessmentPlatform.service.UserService;
 
 import ValidationMessage.LoggerMessage;
+import ValidationMessage.Message;
 import jakarta.validation.Valid;
 
 /**
@@ -45,9 +49,10 @@ public class UserController {
      * @return A message indicating the result of the registration operation.
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public final String saveUser(@RequestBody @Valid final UserDto userDto) {
+    public final ApiResponse saveUser(@RequestBody @Valid final UserDto userDto) {
         logger.info(LoggerMessage.SAVE_USER);
-        return userService.registerUser(userDto);
+        userService.registerUser(userDto);
+        return new ApiResponse(Message.REGISTER_USER, HttpStatus.OK.value()); 
     }
 
     /**
@@ -68,9 +73,10 @@ public class UserController {
      * @return A message indicating the result of the deletion operation.
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public final String deleteUser(@PathVariable final int id) {
+    public final ApiResponse deleteUser(@PathVariable final int id) {
         logger.info(LoggerMessage.DELETE_USER);
-        return userService.deleteUser(id);
+        userService.deleteUser(id);
+        return new ApiResponse(Message.DELETE_USER, HttpStatus.NO_CONTENT.value());
     }
 
     /**

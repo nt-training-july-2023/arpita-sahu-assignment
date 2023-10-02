@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nucleusteq.asessmentPlatform.dto.ApiResponse;
 import com.nucleusteq.asessmentPlatform.dto.ResultDto;
-import com.nucleusteq.asessmentPlatform.exception.ApiErrorResponse;
 import com.nucleusteq.asessmentPlatform.service.ResultService;
 
 import ValidationMessage.LoggerMessage;
@@ -47,11 +47,11 @@ public class ResultController {
      *         (Created) on successful addition.
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public final ApiErrorResponse addResult(
+    public final ApiResponse addResult(
             @RequestBody @Valid final ResultDto resultDto) {
         resultService.addResult(resultDto);
         logger.info(LoggerMessage.SAVE_RESULT);
-        return new ApiErrorResponse(Message.SAVE_RESULT, 
+        return new ApiResponse(Message.SAVE_RESULT, 
                 HttpStatus.OK.value());
     }
 
@@ -61,7 +61,7 @@ public class ResultController {
      * @return A list of ResultDto objects representing all results.
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public final List<ResultDto> getAllResults() {
+    public final List<ResultDto> getResults() {
         logger.info(LoggerMessage.GET_RESULT);
         return resultService.getAllResults();
     }

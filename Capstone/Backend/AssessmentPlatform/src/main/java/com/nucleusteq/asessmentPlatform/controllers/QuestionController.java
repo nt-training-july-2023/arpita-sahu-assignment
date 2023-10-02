@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.nucleusteq.asessmentPlatform.dto.ApiResponse;
 import com.nucleusteq.asessmentPlatform.dto.QuestionDto;
-import com.nucleusteq.asessmentPlatform.exception.ApiErrorResponse;
 import com.nucleusteq.asessmentPlatform.service.QuestionService;
 
 import ValidationMessage.LoggerMessage;
@@ -48,11 +49,11 @@ public class QuestionController {
      *         successfully.
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public final ApiErrorResponse addQuestion(
+    public final ApiResponse addQuestion(
             @RequestBody @Valid final QuestionDto questionDto) {
         questionService.addQuestion(questionDto);
         logger.info(LoggerMessage.SAVE_QUESTION);
-        return new ApiErrorResponse(Message.SAVE_QUESTION, 
+        return new ApiResponse(Message.SAVE_QUESTION, 
                 HttpStatus.OK.value());
     }
 
@@ -105,12 +106,12 @@ public class QuestionController {
      *         updated successfully.
      */
     @RequestMapping(value = "/{quesId}", method = RequestMethod.PUT)
-    public final ApiErrorResponse updateQuestion(
+    public final ApiResponse updateQuestion(
             @RequestBody @Valid final QuestionDto questionDto,
             @PathVariable final int quesId) {
         questionService.updateQuestion(questionDto, quesId);
         logger.info(LoggerMessage.UPDATE_QUESTION);
-        return new ApiErrorResponse(Message.UPDATE_QUESTION, 
+        return new ApiResponse(Message.UPDATE_QUESTION, 
                 HttpStatus.OK.value());
     }
 
@@ -121,9 +122,9 @@ public class QuestionController {
      * @return A success message indicating the deletion.
      */
     @RequestMapping(value = "/{quesId}", method = RequestMethod.DELETE)
-    public final String deleteQuestion(@PathVariable final int quesId) {
+    public final ApiResponse deleteQuestion(@PathVariable final int quesId) {
         questionService.deleteQuestion(quesId);
         logger.info(LoggerMessage.DELETE_QUESTION);
-        return Message.DELETE_QUESTION;
+        return new ApiResponse(Message.DELETE_QUESTION, HttpStatus.OK.value());
     }
 }

@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nucleusteq.asessmentPlatform.dto.ApiResponse;
 import com.nucleusteq.asessmentPlatform.dto.CategoryDto;
-import com.nucleusteq.asessmentPlatform.exception.ApiErrorResponse;
 import com.nucleusteq.asessmentPlatform.service.CategoryService;
 
 import ValidationMessage.LoggerMessage;
@@ -50,11 +50,11 @@ public class CategoryController {
      *         success message if the category is added successfully.
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public final ApiErrorResponse saveCategory(
+    public final ApiResponse saveCategory(
             @RequestBody @Valid final CategoryDto categoryDto) {
         categoryService.addCategory(categoryDto);
         logger.info(LoggerMessage.SAVE_CATEGORY);
-        return new ApiErrorResponse(Message.SAVE_CATEGORY, 
+        return new ApiResponse(Message.SAVE_CATEGORY, 
                 HttpStatus.OK.value());
     }
 
@@ -90,12 +90,12 @@ public class CategoryController {
      * @return The updated CategoryDto.
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public final ApiErrorResponse updateCategory(
+    public final ApiResponse updateCategory(
             @RequestBody @Valid final CategoryDto category,
             @PathVariable final int id) {
         categoryService.updateCategory(category, id);
         logger.info(LoggerMessage.UPDATE_CATEGORY);
-        return new ApiErrorResponse(Message.UPDATE_CATEGORY, 
+        return new ApiResponse(Message.UPDATE_CATEGORY, 
                 HttpStatus.OK.value());
 
     }
@@ -107,9 +107,10 @@ public class CategoryController {
      * @return A message indicating the result of the deletion operation.
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public final String deleteCategory(@PathVariable final int id) {
+    public final ApiResponse deleteCategory(@PathVariable final int id) {
         logger.info(LoggerMessage.DELETE_CATEGORY);
-        return categoryService.deleteCategory(id);
+         categoryService.deleteCategory(id);
+         return new ApiResponse(Message.DELETE_CATEGORY, HttpStatus.OK.value());
     }
 
 }
