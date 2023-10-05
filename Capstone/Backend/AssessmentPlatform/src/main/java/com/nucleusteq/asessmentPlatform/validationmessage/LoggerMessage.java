@@ -11,7 +11,7 @@ public final class LoggerMessage {
     private LoggerMessage() {
     }
     /**
-     * Log message for a successful category addition.
+     * Log message for a successful addition.
      */
     public static final String SAVE_CATEGORY =
             "Category Added Successfully";
