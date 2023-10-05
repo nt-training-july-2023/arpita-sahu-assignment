@@ -42,7 +42,7 @@ public class QuizServiceImpl implements QuizService {
     private CategoryRepo categoryRepo; 
 
     /**
-     * This is Quiz Repository object that is demo for calling the repository
+     * This is Quiz Repository object that is for calling the repository
      * methods.
      */
     @Autowired
