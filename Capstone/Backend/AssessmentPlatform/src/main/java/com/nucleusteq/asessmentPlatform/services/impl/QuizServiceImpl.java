@@ -39,10 +39,10 @@ public class QuizServiceImpl implements QuizService {
      * methods.
      */
     @Autowired
-    private CategoryRepo categoryRepo;
+    private CategoryRepo categoryRepo; 
 
     /**
-     * This is Quiz Repository object that is for calling the repository
+     * This is Quiz Repository object that is demo for calling the repository
      * methods.
      */
     @Autowired
