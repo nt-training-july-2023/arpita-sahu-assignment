@@ -7,6 +7,7 @@ tmp/
 *.tmp
 capstone/.metadata
 backend/.metadata
+capstone/backend/.metadata
 
 HELP.md
 target/
@@ -19,5 +20,3 @@ mvnw.cmd
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-checkstyle.xml
-checkstyle_suppressions.xml

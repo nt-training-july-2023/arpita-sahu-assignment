@@ -1,4 +1,4 @@
 /**
  * Package info for assessmentPlatform Validation Message.
  */
-package com.nucleusteq.assessmentPlatform.validationmessage;
+package com.nucleusteq.asessmentPlatform.validationmessage;

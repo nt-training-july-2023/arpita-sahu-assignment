@@ -1,4 +1,4 @@
-package com.nucleusteq.assessmentPlatform.validationmessage;
+package com.nucleusteq.asessmentPlatform.validationmessage;
 
 /**
  * The Message class contains constant messages that can be used throughout the

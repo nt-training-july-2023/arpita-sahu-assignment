@@ -20,7 +20,6 @@ import java.util.ArrayList;
 class CategoryControllerTest {
     @Mock
     private CategoryService categoryService;
-
     @InjectMocks
     private CategoryController categoryController;
 
