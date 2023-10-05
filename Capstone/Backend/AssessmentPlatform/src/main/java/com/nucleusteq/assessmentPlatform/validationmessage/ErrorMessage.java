@@ -1,4 +1,4 @@
-package ValidationMessage;
+package com.nucleusteq.assessmentPlatform.validationmessage;
 
 /**
  * The ErrorMessage class contains constant error message strings that can be

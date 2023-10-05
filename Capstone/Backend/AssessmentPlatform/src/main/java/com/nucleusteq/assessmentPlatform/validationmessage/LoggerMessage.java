@@ -1,4 +1,4 @@
-package ValidationMessage;
+package com.nucleusteq.assessmentPlatform.validationmessage;
 
 /**
  * The LoggerMessage class contains constant log message strings that can be

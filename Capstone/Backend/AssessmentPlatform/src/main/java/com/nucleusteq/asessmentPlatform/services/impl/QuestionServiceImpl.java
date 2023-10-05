@@ -16,10 +16,9 @@ import com.nucleusteq.asessmentPlatform.exception.ResourceNotFoundException;
 import com.nucleusteq.asessmentPlatform.repositories.QuestionRepo;
 import com.nucleusteq.asessmentPlatform.repositories.QuizRepo;
 import com.nucleusteq.asessmentPlatform.service.QuestionService;
-
-import ValidationMessage.ErrorMessage;
-import ValidationMessage.LoggerMessage;
-import ValidationMessage.Message;
+import com.nucleusteq.assessmentPlatform.validationmessage.ErrorMessage;
+import com.nucleusteq.assessmentPlatform.validationmessage.LoggerMessage;
+import com.nucleusteq.assessmentPlatform.validationmessage.Message;
 
 /**
  * Service implementation for managing questions.

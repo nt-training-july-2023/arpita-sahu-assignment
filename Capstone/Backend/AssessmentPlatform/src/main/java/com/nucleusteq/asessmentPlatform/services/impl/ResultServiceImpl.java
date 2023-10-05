@@ -12,8 +12,7 @@ import com.nucleusteq.asessmentPlatform.dto.ResultDto;
 import com.nucleusteq.asessmentPlatform.entities.Result;
 import com.nucleusteq.asessmentPlatform.repositories.ResultRepo;
 import com.nucleusteq.asessmentPlatform.service.ResultService;
-
-import ValidationMessage.LoggerMessage;
+import com.nucleusteq.assessmentPlatform.validationmessage.LoggerMessage;
 
 /**
  * Service class for managing results.
