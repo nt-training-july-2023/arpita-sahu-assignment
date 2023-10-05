@@ -90,14 +90,15 @@ public class UserServiceImpl implements UserService {
                         ErrorMessage.USERID_NOT_FOUND + id));
         userRepo.delete(user);
         logger.info(LoggerMessage.DELETE_USER);
-        return id + Message.DELETE_USER;
+        return Message.DELETE_USER;
     }
 
     @Override
     public final Map<String, String> loginUser(
             final LoginRequest loginRequest) {
-        User user = userRepo.findByEmail(loginRequest.getEmail()).orElseThrow(
-                () -> new ResourceNotFoundException(ErrorMessage.USER_NOT_FOUND));
+        User user = userRepo.findByEmail(loginRequest.getEmail())
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        ErrorMessage.USER_NOT_FOUND));
         if (!passwordEncoder.matches(loginRequest.getPassword(),
                 user.getPassword())) {
             logger.error(LoggerMessage.BAD_CREDENTIAL);

@@ -51,7 +51,7 @@ public class ResultController {
             @RequestBody @Valid final ResultDto resultDto) {
         resultService.addResult(resultDto);
         logger.info(LoggerMessage.SAVE_RESULT);
-        return new ApiResponse(Message.SAVE_RESULT, 
+        return new ApiResponse(Message.SAVE_RESULT,
                 HttpStatus.OK.value());
     }
 

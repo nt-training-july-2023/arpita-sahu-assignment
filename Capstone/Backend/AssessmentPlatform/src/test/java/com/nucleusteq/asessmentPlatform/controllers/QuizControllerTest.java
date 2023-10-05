@@ -13,8 +13,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import com.nucleusteq.asessmentPlatform.dto.ApiResponse;
 import com.nucleusteq.asessmentPlatform.dto.QuizDto;
-import com.nucleusteq.asessmentPlatform.exception.ApiErrorResponse;
 import com.nucleusteq.asessmentPlatform.service.QuizService;
 
 class QuizControllerTest {
@@ -34,7 +35,7 @@ class QuizControllerTest {
     public void testAddQuiz() {
         QuizDto quizDto = new QuizDto();
         when(quizService.addQuiz(quizDto)).thenReturn(quizDto);
-        ApiErrorResponse response = quizController.addQuiz(quizDto);
+        ApiResponse response = quizController.addQuiz(quizDto);
         assertEquals(HttpStatus.OK.value(), response.getStatus());
         assertEquals("Quiz Added Successfully.", response.getMessage());
 
@@ -64,7 +65,7 @@ class QuizControllerTest {
         QuizDto quizDto = new QuizDto();
         when(quizService.updateQuiz(quizDto, quizId))
                 .thenReturn("Updated Successfully");
-        ApiErrorResponse result = quizController.updateQuiz(quizId,
+        ApiResponse result = quizController.updateQuiz(quizId,
                 quizDto);
         assertEquals(HttpStatus.OK.value(), result.getStatus());
         assertEquals("Quiz Updated Successfully.", result.getMessage());
@@ -75,8 +76,9 @@ class QuizControllerTest {
         int quizId = 1;
         when(quizService.deleteQuiz(quizId))
                 .thenReturn("Quiz deleted successfully");
-        String result = quizController.deleteCategory(quizId);
-        assertEquals("Quiz deleted successfully", result);
+        ApiResponse result = quizController.deleteQuiz(quizId);
+        assertEquals("Quiz deleted successfully", result.getMessage());
+        assertEquals(HttpStatus.OK.value(), result.getStatus());
     }
 
     @Test

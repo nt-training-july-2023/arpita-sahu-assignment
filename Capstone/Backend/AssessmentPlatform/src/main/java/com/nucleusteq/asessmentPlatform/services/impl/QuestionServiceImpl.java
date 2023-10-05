@@ -61,8 +61,9 @@ public class QuestionServiceImpl implements QuestionService {
      */
     @Override
     public final QuestionDto addQuestion(final QuestionDto questionDto) {
-        quizRepo.findById(questionDto.getQuizId()).orElseThrow(
-                () -> new ResourceNotFoundException(ErrorMessage.QUIZ_NOT_FOUND));
+        quizRepo.findById(questionDto.getQuizId())
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        ErrorMessage.QUIZ_NOT_FOUND));
         Question question = this.dtoToQues(questionDto);
         if (question == null || question.getQuestion() == null
                 || question.getQuestion().isEmpty()) {
@@ -131,8 +132,9 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public final QuestionDto updateQuestion(final QuestionDto question,
             final int quesId) {
-        Question updatedQuestion = questionRepo.findById(quesId).orElseThrow(
-                () -> new ResourceNotFoundException(ErrorMessage.QUESTION_NOT_FOUND));
+        Question updatedQuestion = questionRepo.findById(quesId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        ErrorMessage.QUESTION_NOT_FOUND));
         updatedQuestion.setQuestion(question.getQuestion());
         updatedQuestion.setOption1(question.getOption1());
         updatedQuestion.setOption2(question.getOption2());
@@ -159,7 +161,7 @@ public class QuestionServiceImpl implements QuestionService {
                         ErrorMessage.QUESTIONID_NOT_FOUND + quesId));
         questionRepo.delete(question);
         logger.info(LoggerMessage.DELETE_QUESTION);
-        return quesId + Message.DELETE_QUESTION;
+        return Message.DELETE_QUESTION;
     }
 
     /**

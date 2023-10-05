@@ -173,7 +173,7 @@ class QuestionServiceImplTest {
                 "option2", "option3", "option4", "answer");
         when(questionRepo.findById(quesId)).thenReturn(Optional.of(question));
         String result = questionService.deleteQuestion(quesId);
-        String expectedMessage = quesId + " deleted Successfully";
+        String expectedMessage = "Question deleted Successfully";
         assertEquals(expectedMessage, result);
         
     }

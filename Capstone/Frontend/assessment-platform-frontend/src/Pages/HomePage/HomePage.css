@@ -1,0 +1,45 @@
+.Homepage {
+    background-image: url('../../Asset/Background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    position:fixed;
+    width: 100%; 
+    height: 100vh;
+  }
+  
+  .Homepage h1{
+    color: #fff;
+    text-align: left;
+    margin-top: 30vh;
+    margin-left:50vh;
+    font-size: 5.5em;
+    font-family: fangsong;
+    font-weight: bolder;
+  }
+ 
+  .get-Started {
+    display: flex;
+    align-items: center; 
+    padding: 14px 28px; 
+    border: none;
+    background-color: #fff; 
+    color: rgb(46, 36, 138); 
+    border-radius: 10px; 
+    cursor: pointer; 
+    font-weight: bold;
+    font-size: large;
+    transition: background-color 0.3s ease; 
+    margin-left:40%;
+  }
+  
+  .get-Started:hover {
+    background-color: rgb(46, 36, 138); 
+    color:#fff
+  }
+  
+ 
+  .arrow-icon {
+    margin-left: 8px; 
+    font-size: 20px;
+  }

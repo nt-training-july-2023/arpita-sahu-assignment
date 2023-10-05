@@ -94,7 +94,7 @@ class QuizServiceImplTest {
         BadCredentialsException exception = assertThrows(BadCredentialsException.class, () -> {
             quizService.addQuiz(quizDto);
         });
-        assertEquals("category not found", exception.getMessage());
+        assertEquals("Category not found", exception.getMessage());
     }
     
     @Test
@@ -194,7 +194,7 @@ class QuizServiceImplTest {
         when(quizRepo.findById(quizIdToDelete))
                 .thenReturn(Optional.of(quizToDelete));
         String result = quizService.deleteQuiz(quizIdToDelete);
-        assertEquals(quizIdToDelete + " deleted successfully", result);
+        assertEquals("Quiz deleted successfully", result);
     }
 
     @Test

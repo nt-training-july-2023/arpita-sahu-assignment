@@ -1,5 +1,6 @@
 package com.nucleusteq.asessmentPlatform.controllers;
 
+import com.nucleusteq.asessmentPlatform.dto.ApiResponse;
 import com.nucleusteq.asessmentPlatform.dto.UserDto;
 import com.nucleusteq.asessmentPlatform.entities.LoginRequest;
 import com.nucleusteq.asessmentPlatform.service.UserService;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 
 import java.util.Arrays;
 import java.util.List;
@@ -42,8 +44,9 @@ public class UserControllerTest {
 
         when(userService.registerUser(userDto))
                 .thenReturn("1 Register successfully");
-        String response = userController.saveUser(userDto);
-        assertEquals("1 Register successfully", response);
+        ApiResponse response = userController.saveUser(userDto);
+        assertEquals("User Register successfully", response.getMessage());
+        assertEquals(HttpStatus.OK.value(), response.getStatus());
     }
 
     @Test
@@ -71,8 +74,9 @@ public class UserControllerTest {
         int userId = 1;
         when(userService.deleteUser(userId))
                 .thenReturn("1 deleted successfully");
-        String response = userController.deleteUser(userId);
-        assertEquals("1 deleted successfully", response);
+        ApiResponse response = userController.deleteUser(userId);
+        assertEquals("User deleted successfully", response.getMessage());
+        assertEquals(HttpStatus.OK.value(), response.getStatus());
     }
 
     @Test

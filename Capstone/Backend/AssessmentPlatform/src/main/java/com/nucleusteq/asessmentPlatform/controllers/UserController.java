@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,10 +48,11 @@ public class UserController {
      * @return A message indicating the result of the registration operation.
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public final ApiResponse saveUser(@RequestBody @Valid final UserDto userDto) {
+    public final ApiResponse saveUser(
+            @RequestBody @Valid final UserDto userDto) {
         logger.info(LoggerMessage.SAVE_USER);
         userService.registerUser(userDto);
-        return new ApiResponse(Message.REGISTER_USER, HttpStatus.OK.value()); 
+        return new ApiResponse(Message.REGISTER_USER, HttpStatus.OK.value());
     }
 
     /**
@@ -76,7 +76,7 @@ public class UserController {
     public final ApiResponse deleteUser(@PathVariable final int id) {
         logger.info(LoggerMessage.DELETE_USER);
         userService.deleteUser(id);
-        return new ApiResponse(Message.DELETE_USER, HttpStatus.NO_CONTENT.value());
+        return new ApiResponse(Message.DELETE_USER, HttpStatus.OK.value());
     }
 
     /**

@@ -17,6 +17,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
+import com.nucleusteq.asessmentPlatform.dto.ApiResponse;
+
 class GlobalExceptionHandlerTest {
 
     @InjectMocks
@@ -34,10 +36,10 @@ class GlobalExceptionHandlerTest {
     public void testResourceNotFoundExceptionHandler() {
         ResourceNotFoundException exception = new ResourceNotFoundException(
                 "Resource not found");
-        ResponseEntity<ApiErrorResponse> responseEntity = globalExceptionHandler
+        ResponseEntity<ApiResponse> responseEntity = globalExceptionHandler
                 .resourceNotFoundExceptionHandler(exception);
         assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
-        ApiErrorResponse errorResponse = responseEntity.getBody();
+        ApiResponse errorResponse = responseEntity.getBody();
         assertEquals(HttpStatus.NOT_FOUND.value(), errorResponse.getStatus());
         assertEquals("Resource not found", errorResponse.getMessage());
     }
@@ -46,10 +48,10 @@ class GlobalExceptionHandlerTest {
     public void testDuplicateResourceExceptionHandler() {
         DuplicateResourceException exception = new DuplicateResourceException(
                 "Duplicate Resource");
-        ResponseEntity<ApiErrorResponse> responseEntity = globalExceptionHandler
+        ResponseEntity<ApiResponse> responseEntity = globalExceptionHandler
                 .duplicateResourceExceptionHandler(exception);
         assertEquals(HttpStatus.FOUND, responseEntity.getStatusCode());
-        ApiErrorResponse errorResponse = responseEntity.getBody();
+        ApiResponse errorResponse = responseEntity.getBody();
         assertEquals(HttpStatus.FOUND.value(), errorResponse.getStatus());
         assertEquals("Duplicate Resource", errorResponse.getMessage());
     }
@@ -58,10 +60,10 @@ class GlobalExceptionHandlerTest {
     public void testBadCredentialExceptionHandler() {
         BadCredentialsException exception = new BadCredentialsException(
                 "Bad Credentials");
-        ResponseEntity<ApiErrorResponse> responseEntity = globalExceptionHandler
+        ResponseEntity<ApiResponse> responseEntity = globalExceptionHandler
                 .badCredentialExceptionHandler(exception);
         assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
-        ApiErrorResponse errorResponse = responseEntity.getBody();
+        ApiResponse errorResponse = responseEntity.getBody();
         assertEquals(HttpStatus.UNAUTHORIZED.value(),
                 errorResponse.getStatus());
         assertEquals("Bad Credentials", errorResponse.getMessage());

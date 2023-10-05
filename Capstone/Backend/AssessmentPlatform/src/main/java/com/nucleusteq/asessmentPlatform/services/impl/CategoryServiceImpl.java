@@ -112,17 +112,31 @@ public class CategoryServiceImpl implements CategoryService {
      * @throws ResourceNotFoundException If the category with the specified ID
      *                                   is not found.
      */
-
     @Override
-    public final CategoryDto updateCategory(final CategoryDto category,
+    public final String updateCategory(final CategoryDto category,
             final int id) {
-        Category updatedCategory = categoryRepo.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException(ErrorMessage.CATEGORY_NOT_FOUND));
-        updatedCategory.setTitle(category.getTitle());
-        updatedCategory.setDescription(category.getDescription());
-        categoryRepo.save(updatedCategory);
-        logger.info(LoggerMessage.UPDATE_CATEGORY);
-        return this.categoryToDto(updatedCategory);
+        Optional<Category> existingCategoryById = categoryRepo.findById(id);
+        if (existingCategoryById.isPresent()) {
+            Category existingCategory = existingCategoryById.get();
+            String newTitle = category.getTitle();
+            if (!existingCategory.getTitle().equals(newTitle)) {
+                Optional<Category> existingCategoryByTitle = categoryRepo
+                        .findByTitle(newTitle);
+                if (existingCategoryByTitle.isPresent()) {
+                    throw new DuplicateResourceException(
+                            ErrorMessage.CATEGORY_TITLE_ALREADY_EXISTS);
+                }
+            }
+            existingCategory.setTitle(newTitle);
+            existingCategory.setDescription(category.getDescription());
+            categoryRepo.save(existingCategory);
+            logger.info(LoggerMessage.UPDATE_CATEGORY);
+            return Message.UPDATE_CATEGORY;
+        } else {
+            logger.info(LoggerMessage.CATEGORY_NOT_FOUND);
+            throw new ResourceNotFoundException(
+                    ErrorMessage.CATEGORY_ID_NOT_FOUND);
+        }
     }
 
     /**
@@ -140,7 +154,7 @@ public class CategoryServiceImpl implements CategoryService {
                         ErrorMessage.CATEGORY_ID_NOT_FOUND + id));
         categoryRepo.delete(category);
         logger.info(LoggerMessage.DELETE_CATEGORY);
-        return id + Message.DELETE_CATEGORY ;
+        return Message.DELETE_CATEGORY;
     }
 
     /**

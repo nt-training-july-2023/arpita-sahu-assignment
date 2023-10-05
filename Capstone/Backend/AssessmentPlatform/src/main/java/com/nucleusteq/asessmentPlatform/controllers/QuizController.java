@@ -52,7 +52,7 @@ public class QuizController {
             @RequestBody @Valid final QuizDto quizDto) {
         quizService.addQuiz(quizDto);
         logger.info(LoggerMessage.SAVE_QUIZ);
-        return new ApiResponse(Message.SAVE_QUIZ, 
+        return new ApiResponse(Message.SAVE_QUIZ,
                 HttpStatus.OK.value());
     }
 
@@ -110,7 +110,7 @@ public class QuizController {
             @RequestBody final QuizDto quizDto) {
         quizService.updateQuiz(quizDto, quizId);
         logger.info(LoggerMessage.UPDATE_QUIZ);
-        return new ApiResponse(Message.UPDATE_QUIZ, 
+        return new ApiResponse(Message.UPDATE_QUIZ,
                 HttpStatus.OK.value());
     }
 

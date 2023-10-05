@@ -1,10 +1,11 @@
 package com.nucleusteq.asessmentPlatform.dto;
-
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
  * The `ApiErrorResponse` class represents an error response in the API. It
  * includes the HTTP status code and a message describing the error.
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponse {
 
     /**
@@ -59,7 +60,7 @@ public class ApiResponse {
      * @param errorStatus  The HTTP status code for the error response.
      * @param errorMessage The error message describing the error.
      */
-    public ApiResponse(final String errorMessage, 
+    public ApiResponse(final String errorMessage,
             final Integer errorStatus) {
         super();
         this.message = errorMessage;

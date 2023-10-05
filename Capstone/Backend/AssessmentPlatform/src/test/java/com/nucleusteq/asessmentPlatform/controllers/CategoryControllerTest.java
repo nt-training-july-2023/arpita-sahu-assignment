@@ -1,7 +1,7 @@
 package com.nucleusteq.asessmentPlatform.controllers;
 
+import com.nucleusteq.asessmentPlatform.dto.ApiResponse;
 import com.nucleusteq.asessmentPlatform.dto.CategoryDto;
-import com.nucleusteq.asessmentPlatform.exception.ApiErrorResponse;
 import com.nucleusteq.asessmentPlatform.service.CategoryService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,11 +38,11 @@ class CategoryControllerTest {
         
         when(categoryService.addCategory(any(CategoryDto.class)))
                 .thenReturn(categoryDto);
-        ApiErrorResponse response = categoryController
+        ApiResponse response = categoryController
                 .saveCategory(categoryDto);
         
         assertEquals(HttpStatus.OK.value(), response.getStatus());
-        assertEquals("category added successfully.", response.getMessage());
+        assertEquals("Category added successfully.", response.getMessage());
     }
 
 
@@ -76,8 +76,8 @@ class CategoryControllerTest {
         int categoryId = 1;
         CategoryDto categoryDto = new CategoryDto();
         when(categoryService.updateCategory(categoryDto, categoryId))
-                .thenReturn(categoryDto);
-        ApiErrorResponse response = categoryController.updateCategory(categoryDto,
+                .thenReturn("Updated Successfully");
+        ApiResponse response = categoryController.updateCategory(categoryDto,
                 categoryId);
         assertEquals(HttpStatus.OK.value(), response.getStatus());
         assertEquals("Category Updated Successfully.", response.getMessage());
@@ -88,7 +88,8 @@ class CategoryControllerTest {
         int categoryId = 1;
         when(categoryService.deleteCategory(categoryId))
                 .thenReturn("Category deleted successfully");
-        String result = categoryController.deleteCategory(categoryId);
-        assertEquals("Category deleted successfully", result);
+        ApiResponse result = categoryController.deleteCategory(categoryId);
+        assertEquals("Category deleted successfully", result.getMessage());
+        assertEquals(HttpStatus.OK.value(), result.getStatus());
     }
 }

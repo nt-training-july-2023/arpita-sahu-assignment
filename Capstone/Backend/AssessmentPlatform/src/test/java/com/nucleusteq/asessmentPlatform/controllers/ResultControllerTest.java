@@ -12,8 +12,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
+
+import com.nucleusteq.asessmentPlatform.dto.ApiResponse;
 import com.nucleusteq.asessmentPlatform.dto.ResultDto;
-import com.nucleusteq.asessmentPlatform.exception.ApiErrorResponse;
 import com.nucleusteq.asessmentPlatform.service.ResultService;
 
 class ResultControllerTest {
@@ -33,7 +34,7 @@ class ResultControllerTest {
     public void testAddResult() {
         ResultDto resultDto = new ResultDto();
         when(resultService.addResult(resultDto)).thenReturn(resultDto);
-        ApiErrorResponse response = resultController.addResult(resultDto);
+        ApiResponse response = resultController.addResult(resultDto);
         assertEquals(HttpStatus.OK.value(), response.getStatus());
         assertEquals("Result Added Successfully.", response.getMessage());
     }
@@ -42,7 +43,7 @@ class ResultControllerTest {
     public void testGetAllResults() {
         List<ResultDto> expectedResults = new ArrayList<>();
         when(resultService.getAllResults()).thenReturn(expectedResults);
-        List<ResultDto> actualResults = resultController.getAllResults();
+        List<ResultDto> actualResults = resultController.getResults();
         assertEquals(expectedResults, actualResults);
     }
 

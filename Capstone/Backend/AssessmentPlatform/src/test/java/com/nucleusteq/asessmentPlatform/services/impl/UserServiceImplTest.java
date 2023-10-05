@@ -150,7 +150,7 @@ public class UserServiceImplTest {
         when(userRepo.findById(userIdToDelete))
                 .thenReturn(Optional.of(userToDelete));
         String result = userService.deleteUser(userIdToDelete);
-        assertEquals(userIdToDelete + " deleted successfully", result);
+        assertEquals("User deleted successfully", result);
     }
 
     @Test
@@ -161,7 +161,7 @@ public class UserServiceImplTest {
                 UserNotFoundException.class,
                 () -> userService.deleteUser(userIdToDelete));
 
-        assertEquals("user not found with id " + userIdToDelete,
+        assertEquals("User not found with ID " + userIdToDelete,
                 exception.getMessage());
     }
 

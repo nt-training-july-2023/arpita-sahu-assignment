@@ -1,6 +1,7 @@
 package com.nucleusteq.asessmentPlatform.services.impl;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -108,30 +109,31 @@ class CategoryServiceImplTest {
         ResourceNotFoundException exception = assertThrows(
                 ResourceNotFoundException.class,
                 () -> categoryService.getCategoryById(categoryId));
-        assertEquals("category not found with id " + categoryId,
+        assertEquals("Category not found with ID " + categoryId,
                 exception.getMessage());
     }
 
     @Test
     void testUpdateCategory() {
         CategoryDto updatedCategoryDto = new CategoryDto();
-        updatedCategoryDto.setTitle("Updated Title");
+        updatedCategoryDto.setTitle("Updated Category");
         updatedCategoryDto.setDescription("Updated Description");
 
         int categoryId = 1;
         Category existingCategory = new Category();
-        existingCategory.setCategoryId(updatedCategoryDto.getCategoryId());
-        existingCategory.setTitle(updatedCategoryDto.getTitle());
-        existingCategory.setDescription(updatedCategoryDto.getDescription());
+        existingCategory.setCategoryId(categoryId);
+        existingCategory.setTitle("Existing Category Title");
+        existingCategory.setDescription("Existing Category Description");
         when(categoryRepo.findById(categoryId))
                 .thenReturn(Optional.of(existingCategory));
+        when(categoryRepo.findByTitle("Updated Category")).thenReturn(Optional.empty());
         when(modelMapper.map(existingCategory, CategoryDto.class)).thenReturn(updatedCategoryDto);
-        CategoryDto resultDto = categoryService
+        when(categoryRepo.save(any(Category.class))).thenReturn(existingCategory);
+        String result = categoryService
                 .updateCategory(updatedCategoryDto, categoryId);
-        assertNotNull(resultDto);
-        assertEquals(updatedCategoryDto.getTitle(), resultDto.getTitle());
-        assertEquals(updatedCategoryDto.getDescription(),
-                resultDto.getDescription());
+        assertEquals("Category Updated Successfully.", result);
+        assertEquals("Updated Category", existingCategory.getTitle());
+        assertEquals("Updated Description", existingCategory.getDescription());
 
     }
 
@@ -153,7 +155,7 @@ class CategoryServiceImplTest {
         when(categoryRepo.findById(categoryIdToDelete))
                 .thenReturn(Optional.of(categoryToDelete));
         String result = categoryService.deleteCategory(categoryIdToDelete);
-        assertEquals(categoryIdToDelete + " deleted successfully", result);
+        assertEquals("Category deleted successfully", result);
     }
 
     @Test
@@ -165,7 +167,7 @@ class CategoryServiceImplTest {
                 ResourceNotFoundException.class,
                 () -> categoryService.deleteCategory(categoryIdToDelete));
 
-        assertEquals("category not found with id " + categoryIdToDelete,
+        assertEquals("Category not found with ID " + categoryIdToDelete,
                 exception.getMessage());
     }
 

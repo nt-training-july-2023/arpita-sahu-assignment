@@ -14,8 +14,8 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import com.nucleusteq.asessmentPlatform.dto.ApiResponse;
 import com.nucleusteq.asessmentPlatform.dto.QuestionDto;
-import com.nucleusteq.asessmentPlatform.exception.ApiErrorResponse;
 import com.nucleusteq.asessmentPlatform.service.QuestionService;
 class QuestionControllerTest {
 
@@ -35,7 +35,7 @@ class QuestionControllerTest {
     public void testAddQuestion() {
         QuestionDto questionDto = new QuestionDto();
         when(questionService.addQuestion(questionDto)).thenReturn(questionDto);
-        ApiErrorResponse response = questionController
+        ApiResponse response = questionController
                 .addQuestion(questionDto);
         assertEquals(HttpStatus.OK.value(), response.getStatus());
         assertEquals("Question Added Successfully.", response.getMessage());
@@ -76,7 +76,7 @@ class QuestionControllerTest {
         QuestionDto existingQuestion = new QuestionDto();
         when(questionService.updateQuestion(existingQuestion, quesId))
                 .thenReturn(existingQuestion);
-        ApiErrorResponse response = questionController
+        ApiResponse response = questionController
                 .updateQuestion(existingQuestion, quesId);
         assertEquals(HttpStatus.OK.value(), response.getStatus());
         assertEquals("Question Updated Successfully.", response.getMessage());
@@ -89,8 +89,9 @@ class QuestionControllerTest {
         int quesid = 1;
         when(questionService.deleteQuestion(quesid))
                 .thenReturn("Question deleted Successfully");
-        String result = questionController.deleteQuestion(quesid);
-        assertEquals(" deleted Successfully", result);
+        ApiResponse result = questionController.deleteQuestion(quesid);
+        assertEquals("Question deleted Successfully", result.getMessage());
+        assertEquals(HttpStatus.OK.value(), result.getStatus());
     }
 
 }

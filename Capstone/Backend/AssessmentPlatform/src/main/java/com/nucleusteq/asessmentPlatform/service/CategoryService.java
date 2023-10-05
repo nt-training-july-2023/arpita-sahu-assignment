@@ -41,7 +41,7 @@ public interface CategoryService {
      * @param id       The ID of the category to update.
      * @return The CategoryDto object representing the updated category.
      */
-    CategoryDto updateCategory(CategoryDto category, int id);
+    String updateCategory(CategoryDto category, int id);
 
     /**
      * Deletes a category by its ID.

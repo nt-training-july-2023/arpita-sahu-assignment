@@ -68,8 +68,9 @@ public class QuizServiceImpl implements QuizService {
         Optional<Quiz> existingQuiz = quizRepo.findByTitle(quiz.getTitle());
         if (existingQuiz.isPresent()) {
             logger.error(LoggerMessage.QUIZ_TITLE_EXIST);
-            throw new DuplicateResourceException(ErrorMessage.QUIZ_ALREADY_EXISTS_PREFIX
-                    + quiz.getTitle() + ErrorMessage.QUIZ_ALREADY_EXISTS_SUFFIX );
+            throw new DuplicateResourceException(
+                    ErrorMessage.QUIZ_ALREADY_EXISTS_PREFIX + quiz.getTitle()
+                            + ErrorMessage.QUIZ_ALREADY_EXISTS_SUFFIX);
         }
         if (categoryRepo.findById(quiz.getCategory().getCategoryId())
                 .isPresent()) {
@@ -147,16 +148,16 @@ public class QuizServiceImpl implements QuizService {
                         .findByTitle(newTitle);
                 if (existingQuizByTitle.isPresent()) {
                     logger.error(LoggerMessage.QUIZ_TITLE_EXIST);
-                    throw new DuplicateResourceException(ErrorMessage.QUIZ_ALREADY_EXISTS_PREFIX
-                            + newTitle + ErrorMessage.QUIZ_ALREADY_EXISTS_SUFFIX);
+                    throw new DuplicateResourceException(
+                            ErrorMessage.QUIZ_ALREADY_EXISTS_PREFIX + newTitle
+                                    + ErrorMessage.QUIZ_ALREADY_EXISTS_SUFFIX);
                 }
             }
             existingQuiz.setTitle(newTitle);
             existingQuiz.setDescription(updatedQuiz.getDescription());
             existingQuiz.setQuizTimer(updatedQuiz.getQuizTimer());
-            // existingQuiz.setCategory(updatedQuiz.getCategory());
-            quizRepo.save(existingQuiz);
             logger.info(LoggerMessage.UPDATE_QUIZ);
+            quizRepo.save(existingQuiz);
             return Message.UPDATE_QUIZ;
         } else {
             logger.error(LoggerMessage.QUIZ_NOT_FOUND);
@@ -180,7 +181,7 @@ public class QuizServiceImpl implements QuizService {
                         ErrorMessage.QUIZID_NOT_FOUND + quizId));
         quizRepo.delete(quiz);
         logger.info(LoggerMessage.DELETE_QUIZ);
-        return quizId + Message.DELETE_QUIZ;
+        return Message.DELETE_QUIZ;
     }
 
     /**

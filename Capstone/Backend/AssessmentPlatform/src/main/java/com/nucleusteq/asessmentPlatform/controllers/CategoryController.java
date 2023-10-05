@@ -54,7 +54,7 @@ public class CategoryController {
             @RequestBody @Valid final CategoryDto categoryDto) {
         categoryService.addCategory(categoryDto);
         logger.info(LoggerMessage.SAVE_CATEGORY);
-        return new ApiResponse(Message.SAVE_CATEGORY, 
+        return new ApiResponse(Message.SAVE_CATEGORY,
                 HttpStatus.OK.value());
     }
 
@@ -75,7 +75,7 @@ public class CategoryController {
      *         message if not found.
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public final ResponseEntity<?> getCategoryById(@PathVariable final int id) {
+   public final ResponseEntity<?> getCategoryById(@PathVariable final int id) {
         CategoryDto categoryDto = categoryService.getCategoryById(id);
         logger.info(LoggerMessage.GET_CATEGORY_BY_ID);
         return ResponseEntity.ok(categoryDto);
@@ -95,7 +95,7 @@ public class CategoryController {
             @PathVariable final int id) {
         categoryService.updateCategory(category, id);
         logger.info(LoggerMessage.UPDATE_CATEGORY);
-        return new ApiResponse(Message.UPDATE_CATEGORY, 
+        return new ApiResponse(Message.UPDATE_CATEGORY,
                 HttpStatus.OK.value());
 
     }

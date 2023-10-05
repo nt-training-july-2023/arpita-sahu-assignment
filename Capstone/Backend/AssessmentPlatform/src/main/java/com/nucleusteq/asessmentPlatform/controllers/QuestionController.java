@@ -53,7 +53,7 @@ public class QuestionController {
             @RequestBody @Valid final QuestionDto questionDto) {
         questionService.addQuestion(questionDto);
         logger.info(LoggerMessage.SAVE_QUESTION);
-        return new ApiResponse(Message.SAVE_QUESTION, 
+        return new ApiResponse(Message.SAVE_QUESTION,
                 HttpStatus.OK.value());
     }
 
@@ -111,7 +111,7 @@ public class QuestionController {
             @PathVariable final int quesId) {
         questionService.updateQuestion(questionDto, quesId);
         logger.info(LoggerMessage.UPDATE_QUESTION);
-        return new ApiResponse(Message.UPDATE_QUESTION, 
+        return new ApiResponse(Message.UPDATE_QUESTION,
                 HttpStatus.OK.value());
     }
 
