@@ -50,7 +50,7 @@ class CategoryServiceImplTest {
         category.setDescription(categoryDto.getDescription());
         when(modelMapper.map(categoryDto, Category.class)).thenReturn(category);
         when(modelMapper.map(category, CategoryDto.class)).thenReturn(categoryDto);
-        when(categoryRepo.findByTitle(categoryDto.getTitle()))
+        when(categoryRepo.findByTitle(category.getTitle()))
         .thenReturn(Optional.empty());
         CategoryDto result = categoryService.addCategory(categoryDto);
         assertNotNull(result);

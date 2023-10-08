@@ -81,7 +81,7 @@ public class Question {
      * @return A new Quiz object with the same properties as the associated
      *         quiz.
      */
-    public final Quiz getQuiz() {
+    public Quiz getQuiz() {
         return new Quiz(quiz.getQuizId(), quiz.getTitle(),
                 quiz.getDescription(), quiz.getQuizTimer());
     }
@@ -91,7 +91,7 @@ public class Question {
      *
      * @param quizz The Quiz object to associate with this question.
      */
-    public final void setQuiz(final Quiz quizz) {
+    public void setQuiz(final Quiz quizz) {
         this.quiz = new Quiz(quizz.getQuizId(), quizz.getTitle(),
                 quizz.getDescription(), quizz.getQuizTimer());
     }

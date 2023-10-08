@@ -19,9 +19,8 @@ import com.nucleusteq.asessmentPlatform.dto.ApiResponse;
 import com.nucleusteq.asessmentPlatform.dto.UserDto;
 import com.nucleusteq.asessmentPlatform.entities.LoginRequest;
 import com.nucleusteq.asessmentPlatform.service.UserService;
-import com.nucleusteq.assessmentPlatform.validationmessage.LoggerMessage;
-import com.nucleusteq.assessmentPlatform.validationmessage.Message;
-
+import com.nucleusteq.asessmentPlatform.validationmessage.LoggerMessage;
+import com.nucleusteq.asessmentPlatform.validationmessage.Message;
 import jakarta.validation.Valid;
 
 /**

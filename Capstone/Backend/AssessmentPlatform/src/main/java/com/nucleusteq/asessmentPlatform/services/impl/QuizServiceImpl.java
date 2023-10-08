@@ -18,10 +18,9 @@ import com.nucleusteq.asessmentPlatform.exception.ResourceNotFoundException;
 import com.nucleusteq.asessmentPlatform.repositories.CategoryRepo;
 import com.nucleusteq.asessmentPlatform.repositories.QuizRepo;
 import com.nucleusteq.asessmentPlatform.service.QuizService;
-import com.nucleusteq.assessmentPlatform.validationmessage.ErrorMessage;
-import com.nucleusteq.assessmentPlatform.validationmessage.LoggerMessage;
-import com.nucleusteq.assessmentPlatform.validationmessage.Message;
-
+import com.nucleusteq.asessmentPlatform.validationmessage.LoggerMessage;
+import com.nucleusteq.asessmentPlatform.validationmessage.Message;
+import com.nucleusteq.asessmentPlatform.validationmessage.ErrorMessage;
 /**
  * Service implementation for managing quizzes.
  * It uses a logger to log messages related to its functionality.
@@ -39,7 +38,7 @@ public class QuizServiceImpl implements QuizService {
      * methods.
      */
     @Autowired
-    private CategoryRepo categoryRepo; 
+    private CategoryRepo categoryRepo;
 
     /**
      * This is Quiz Repository object that is demo for calling the repository

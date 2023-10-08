@@ -16,7 +16,7 @@ public interface ResultService {
      *                  added.
      * @return The ResultDto object representing the added result.
      */
-    ResultDto addResult(final ResultDto resultDto);
+    ResultDto addResult(ResultDto resultDto);
 
     /**
      * Retrieves a list of all results.
@@ -32,5 +32,5 @@ public interface ResultService {
      * @return A list of ResultDto objects representing results for the given
      *         email.
      */
-    List<ResultDto> getResultByEmail(final String email);
+    List<ResultDto> getResultByEmail(String email);
 }

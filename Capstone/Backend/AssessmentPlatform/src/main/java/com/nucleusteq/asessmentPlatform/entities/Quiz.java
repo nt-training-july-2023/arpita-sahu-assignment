@@ -64,7 +64,7 @@ public class Quiz {
      * @return A new Category object representing the associated category.
      */
 
-    public final Category getCategory() {
+    public Category getCategory() {
         if (category != null) {
             return new Category(category.getCategoryId(), category.getTitle(),
                     category.getDescription());
@@ -86,7 +86,7 @@ public class Quiz {
      *
      * @param cat The Category object to set for this quiz.
      */
-    public final void setCategory(final Category cat) {
+    public void setCategory(final Category cat) {
         if (cat != null) {
             this.category = new Category(cat.getCategoryId(), cat.getTitle(),
                     cat.getDescription());
@@ -101,7 +101,7 @@ public class Quiz {
      * @return A new ArrayList containing the questions associated with this
      *         quiz.
      */
-    public final List<Question> getQuestion() {
+    public List<Question> getQuestion() {
         return new ArrayList<>(question);
     }
 
@@ -110,7 +110,7 @@ public class Quiz {
      *
      * @param ques The List of Question objects to set for this quiz.
      */
-    public final void setQuestion(final List<Question> ques) {
+    public void setQuestion(final List<Question> ques) {
         this.question = new ArrayList<>(ques);
     }
 

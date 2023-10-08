@@ -16,9 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nucleusteq.asessmentPlatform.dto.ApiResponse;
 import com.nucleusteq.asessmentPlatform.dto.ResultDto;
 import com.nucleusteq.asessmentPlatform.service.ResultService;
-import com.nucleusteq.assessmentPlatform.validationmessage.LoggerMessage;
-import com.nucleusteq.assessmentPlatform.validationmessage.Message;
-
+import com.nucleusteq.asessmentPlatform.validationmessage.LoggerMessage;
+import com.nucleusteq.asessmentPlatform.validationmessage.Message;
 import jakarta.validation.Valid;
 
 /**

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Data Transfer Object (DTO) representing a result of a quiz attempt.
+ * Data Transfer Object (DTO) representing a result.
  */
 @Getter
 @Setter

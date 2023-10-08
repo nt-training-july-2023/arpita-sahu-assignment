@@ -53,8 +53,8 @@ export default function Signup() {
     setPassword(e.target.value);
     if (!password) {
       setPasswordError("Password is required ");
-    } else if (password.length < 6) {
-      setPasswordError("Password must be at least 6 characters");
+    } else if (password.length < 7) {
+      setPasswordError("Password must be at least 8 characters");
     } else {
       setPasswordError("");
     }
@@ -111,8 +111,8 @@ export default function Signup() {
     if (!password) {
       setPasswordError("Password is required");
       isValid = false;
-    } else if (password.length < 6) {
-      setPasswordError("Password must be at least 6 characters");
+    } else if (password.length < 7) {
+      setPasswordError("Password must be at least 8 characters");
       isValid = false;
     } else {
       setPasswordError("");

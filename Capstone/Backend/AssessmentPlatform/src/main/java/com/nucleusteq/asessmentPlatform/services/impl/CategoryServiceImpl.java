@@ -15,9 +15,9 @@ import com.nucleusteq.asessmentPlatform.exception.DuplicateResourceException;
 import com.nucleusteq.asessmentPlatform.exception.ResourceNotFoundException;
 import com.nucleusteq.asessmentPlatform.repositories.CategoryRepo;
 import com.nucleusteq.asessmentPlatform.service.CategoryService;
-import com.nucleusteq.assessmentPlatform.validationmessage.ErrorMessage;
-import com.nucleusteq.assessmentPlatform.validationmessage.LoggerMessage;
-import com.nucleusteq.assessmentPlatform.validationmessage.Message;
+import com.nucleusteq.asessmentPlatform.validationmessage.LoggerMessage;
+import com.nucleusteq.asessmentPlatform.validationmessage.Message;
+import com.nucleusteq.asessmentPlatform.validationmessage.ErrorMessage;
 
 /**
  * Implementation of the {@link CategoryService} interface for managing

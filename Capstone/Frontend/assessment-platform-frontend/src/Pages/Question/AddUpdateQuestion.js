@@ -70,7 +70,6 @@ function AddUpdateQuestion() {
     } else {
       setError("");
     }
-  
     return isValid;
   };
   

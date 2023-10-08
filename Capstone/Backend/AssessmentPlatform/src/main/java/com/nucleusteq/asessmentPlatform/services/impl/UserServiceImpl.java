@@ -21,9 +21,9 @@ import com.nucleusteq.asessmentPlatform.exception.ResourceNotFoundException;
 import com.nucleusteq.asessmentPlatform.exception.UserNotFoundException;
 import com.nucleusteq.asessmentPlatform.repositories.UserRepo;
 import com.nucleusteq.asessmentPlatform.service.UserService;
-import com.nucleusteq.assessmentPlatform.validationmessage.ErrorMessage;
-import com.nucleusteq.assessmentPlatform.validationmessage.LoggerMessage;
-import com.nucleusteq.assessmentPlatform.validationmessage.Message;
+import com.nucleusteq.asessmentPlatform.validationmessage.LoggerMessage;
+import com.nucleusteq.asessmentPlatform.validationmessage.Message;
+import com.nucleusteq.asessmentPlatform.validationmessage.ErrorMessage;
 
 /**
  * Implementation of the {@link UserService} interface for managing user-related

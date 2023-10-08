@@ -103,7 +103,7 @@ function AddCategory() {
                 error={titleError}
                 />
                <TextAreaComponent
-                label="Descirption:"
+                label="Description:"
                 onChange={handleDescriptionChange}
                 value={description}
                 error={descriptionError}

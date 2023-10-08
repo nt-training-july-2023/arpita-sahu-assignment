@@ -8,14 +8,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Getter, setter and Constructor.
+ *  Data Transfer Object (DTO) representing a quiz.
  */
 @Getter
 @Setter
 @NoArgsConstructor
-/**
- * Data Transfer Object (DTO) class representing a quiz.
- */
 public class QuizDto {
 
     /**

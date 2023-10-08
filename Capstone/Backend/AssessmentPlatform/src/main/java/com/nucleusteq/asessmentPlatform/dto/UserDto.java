@@ -20,7 +20,7 @@ public class UserDto {
     /**
      * The minimum length required for a user's password.
      */
-    private static final int MIN_PASSWORD_LENGTH = 6;
+    private static final int MIN_PASSWORD_LENGTH = 8;
     /**
      * The length required for a user's phone number (number of digits).
      */
@@ -58,7 +58,7 @@ public class UserDto {
 
     @NotBlank(message = "Password is required")
     @Size(min = MIN_PASSWORD_LENGTH,
-    message = "Password must be atleast 6 characters long")
+    message = "Password must be atleast 8 characters long")
     private String password;
 
     /**

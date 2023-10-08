@@ -53,7 +53,7 @@ class QuestionServiceImplTest {
         questionDto.setOption4("d");
         questionDto.setAnswer("a");
         questionDto.setQuizId(1);
-
+ 
         Quiz quiz = new Quiz();
         quiz.setQuizId(questionDto.getQuizId());
         Question question = new Question();
@@ -148,13 +148,14 @@ class QuestionServiceImplTest {
         questionDto.setOption2("Option 2");
         questionDto.setOption3("Option 3");
         questionDto.setOption4("Option 4");
-        questionDto.setAnswer("Correct Answer");
+        questionDto.setAnswer("Option 4");
         Question existingQuestion = new Question(1, "Question Name", "option1",
-                "option2", "option3", "option4", "answer");
+                "option2", "option3", "option4", "option3");
         when(modelMapper.map(existingQuestion, QuestionDto.class)).thenReturn(questionDto);
         when(questionRepo.findById(quesId)).thenReturn(Optional.of(existingQuestion));
         QuestionDto updatedQuestionDto = questionService.updateQuestion(questionDto, quesId);
         assertEquals(questionDto, updatedQuestionDto);
+
     }
 
     @Test

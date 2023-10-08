@@ -131,6 +131,7 @@ function AddUpdateQuiz() {
                 type="text"
                 value={quizTimer}
                 onChange={handleTimerChange}
+                placeholder="In minutes"
                 error={timerError}
                 />
                 <div>

@@ -69,8 +69,10 @@ public class QuestionDto {
                 && (answer.equals(option1) || answer.equals(option2)
                         || answer.equals(option3) || answer.equals(option4));
     }
+
     /**
      * The ID of the quiz to which this question belongs.
      */
     private int quizId;
+
 }

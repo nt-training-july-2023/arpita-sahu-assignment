@@ -55,7 +55,7 @@ public class Category {
      * @return A new ArrayList containing the quizzes associated with this
      *         category.
      */
-    public final List<Quiz> getQuizzes() {
+    public List<Quiz> getQuizzes() {
         return new ArrayList<>(quizzes);
     }
 
@@ -65,7 +65,7 @@ public class Category {
      * @param quiz The list of Quiz objects to associate with this category.
      */
 
-    public final void setQuizzes(final List<Quiz> quiz) {
+    public void setQuizzes(final List<Quiz> quiz) {
         this.quizzes = new ArrayList<>(quiz);
     }
 

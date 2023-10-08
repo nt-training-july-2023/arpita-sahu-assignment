@@ -213,10 +213,6 @@ export default function TakeTest({isRefresh}) {
                               question[optionKey]
                             )
                           }
-                          checked={
-                            selectedAnswers[question.quesId] ===
-                            question[optionKey]
-                          }
                         />
                         {question[optionKey]}
                       </label>
