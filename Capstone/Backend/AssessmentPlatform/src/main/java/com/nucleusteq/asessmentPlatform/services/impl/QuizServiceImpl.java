@@ -22,7 +22,7 @@ import com.nucleusteq.asessmentPlatform.validationmessage.LoggerMessage;
 import com.nucleusteq.asessmentPlatform.validationmessage.Message;
 import com.nucleusteq.asessmentPlatform.validationmessage.ErrorMessage;
 /**
- * Service implementation for managing quiz.
+ * Service implementation for managing quizzes.
  * It uses a logger to log messages related to its functionality.
  */
 @Service
