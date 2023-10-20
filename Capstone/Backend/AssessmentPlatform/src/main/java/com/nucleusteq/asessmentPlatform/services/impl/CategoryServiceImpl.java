@@ -31,7 +31,7 @@ public class CategoryServiceImpl implements CategoryService {
      * This is Category Repository object that is for calling. the repository
      * methods.
      */
-    @Autowired
+   @Autowired
     private CategoryRepo categoryRepo;
 
     /**

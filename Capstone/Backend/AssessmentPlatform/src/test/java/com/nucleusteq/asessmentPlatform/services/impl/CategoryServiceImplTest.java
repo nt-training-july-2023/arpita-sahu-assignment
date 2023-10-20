@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,7 +40,7 @@ class CategoryServiceImplTest {
     
     @Test
     public void testAddCategory_Success() {
-        CategoryDto categoryDto = new CategoryDto();
+        CategoryDto categoryDto = new CategoryDto(); 
         categoryDto.setCategoryId(1);
         categoryDto.setTitle("Test Title");
         categoryDto.setDescription("Test Description");
@@ -52,9 +53,9 @@ class CategoryServiceImplTest {
         when(modelMapper.map(category, CategoryDto.class)).thenReturn(categoryDto);
         when(categoryRepo.findByTitle(category.getTitle()))
         .thenReturn(Optional.empty());
-        CategoryDto result = categoryService.addCategory(categoryDto);
-        assertNotNull(result);
-        assertEquals(categoryDto.getTitle(), result.getTitle());
+        CategoryDto resultDto = categoryService.addCategory(categoryDto);
+        assertNotNull(resultDto);
+        assertEquals(categoryDto, resultDto);
     }
 
     @Test
@@ -76,14 +77,17 @@ class CategoryServiceImplTest {
     @Test
     public void testGetAllCategoriess() {
         List<Category> categories = new ArrayList<>();
-        categories.add(new Category(1, "Java", "Java Category"));
-        categories.add(new Category(2, "React", "React Category"));
-
+        categories.add(new Category(1, "Java Title", "Java Description"));
+        List<CategoryDto> expectedCategoryDtos = categories.stream()
+                .map(category -> categoryService.categoryToDto(category))
+                .collect(Collectors.toList());
         when(categoryRepo.findAll()).thenReturn(categories);
-
-        List<CategoryDto> categoryDtos = categoryService.getAllCategories();
-        assertNotNull(categoryDtos);
-        assertEquals(categories.size(), categoryDtos.size());
+        List<CategoryDto> actualCategoryDtos = categoryService
+                .getAllCategories();
+//        assertEquals(expectedCategoryDtos.get(0).getCategoryId(), actualCategoryDtos.get(0).getCategoryId());
+//        assertEquals(expectedCategoryDtos.get(0).getTitle(), actualCategoryDtos.get(0).getTitle());
+//        assertEquals(expectedCategoryDtos.get(0).getDescription(), actualCategoryDtos.get(0).getDescription());
+        assertEquals(expectedCategoryDtos, actualCategoryDtos);
 
     }
 
@@ -134,6 +138,7 @@ class CategoryServiceImplTest {
         assertEquals("Category Updated Successfully.", result);
         assertEquals("Updated Category", existingCategory.getTitle());
         assertEquals("Updated Description", existingCategory.getDescription());
+       
 
     }
 
@@ -145,6 +150,25 @@ class CategoryServiceImplTest {
         when(categoryRepo.findById(1)).thenReturn(Optional.empty());
         assertThrows(ResourceNotFoundException.class, () -> {categoryService.updateCategory(categoryDto, 1);
         });
+    }
+    @Test
+    void testUpdateCategory_DuplicateTitle() {
+        CategoryDto categoryDto = new CategoryDto();
+        categoryDto.setTitle("Title1");
+        categoryDto.setDescription("Description");
+        categoryDto.setCategoryId(1);
+        
+        Category category = new Category();
+        category.setTitle("Title");
+        category.setDescription("Description");
+        category.setCategoryId(1);
+
+        when(categoryRepo.findById(1)).thenReturn(Optional.of(category));
+        when(categoryRepo.findByTitle(categoryDto.getTitle())).thenReturn(Optional.of(category));
+        assertTrue(Optional.of(category).isPresent());
+        assertThrows(DuplicateResourceException.class, ()->{categoryService.updateCategory(categoryDto, 1);} );
+      
+        
     }
 
     @Test

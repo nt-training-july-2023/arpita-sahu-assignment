@@ -45,6 +45,7 @@ class ResultControllerTest {
         when(resultService.getAllResults()).thenReturn(expectedResults);
         List<ResultDto> actualResults = resultController.getResults();
         assertEquals(expectedResults, actualResults);
+
     }
 
     @Test

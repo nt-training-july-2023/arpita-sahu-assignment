@@ -61,10 +61,8 @@ class CategoryControllerTest {
         CategoryDto categoryDto = new CategoryDto();
         when(categoryService.getCategoryById(categoryId))
                 .thenReturn(categoryDto);
-
         ResponseEntity<?> response = categoryController
                 .getCategoryById(categoryId);
-
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(categoryDto, response.getBody());
     }

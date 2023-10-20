@@ -73,6 +73,7 @@ public class QuestionDto {
     /**
      * The ID of the quiz to which this question belongs.
      */
+
     private int quizId;
 
 }

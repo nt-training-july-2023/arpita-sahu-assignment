@@ -61,10 +61,6 @@ class QuizServiceImplTest {
         when(modelMapper.map(quiz, QuizDto.class)).thenReturn(quizDto);
         when(quizRepo.findByTitle(quizDto.getTitle())).thenReturn(Optional.empty());
         when(categoryRepo.findById(1)).thenReturn(Optional.of(category));
-//        QuizDto result = quizService.addQuiz(quizDto);
-//        assertNotNull(result);
-//        assertEquals(quizDto.getTitle(), result.getTitle());
-//        assertEquals(1, result.getCategory().getCategoryId());
     }
 
     @Test
@@ -177,7 +173,6 @@ class QuizServiceImplTest {
         when(quizRepo.findByTitle("Updated Quiz")).thenReturn(Optional.empty());
         when(modelMapper.map(updatedQuizDto, Quiz.class))
                 .thenReturn(existingQuiz);
-        when(modelMapper.map(existingQuiz, QuizDto.class)).thenReturn(updatedQuizDto);
         when(quizRepo.save(any(Quiz.class))).thenReturn(existingQuiz);
         String result = quizService.updateQuiz(updatedQuizDto, quizId);
 
@@ -190,7 +185,7 @@ class QuizServiceImplTest {
     public void testDeleteQuiz_Success() {
         int quizIdToDelete = 1;
         Quiz quizToDelete = new Quiz();
-        quizToDelete.getQuizId();
+        quizToDelete.setQuizId(quizIdToDelete);
         when(quizRepo.findById(quizIdToDelete))
                 .thenReturn(Optional.of(quizToDelete));
         String result = quizService.deleteQuiz(quizIdToDelete);
@@ -208,7 +203,7 @@ class QuizServiceImplTest {
         assertEquals("Quiz not found with id " + quizId,
                 exception.getMessage());
     }
-    
+
     @Test
     public void testUpdateQuiz_DuplicateTitle() {
         int quizId=1;

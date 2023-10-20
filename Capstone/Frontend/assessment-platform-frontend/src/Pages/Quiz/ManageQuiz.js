@@ -10,20 +10,38 @@ import ButtonComponent from "../../Component/ButtonComponent/ButtonComponent";
 export default function ManageQuiz({setTrue}) {
   const [quizzes, setQuizzes] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [questions, setQuestions] = useState([]); 
   const { categoryId } = useParams();
   const navigate = useNavigate();
   const role = localStorage.getItem("userRole");
   useEffect(() => {
     loadQuizzes();
     loadCategory();
+    
   }, []);
+ 
   const loadQuizzes = async () => {
+   if(role === 'user'){
+    try {
+      const result = await ServiceURL.getQuizByCategoryId(categoryId);
+      const quizzesWithQuestions = await Promise.all(result.data.map(async (quiz) => {
+        const questionData = await ServiceURL.getQuestionByQuizId(quiz.quizId);
+        return questionData.data.length > 0 ? quiz : null;
+      }));
+  
+      setQuizzes(quizzesWithQuestions.filter(Boolean));
+    } catch (error) {
+      console.error("Error loading quizzes:", error);
+    }
+  }else{
     try {
       const result = await ServiceURL.getQuizByCategoryId(categoryId);
       setQuizzes(result.data);
     } catch (error) {
       console.error("Error loading quizzes:", error);
     }
+  }
+ 
   };
 
   const loadCategory = async () => {
@@ -34,6 +52,7 @@ export default function ManageQuiz({setTrue}) {
       console.error("Error loading category:", error);
     }
   };
+
 
   const deleteQuiz = async (id) => {
     try {
@@ -62,9 +81,12 @@ export default function ManageQuiz({setTrue}) {
                 Add Quiz
               </Link>
             )}
+
             <div className="quiz-cards">
               {quizzes.map((quiz) => (
                 <div key={quiz.quizId} className="quiz-card">
+                
+                  
                   <h3>Title : {quiz.title}</h3>
                   <p>Description : {quiz.description}</p>
                   <p>Quiz Timer : {quiz.quizTimer}</p>
@@ -103,6 +125,7 @@ export default function ManageQuiz({setTrue}) {
                      />
                     </>
                   )}
+                  
                 </div>
               ))}
             </div>

@@ -10,7 +10,7 @@ import com.nucleusteq.asessmentPlatform.entities.Category;
 /**
  * Repository interface for accessing and managing category data in the
  * database.
- */
+*/
 @Repository
 public interface CategoryRepo extends JpaRepository<Category, Integer> {
 

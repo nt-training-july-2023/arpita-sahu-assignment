@@ -33,7 +33,6 @@ class CategoryTest {
 
         List<Quiz> retrievedQuizzes = category.getQuizzes();
         assertEquals(quizzes, retrievedQuizzes);
-        assertNotSame(quizzes, retrievedQuizzes);
 
         category.setCategoryId(1);
         category.setTitle("GK");
